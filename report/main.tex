@@ -112,25 +112,25 @@ No Mestrado integrado de Engenharia Informática, na Unidade Curricular de Arqui
 \chapter{Introdução} \label{chap:intro} %referência cruzada
 
 No Mestrado integrado de Engenharia Informática, na unidade curricular de Arquiteturas de Software foi-nos proposta a elaboração de um projeto para o desenvolvimento de uma plataforma de trading.\\
-A plataforma de trading tem como objetivo a realização contratos de diferença (Contrats for Differences – CFD), podendo ser estes de venda ou compra de ativos.\\
-Um \textCFD de compra, também designado CFD long deverá ocorrer quando o utilizador tem a expectativa que o preço atual de um determinado ativo vai aumentar no futuro e  fechar o contrato, nessa mesma altura, para obter a diferença.\\
-Um CFD de venda, também designado CFD long deverá ocorrer quando o utilizador tem a expectativa que o preço atual de um determinado ativo vai diminuir no futuro e  fechar o contrato, nessa mesma altura, para obter a diferença.\\
+A plataforma de trading tem como objetivo a realização de contratos de diferença (Contrats for Differences – CFD), podendo estes ser de venda ou compra de ativos.\\
+Um \textbf{CFD de compra}, também designado \texrbf{CFD long} deverá ocorrer quando o utilizador tem a expectativa que o preço atual de um determinado ativo vai aumentar no futuro e  fechar o contrato, nessa mesma altura, para obter a diferença.\\
+Um \textbf{CFD de venda}, também designado \textbf{CFD long} deverá ocorrer quando o utilizador tem a expectativa que o preço atual de um determinado ativo vai diminuir no futuro e  fechar o contrato, nessa mesma altura, para obter a diferença.\\
 Ao longo deste relatório, especifica-se o processo de desenvolvimento da arquitetura para esta plataforma de trading.
 
 
-\chapter{Concepção/desenho da Resolução}
+\chapter{Desenvolvimento da Arquitetura}
 
 \section{Funcionalidades}
 
 \begin{itemize}
     \item Os traders/investidores podem criar uma conta com um plafond inicial para negociação/investimento.
     \item Os traders/investidores podem adicionar/remover fundos ao seu plafond.
-    \item Os traders/investidores podem abrir posições (CFDs) sobre os ativos disponíveis respetivamente posições de compra e venda.
+    \item Os traders/investidores podem abrir posições (CFDs) sobre os ativos disponíveis, posições de venda e compra.
     \item Os traders/investidores podem encerrar um contrato por ação:\\
 Direta – encerra a posição (CFDs) no momento.\\
 Indireta - definir para as posições de venda e compra abertas limites de perda e ganho - Take profit (TP) e Stop Loss (SL) ).\\
     \item Os traders/investidores pode desativar o encerramento por ação indireta (remover os limites de SL ou TP).
-    \item Os traders/investidores deverão poder monitorizar em ‘tempo real’ o seu portfolio atual (e de outros caso os mesmos consintam) de CFDs e para cada ativo visualizar:
+    \item Os traders/investidores deverão poder monitorizar em ‘tempo real’ o seu portfolio atual (e de outros caso os mesmos consintam) de CFDs.
 
 \end{itemize}{}
 
@@ -195,32 +195,32 @@ Por fim, e não menos importante, o utilizador pode consultar a lista de ativos 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6]{modelo-dominio-1.png}
-	\caption{Subsistema do Utilizador. }
+	\caption{Subsistema dos recursos humanos. }
 	\label{img:pag}
 \end{figure}
 
 \newpage
 
-O ativo tal como se pode verificar na figura abaixo, é identificado por um \textbf{id} (\emph{APPL.}), contém um \textbf{designação}, normalmente associado à organização (\emph{APPLE}), dois tipos de valor, \textbf{valor de compra} e \textbf{venda}, e pode ser dividido em dois tipos:
+O ativo tal como se pode verificar na figura abaixo, é identificado por um \textbf{id} (\emph{APPL.}), contém uma \textbf{designação}, normalmente associado à organização (\emph{APPLE}), dois tipos de valor, \textbf{valor de compra} e \textbf{venda}, e pode ser dividído em dois tipos:
 
 \begin{itemize}
     \item Ação
     \item Commodities
 \end{itemize}{}
 
-O tipo \textbf{ação} está associado a uma organização enquanto que o \textbf{commodities} está a um recurso natural. Também é importante referir que vai existir um \emph{Lista de ativos}, onde estão as informações de cada ativo.
+O ativos do tipo \textbf{ação} está associado a uma organização enquanto que o \textbf{commodities} está a um recurso natural. Também é importante referir que vai existir uma \emph{Lista de ativos}, onde estão as informações de cada ativo.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{modelo-dominio-2.png}
+	\includegraphics[scale=0.5]{modelo-dominio-2.png}
 	\caption{Subsistema do ativo. }
 	\label{img:pag}
 \end{figure}
-Tal como se pode verificar na figura abaixo, o CFD é um contrato de diferenças de um determinada quantidade de ativos associado a uma organização ou recurso natural, sendo este identificado pelo \textbf{id}. \\
-Deste modo, existem dois tipos de ativos, o \textbf{Long} e \textbf{Short}, que são respetivamente o CFD de venda e compra. \\Tal como o ativo o CFD também tem um valor de venda e compra, mas acresce os campos de valor investido (total do valor dos ativos) e um profit, que são o agregado dos valores dos ativos.\\Existem duas formas de encerramento do CFD, por ação direta ou indireta. A ação direta, tal como o nome sugere, o encerramento é deliberado pelo utilizar no instante que a executar, a ação indireta é realizada através do estabelecimento de limites de \textbf{Stop less} e \textbf{Take profit}, tal como se pode verificar na figura abaixo.\\ Por fim, e não menos importante, através do ato de encerramento descrito anteriormente, o CFD tem dois estados possíveis, \textbf{aberto} e \textbf{encerrado}.
+Tal como se pode verificar na figura abaixo, o CFD é um contrato de diferenças de uma determinada quantidade de ativos associado a uma organização ou recurso natural, sendo este identificado por um \textbf{id}. \\
+Deste modo, existem dois tipos de \textbf{CFDs}, o \textbf{Long} e \textbf{Short}, que são respetivamente o \textbf{CFD de venda} e \textbf{compra}. \\Tal como o \textbf{ativo} o \textbf{CFD} também tem um valor de venda e compra, mas acresce ainda os campos de \textbf{valor investido} (total do valor dos ativos) e um \textbf{profit}, que são o agregado dos valores dos ativos.\\Existem duas formas de encerramento do \textbf{CFD}, por ação direta ou indireta. A ação direta, tal como o nome sugere, o encerramento é deliberado pelo utilizar no instante que a executar, a ação indireta é realizada através do estabelecimento de limites de \textbf{Stop less} e \textbf{Take profit}, tal como se pode verificar na figura abaixo.\\ Por fim, e não menos importante, através do ato de encerramento descrito anteriormente, o CFD tem dois estados possíveis, \textbf{aberto} e \textbf{encerrado}.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{modelo-dominio-3.png}
+	\includegraphics[scale=0.5]{modelo-dominio-3.png}
 	\caption{Subsistema do CFD. }
 	\label{img:pag}
 \end{figure}
@@ -230,7 +230,7 @@ Deste modo, existem dois tipos de ativos, o \textbf{Long} e \textbf{Short}, que 
 \section{Diagrama de use cases}
 
 Tal como se pode observar a figura abaixo, o diagrama de use cases é um reflexo das funcionalidades já listadas anteriormente, tendo este dois atores, o \textbf{trader} (cliente da aplicação) e o \textbf{administrador}. \\
-Das funcionalidades presentes, as mais importantes em relação ao cliente são \textbf{Visualizar a lista de ativos}, que tal como o nome indica vai listar os ativos e a respetiva informação dos preços atuais de venda e compra e a organização a que estão associados, o \textbf{Abrir CFD}, responsável por começar um contrato. \\ No entanto, a funcionalidade mais importante de todo o sistema é o \textbf{Encerrar CFD}, sendo este responsável por calcular todos os valores finais do contrato. \\ Por fim, a funcionalidade mais importante do administrador é a \textbf{inicialização do trading system}, pois tal como já foi referenciado anteriormente, o sistema é capaz de executar encerramentos por ação indireta/automáticos através de limites. No entanto, isto só é garantido através de um servidor que está \emph{full time} a verificar os \textbf{CFDs} que ultrapassam os limites de \textbf{Stop Less} e \textbf{Take Profit}. 
+Das funcionalidades presentes, as mais importantes em relação ao \textbf{cliente} são \textbf{Visualizar a lista de ativos}, que tal como o nome indica vai listar os ativos e a respetiva informação dos preços atuais de venda e compra e a organização a que estão associados, o \textbf{Abrir CFD}, responsável por começar um contrato. \\ No entanto, a funcionalidade mais importante de todo o sistema é o \textbf{Encerrar CFD}, sendo este responsável por calcular todos os valores finais do contrato. \\ Por fim, a funcionalidade mais importante do administrador é a \textbf{inicialização do trading system}, pois tal como já foi referenciado anteriormente, o sistema é capaz de executar encerramentos por ação indireta/automáticos através de limites. No entanto, isto só é garantido com um servidor que está \emph{full time} a verificar os \textbf{CFDs} que ultrapassam os limites de \textbf{Stop Less} e \textbf{Take Profit}. 
 
 \begin{figure}[H]
 	\centering
@@ -248,9 +248,9 @@ O sistema ser \textbf{funcional} é o principal objetivo, no entanto são as \te
 \newline
 A implementação interna da nossa aplicação, neste momento, realiza acessos a uma única base de dados, quando utilizada por vários utilizadores simultâneamente pode existir um pico de acessos à mesma.
 \newline
-Uma das soluções possíveis para resolver este declínio de desempenho é definir um limite temporal de \emph{querries} para cada utilizador.
+Uma das soluções possíveis para resolver este declínio de desempenho é definir um limite temporal de \emph{queries} para cada utilizador.
 \newline 
-A seguinte figura ilustra um cenário em que um Trader consulta o seu porfolio para verificar os contratos (CFD's) em aberto.
+A seguinte figura ilustra um cenário em que um \textbf{Trader} consulta o seu porfolio para verificar os contratos (CFD's) em aberto.
 
 \begin{figure}[H]
 	\centering
@@ -294,7 +294,7 @@ Do mesmo modo, que o \emph{package} referido anteriormente, este incluí a inter
 	\label{img:pag}
 \end{figure}
 
-Tal como foi dito anteriormente, os \emph{packages} apresentados acima, estão inseridos no \emph{package} \textbf{business}, tal como se pode verificar na figura abaixo. Igualmente aos anteriores, este \emph{package} também tem uma interface, denominada \textbf{IFacadeBusiness} e a classe \textbf{Facade} designada \textbf{FacadeBusiness}, onde estão implementados todos os métodos dos \emph{packages} \textbf{Trading} e \textbf{RH} e os atributos dos \textbf{Facades} dos mesmos (setas vermelhas), bem como o \textbf{FacadeData} para aceder aos dados.
+Tal como foi dito anteriormente e observando a figura abaixo, os \emph{packages} apresentados acima, estão inseridos no \emph{package} \textbf{business}. Igualmente aos anteriores, este \emph{package} também tem uma interface, denominada \textbf{IFacadeBusiness} e a classe \textbf{Facade} designada \textbf{FacadeBusiness}, onde estão implementados todos os métodos dos \emph{packages} \textbf{Trading} e \textbf{RH} e os atributos dos \textbf{Facades} dos mesmos (setas vermelhas), bem como o \textbf{FacadeData} para aceder aos dados.
 
 \begin{figure}[H]
 	\centering
@@ -303,7 +303,7 @@ Tal como foi dito anteriormente, os \emph{packages} apresentados acima, estão i
 	\label{img:pag}
 \end{figure}
 
-Tal como foi explicado inicialmente o utilizador pode encerrar um CFD automáticamente, definindo limites de \textbf{Top Less} e \textbf{Take profit}, o que significa que, a qualquer momento isso pode acontecer, mesmo quando o cliente já não estiver autenticado na aplicação. Então a equipa decidiu que era necessário um servidor, para verificar os encerramentos automáticos dos \textbf{CFDs}, sendo este implementado na classe \textbf{TSServer}.
+Tal como foi explicado inicialmente o utilizador pode encerrar um CFD automáticamente, definindo limites de \textbf{Top Less} e \textbf{Take profit}, o que significa que, a qualquer momento isso pode acontecer, mesmo quando o cliente não estiver autenticado na aplicação. Então a equipa decidiu que era necessário um servidor, para verificar os encerramentos automáticos dos \textbf{CFDs}, sendo este implementado na classe \textbf{TSServer}.
 
 \begin{figure}[H]
 	\centering
@@ -325,7 +325,7 @@ Por fim, a classe cental da arquitetura denominada por \textbf{TSClient}, onde e
 
 \section{Diagramas de comportamento}
 
-Nesta fase implementamos o diagrama de sequência de implementação para a funcionalidade automática do sistema que consiste em verificar os contratos abertos (CFD's) de cada utilizador e caso os limites de Stop Less ou Take Profit sejam alcançados, é feito o encerramento do contrato (CFD).
+Nesta fase implementou-se o diagrama de sequência de implementação para a funcionalidade automática do sistema que consiste em verificar os contratos abertos (CFD's) de cada utilizador e caso os limites de Stop Less ou Take Profit sejam alcançados, é feito o encerramento do contrato (CFD).
 
 \begin{figure}[H]
 	\centering
@@ -334,7 +334,7 @@ Nesta fase implementamos o diagrama de sequência de implementação para a func
 	\label{img:pag}
 \end{figure}
 
-No diagrama estam já especificadas as classes e variáveis envolventes tornando o futuro proceso de implementação do método bastante facilitado uma vez que o raciocínio e fluxo de execução (comportamento) da funcionalidade está detalhada.
+No diagrama estão já especificadas as classes e variáveis envolventes tornando o futuro processo de implementação do método bastante facilitado uma vez que o raciocínio e fluxo de execução (comportamento) da funcionalidade está detalhada.
 
 Note-se que a última execução do loop exterior é o método \textbf{Thread.sleep(5000)} uma vez que esta funcionalidade automática é realizada de 5 em 5 segundos, o intervalo pode ser ajustado conforme os resultados pertendidos.  
 
@@ -343,9 +343,6 @@ Note-se que a última execução do loop exterior é o método \textbf{Thread.sl
 
 \chapter{Conclusão}
 
-Ao realizar esta fase do projeto apercebemo-nos da importância de seguir o proeccesso de desenvolvimento de software pela ordem indicada pelos professores docentes: identificação das funcionalidades pertendidas, modelação de domínio, diagrama de use case, cenários de atributos de qualidade, digrama de estrutura e diagramas de comportamento. 
-Esta sequência de conceção incentiva a tomada de decisão prévia à implementação do código final o que aumenta a eficiência e correção da arquitetura a definir, desta forma quando é feita a implementação a probabilidade de ocurrência de erros de conceção ou alteração da arquitetura é reduzida. 
-
-
-
+Ao realizar esta fase do projeto a equipa apercebeu-se da importância de seguir o processo de desenvolvimento de software pela ordem indicada pelos professores docentes: identificação das funcionalidades pertendidas, modelação de domínio, diagrama de use case, cenários de atributos de qualidade, digrama de estrutura e diagramas de comportamento. 
+Esta sequência de conceção incentiva a tomada de decisão prévia à implementação do código final o que aumenta a eficiência e correção da arquitetura a definir, desta forma quando é feita a implementação a probabilidade de ocorrência de erros de conceção ou alteração da arquitetura é reduzida. 
 \end{document}

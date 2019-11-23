@@ -1,0 +1,35 @@
+O que mudamos:
+
+	1 - Removemos o valorAtual da classe CFD uma vez que temos de aceder à BD cada vez que obtemos o valor, sendo o mesmo temporário apenas;
+	2 - Adicionamos o getTakeProfit() e getStopLess() ao CDFDAO pois é necessário na automatização para não puxar da BD variáveis a mais desnecessárias;
+	3 - Alteramos as ligações do ConcreteFacade para o IFacade;
+	4 - Adicionamos o conhecimento de algumas classes (import) que vai ser alterado quando introduzimos o Factory design pattern na classe Utilizador;
+	5 - Alteramos o nome das variáveis para ficar mais intuitivo (REFACTORING: rh para recursosHumanos)
+	6 - Adicionamos  UtilizadorFactory,
+		nota: usamos instance mehtods (not static) pq no fundo quem sabe pode ser necessário;
+	7 - Adicionamos o IFacedeData aos sub-facades sendo o losango branco;
+
+Design Pattern a aplicar e aplicados:
+	Facade 							check
+	DAO								check
+	FactoryMethod (Utilizador)		check
+	Singleton 						check
+	AbstractMethod(CFD + Ativo)     check
+	ActiveObject(CFDS)				check
+	Observer						not-check
+
+
+Dúvidas:
+	1 - AbstractFactory ?? (futuro)
+	2 - Threads => ActiveObject?
+	3 - A ligação deve ser com a interface ou com a classe?
+	4 - Listar os ativos, a view vai diretamente à base de dados ou vamos ao business e este depois é que vai ao data?
+	5 - o factorymethod deve ser static ou instance?
+	6 - Tendo hierarquia, com o factory devemos ter o Utilizador ou IAtor
+	7 - Devemos ligar TradingSystem às interfaces?
+	8 - Um singleton para cada facade?
+	9 - variáveis de instância privadas ou não?
+	10 - View pode depender de objetos internos ao business como o CFD?
+	11 - Faz sentido no observer ter uma lista de subjects?
+	12 - Faz sentido reutilizar por composição o concreteSubject para reutilizar os métodos?
+	13 - View pode ir diretamente ao data para listar os ativos?

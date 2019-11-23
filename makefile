@@ -1,2 +1,2 @@
 clean:
-	rm *.vpp.*
+	rm -f *.vpp.*

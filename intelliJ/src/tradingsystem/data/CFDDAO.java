@@ -6,6 +6,7 @@ import tradingsystem.business.trading.ITradingAbstractFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
@@ -42,9 +43,16 @@ public class CFDDAO {
 	 * @param value
 	 */
 	public Future<ICFD> put(String key, ICFD value) {
-		// TODO - implement CFDDAO.put
-		throw new UnsupportedOperationException();
-	}
+        // TODO - implement CFDDAO.put
+	    Statement statement = null;
+        try {
+            statement = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String sql = "INSERT INTO CFD VALUES (";
+        return null;
+    }
 
 	public Future<String> getLastId() {
 		// TODO - implement CFDDAO.getLastId

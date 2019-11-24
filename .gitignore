@@ -1,3 +1,6 @@
 .DS_Store
 *.vpp.*
-intelliJ/
+intelliJ/out/
+intelliJ/.idea
+intelliJ/*.iml
+

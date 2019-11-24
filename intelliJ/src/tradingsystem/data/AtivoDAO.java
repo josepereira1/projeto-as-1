@@ -18,6 +18,7 @@ import java.util.Random;
 public class AtivoDAO {
 
 	private static final String APIToken = "demo";
+	//private static String APIToken = "IwkmgAv406p5lc2mJ3vXkww56P6cw9QIjPmtpW4I4e4weBztvCsji44H9NLr";
 	private ITradingAbstractFactory tradingAbastractFactory;
 
 	public AtivoDAO() {
@@ -68,7 +69,8 @@ public class AtivoDAO {
 	 */
 	public float getValorAtual(String id) throws IOException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + ",TWTR,VOD.L&api_token=" + APIToken;
+		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
 		return ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 	}
 

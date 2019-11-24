@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public class AtivoDAO {
 
-	private static String APIToken;
+	private static String APIToken = "IwkmgAv406p5lc2mJ3vXkww56P6cw9QIjPmtpW4I4e4weBztvCsji44H9NLr";
 	private ITradingAbstractFactory tradingAbastractFactory;
 
 	public Collection<IAtivo> values() {

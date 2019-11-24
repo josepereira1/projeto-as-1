@@ -37,3 +37,4 @@ Dúvidas:
 	14 - No abstract factory dos CFDS e ATIVO deviamos fazer um factory method para o CFD e outro para o Ativo?
 	15 - devemos colocar a variável creator no package utilizador, pq para permitir extensibilidade, onde no futuro se o package Utilizador precisar de criar objectos CFD e Ativo.
 	16 - No factory do utilizador devemos colocar o creator a implementar uma interface, para reduzir as depencias de classes
+	17 - Nas views é correcto colocarmos os inputs como variáveis de instância?

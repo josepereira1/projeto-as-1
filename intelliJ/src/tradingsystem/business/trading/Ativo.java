@@ -7,9 +7,14 @@ public class Ativo implements IAtivo {
 	public float valorVenda;
 	public float valorCompra;
 
+	@Override
 	public String toString() {
-		// TODO - implement Ativo.toString
-		throw new UnsupportedOperationException();
+		return "Ativo{" +
+				"id='" + id + '\'' +
+				", designacao='" + designacao + '\'' +
+				", valorVenda=" + valorVenda +
+				", valorCompra=" + valorCompra +
+				'}';
 	}
 
 	/**
@@ -26,4 +31,43 @@ public class Ativo implements IAtivo {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String getDesignacao() {
+		return designacao;
+	}
+
+	@Override
+	public void setDesignacao(String designacao) {
+		this.designacao = designacao;
+	}
+
+	@Override
+	public float getValorVenda() {
+		return valorVenda;
+	}
+
+	@Override
+	public void setValorVenda(float valorVenda) {
+		this.valorVenda = valorVenda;
+	}
+
+	@Override
+	public float getValorCompra() {
+		return valorCompra;
+	}
+
+	@Override
+	public void setValorCompra(float valorCompra) {
+		this.valorCompra = valorCompra;
+	}
 }

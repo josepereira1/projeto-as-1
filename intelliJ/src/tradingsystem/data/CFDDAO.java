@@ -3,13 +3,38 @@ package tradingsystem.data;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.ITradingAbstractFactory;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
 public class CFDDAO {
 
+	private Connection conn;
+	private static final String schema = "trading";
+	private static final String username = "root";
+	private static final String password = "password";
+	private static final boolean verifyServerCertificate = false;
+	private static final boolean userSSL = false;
+
+	private static final String url = "jdbc:mysql://localhost/" + schema + "?verifyServerCertificate=" + verifyServerCertificate + "&user=" + username + "&password=" + password + "&useSSL=" + userSSL;
+
 	private GenericActiveObject genericActiveObject;
 	private ITradingAbstractFactory tradingAbstractFacrtory;
+
+	public CFDDAO() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.conn =  DriverManager.getConnection(url);
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 

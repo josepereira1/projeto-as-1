@@ -6,7 +6,7 @@ import tradingsystem.data.AtivoDAO;
 import java.io.IOException;
 import java.util.Collection;
 
-public class AtivoDAOTeste {
+public class AtivoDAOTest {
 
     public static void main(String[] args) throws IOException {
         AtivoDAO ativoDAO = new AtivoDAO();

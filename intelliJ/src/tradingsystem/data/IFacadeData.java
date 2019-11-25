@@ -87,7 +87,7 @@ public interface IFacadeData {
 	 */
 	float getValorInvestidoCFD(String idCFD);
 
-	int getNumeroDeAtivosCFD();
+	int getNumeroDeAtivosCFD(String idCFD);
 
 	/**
 	 * 

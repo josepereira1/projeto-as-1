@@ -2,32 +2,25 @@ package tests;
 
 import tradingsystem.business.trading.CFD;
 import tradingsystem.business.trading.ICFD;
-import tradingsystem.business.trading.ITradingAbstractFactory;
-import tradingsystem.business.trading.TradingAbstractFactory;
 import tradingsystem.data.CFDDAO;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 public class CFDDAOTests {
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        CFDDAO cfddao = new CFDDAO(TradingAbstractFactory.getInstance());
-        //ITradingAbstractFactory iTradingAbstractFactory = TradingAbstractFactory.getInstance();
-        /*ICFD cfd = new CFD("1","1",0, "josepereira", 0,0, LocalDateTime.now(),  LocalDateTime.now(),10, 100, 1000);
-
-        Future<ICFD> futureTask = cfddao.put("1", cfd);
-
-        System.out.println("Executei a query, e obtive um future, por isso é que este print já apareceu mas ainda não obtive o valor da quey!!!");
-
-        System.out.println(futureTask.get());
-
-        Future futureTask1 = cfddao.getLastId();
-        System.out.println(futureTask1.get());
-        */
-        //cfddao.remove("1");
-
+    public static void main(String[] args) throws Exception {
+        CFDDAO cfddao = new CFDDAO();
+        cfddao.remove("1");
+        ICFD cfd = new CFD("1","1",0, "josepereira", 0,0, LocalDateTime.now(),  null,10, 100, 1000);
+        System.out.println(cfddao.put(cfd).get());
         System.out.println(cfddao.getCFDs("josepereira").get());
+        System.out.println(cfddao.get("1").get());
+        System.out.println(cfddao.getLastId().get());
+        cfddao.setLimits(100, -100, "1");
+        System.out.println(cfddao.values().get());
+        System.out.println(cfddao.contains("1").get());
+        System.out.println(cfddao.getStopLess("1").get());
+        System.out.println(cfddao.getTakeProfit("1").get());
+        System.out.println(cfddao.getNumeroDeAtivosCFD("1").get());
+        System.out.println(cfddao.getValorInvestidoCFD("1").get());
     }
 }

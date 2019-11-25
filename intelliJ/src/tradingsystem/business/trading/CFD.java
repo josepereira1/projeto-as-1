@@ -17,6 +17,20 @@ public class CFD implements ICFD {
 	private float valorInicial;
 	private float valorInvestido;
 
+	public CFD(String id, String idAtivo, int tipo, String username, float stopLess, float takeProfit, LocalDateTime dataAbertura, LocalDateTime dataEncerramento, int numeroDeAtivos, float valorInicial, float valorInvestido) {
+		this.id = id;
+		this.idAtivo = idAtivo;
+		this.tipo = tipo;
+		this.username = username;
+		this.stopLess = stopLess;
+		this.takeProfit = takeProfit;
+		this.dataAbertura = dataAbertura;
+		this.dataEncerramento = dataEncerramento;
+		this.numeroDeAtivos = numeroDeAtivos;
+		this.valorInicial = valorInicial;
+		this.valorInvestido = valorInvestido;
+	}
+
 	//TODO	MUDAR AS VARIÁVEIS NO DIAGRAMA PARA PRIVADAS
 
 	/**
@@ -25,7 +39,19 @@ public class CFD implements ICFD {
 	 */
 	public String toString() {
 		// TODO - implement CFD.toString
-		throw new UnsupportedOperationException();
+		StringBuilder sb = new StringBuilder("CFD={");
+		sb.append("id=").append(id);
+		sb.append(";idAtivo=").append(idAtivo);
+		sb.append(";tipo=").append(tipo);
+		sb.append(";username=").append(username);
+		sb.append(";stopLess=").append(stopLess);
+		sb.append(";takeProfit=").append(takeProfit);
+		sb.append(";dataAbertura=").append(dataAbertura);
+		sb.append(";dataEncerramento=").append(dataEncerramento);
+		sb.append(";numeroDeAtivos=").append(numeroDeAtivos);
+		sb.append(";valorInicial=").append(valorInicial);
+		sb.append(";valorInvestido=").append(valorInvestido).append("};");
+		return sb.toString();
 	}
 
 	/**
@@ -59,195 +85,122 @@ public class CFD implements ICFD {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public String getId() {
 		return id;
 	}
 
-
-	/**
-	 *
-	 * @param id
-	 */
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public String getIdAtivo() {
 		return idAtivo;
 	}
 
-	/**
-	 *
-	 * @param idAtivo
-	 */
+	@Override
 	public void setIdAtivo(String idAtivo) {
 		this.idAtivo = idAtivo;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public int getTipo() {
 		return tipo;
 	}
 
-	/**
-	 *
-	 * @param tipo
-	 */
+	@Override
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public String getUsername() {
 		return username;
 	}
 
-	/**
-	 *
-	 * @param username
-	 */
+	@Override
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public float getStopLess() {
 		return stopLess;
 	}
 
-	/**
-	 *
-	 * @param stopLess
-	 */
+	@Override
 	public void setStopLess(float stopLess) {
 		this.stopLess = stopLess;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public float getTakeProfit() {
 		return takeProfit;
 	}
 
-	/**
-	 *
-	 * @param takeProfit
-	 */
+	@Override
 	public void setTakeProfit(float takeProfit) {
 		this.takeProfit = takeProfit;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public LocalDateTime getDataExpiracao() {
 		return dataExpiracao;
 	}
 
-	/**
-	 *
-	 * @param dataExpiracao
-	 */
+	@Override
 	public void setDataExpiracao(LocalDateTime dataExpiracao) {
 		this.dataExpiracao = dataExpiracao;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public LocalDateTime getDataAbertura() {
 		return dataAbertura;
 	}
 
-	/**
-	 *
-	 * @param dataAbertura
-	 */
+	@Override
 	public void setDataAbertura(LocalDateTime dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public LocalDateTime getDataEncerramento() {
 		return dataEncerramento;
 	}
 
-	/**
-	 *
-	 * @param dataEncerramento
-	 */
+	@Override
 	public void setDataEncerramento(LocalDateTime dataEncerramento) {
 		this.dataEncerramento = dataEncerramento;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public int getNumeroDeAtivos() {
 		return numeroDeAtivos;
 	}
 
-	/**
-	 *
-	 * @param numeroDeAtivos
-	 */
+	@Override
 	public void setNumeroDeAtivos(int numeroDeAtivos) {
 		this.numeroDeAtivos = numeroDeAtivos;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public float getValorInicial() {
 		return valorInicial;
 	}
 
-	/**
-	 *
-	 * @param valorInicial
-	 */
+	@Override
 	public void setValorInicial(float valorInicial) {
 		this.valorInicial = valorInicial;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
+	@Override
 	public float getValorInvestido() {
 		return valorInvestido;
 	}
 
-	/**
-	 *
-	 * @param valorInvestido
-	 */
+	@Override
 	public void setValorInvestido(float valorInvestido) {
 		this.valorInvestido = valorInvestido;
 	}

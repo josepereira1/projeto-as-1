@@ -1,6 +1,7 @@
-package tradingsystem.data;
+package tests;
 
 import tradingsystem.business.trading.IAtivo;
+import tradingsystem.data.AtivoDAO;
 
 import java.io.IOException;
 import java.util.Collection;

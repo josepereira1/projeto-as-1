@@ -5,26 +5,30 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	private static ITradingAbstractFactory abstractFactory;
 
 	/**
-	 * 
-	 * @param type
+	 * Create an Ativo
+	 * @param type type of Ativo (Acao or Commoditie)
 	 */
 	public IAtivo createAtivo(String type) {
-		// TODO - implement TradingAbstractFactory.createAtivo
-		throw new UnsupportedOperationException();
+		if(type.equals("Acao"))return new Acao();
+		else if(type.equals("Commoditie")) return new Commoditie();
+		return null;
 	}
 
 	/**
-	 * 
-	 * @param type
+	 * Create an CFD.
+	 * @param type type of CFD (CFD)
 	 */
 	public ICFD createCFD(String type) {
-		// TODO - implement TradingAbstractFactory.createCFD
-		throw new UnsupportedOperationException();
+		return new CFD();
 	}
 
+	/**
+	 * Return this object if exists otherwise create.
+	 * @return Return this object if exists otherwise create
+	 */
 	public static ITradingAbstractFactory getInstance() {
-		// TODO - implement TradingAbstractFactory.getInstance
-		throw new UnsupportedOperationException();
+		if(abstractFactory != null)return abstractFactory;
+		else return new TradingAbstractFactory();
 	}
 
 }

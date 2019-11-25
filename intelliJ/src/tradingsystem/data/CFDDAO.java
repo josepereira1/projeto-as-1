@@ -4,9 +4,12 @@ import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.ITradingAbstractFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
@@ -43,7 +46,7 @@ public class CFDDAO {
 	 * @param localDateTime localDateTime to convert
 	 * @return Convert object of LocalDateTime suitable to Mysql database
 	 */
-	private static String toLocalDateTime(LocalDateTime localDateTime){
+	private static String toDateTime(LocalDateTime localDateTime){
 		return "'" + Date.valueOf(localDateTime.toLocalDate()) + ":" + localDateTime.getHour() + ":" + localDateTime.getMinute() + "'";
 	}
 
@@ -62,14 +65,14 @@ public class CFDDAO {
 				e.printStackTrace();
 			}
 			String sql = "INSERT INTO CFD (id, idAtivo, tipo, username, stopLess, takeProfit, dataAbertura, dataEncerramento, numeroDeAtivos, valorInicial, valorInvestido) VALUES (";
-			sql += "' " + value.getId() + "'" + ",";
-			sql += "' " + value.getIdAtivo() + "'" + ",";
+			sql += "'" + value.getId() + "'" + ",";
+			sql += "'" + value.getIdAtivo() + "'" + ",";
 			sql += value.getTipo() + ",";
-			sql += "' " + value.getUsername() + "'" + ",";
+			sql += "'" + value.getUsername() + "'" + ",";
 			sql += value.getStopLess() + ",";
 			sql += value.getTakeProfit() + ",";
-			sql += toLocalDateTime(value.getDataAbertura()) + ",";
-			sql += toLocalDateTime(value.getDataEncerramento()) + ",";
+			sql += toDateTime(value.getDataAbertura()) + ",";
+			sql += toDateTime(value.getDataEncerramento()) + ",";
 			sql += value.getNumeroDeAtivos() + ",";
 			sql += value.getValorInicial() + ",";
 			sql += value.getValorInvestido() + ")";
@@ -110,7 +113,7 @@ public class CFDDAO {
 			e.printStackTrace();
 		}
 
-		String sql = "SELECT MAX(CFD.id) FROM CFD";
+		String sql = "SELECT MAX(CFD.id) as id FROM CFD";
 		ResultSet rs = null;
 		try {
 			rs = statement.executeQuery(sql);
@@ -128,16 +131,32 @@ public class CFDDAO {
 
 		return String.valueOf(Integer.valueOf(lastId) + 1);
 		});
+
+		genericActiveObject.submit(futureTask);
 		return futureTask;
 	}
 
 	/**
-	 * 
-	 * @param key
+	 * Remove CFD.
+	 * @param key id of CFD
 	 */
 	public Future<ICFD> remove(Object key) {
 		// TODO - implement CFDDAO.remove
-		throw new UnsupportedOperationException();
+		FutureTask<ICFD> futureTask = new FutureTask<ICFD>(() -> {
+			Statement statement;
+			String sql;
+
+			statement = conn.createStatement();
+			sql = "SET SQL_SAFE_UPDATES = 0";
+			statement.executeUpdate(sql);
+
+			sql = "DELETE FROM CFD WHERE id=" + key;
+			statement.executeUpdate(sql);
+
+			return null;
+		});
+		genericActiveObject.submit(futureTask);
+		return futureTask;
 	}
 
 	/**
@@ -146,7 +165,37 @@ public class CFDDAO {
 	 */
 	public Future<Collection<ICFD>> getCFDs(String username) {
 		// TODO - implement CFDDAO.getCFDs
-		throw new UnsupportedOperationException();
+		FutureTask<Collection<ICFD>> futureTask = new FutureTask<Collection<ICFD>>(() -> {
+			Statement statement = conn.createStatement();
+			String sql;
+
+			sql = "SELECT * FROM CFD WHERE username = " + "'" + username + "'";
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			Collection<ICFD> result = new TreeSet<>();
+			ICFD tmpCFD = tradingAbstractFactory.createCFD("CFD");
+
+			while (resultSet.next()){
+				tmpCFD.setId(resultSet.getString("id"));
+				tmpCFD.setIdAtivo(resultSet.getString("idAtivo"));
+				tmpCFD.setTipo(resultSet.getInt("tipo"));
+				tmpCFD.setUsername(resultSet.getString("username"));
+				tmpCFD.setStopLess(resultSet.getFloat("stopLess"));
+				tmpCFD.setTakeProfit(resultSet.getFloat("takeProfit"));
+				tmpCFD.setDataAbertura(LocalDateTime.ofInstant(resultSet.getDate("dataAbertura").toInstant(), ZoneId.of("ECT")));
+				tmpCFD.setDataAbertura(LocalDateTime.ofInstant(resultSet.getDate("dataEncerramento").toInstant(), ZoneId.of("ECT")));
+				tmpCFD.setNumeroDeAtivos(resultSet.getInt("numeroDeAtivos"));
+				tmpCFD.setValorInicial(resultSet.getFloat("valorInicial"));
+				tmpCFD.setValorInvestido(resultSet.getFloat("valorInvestido"));
+
+				result.add(tmpCFD);
+			}
+
+			return result;
+		});
+
+		genericActiveObject.submit(futureTask);
+		return futureTask;
 	}
 
 	/**

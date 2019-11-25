@@ -77,18 +77,6 @@ public interface ICFD {
     public void setTakeProfit(float takeProfit);
 
     /**
-     *  Return expiration date of CFD.
-     * @return Return expiration date of CFD
-     */
-    public LocalDateTime getDataExpiracao();
-
-    /**
-     *  Set expiration date.
-     * @param dataExpiracao expiration date
-     */
-    public void setDataExpiracao(LocalDateTime dataExpiracao);
-
-    /**
      *  Return open date of CFD.
      * @return Return open date of CFD
      */
@@ -147,4 +135,6 @@ public interface ICFD {
      * @param valorInvestido invested amount
      */
     public void setValorInvestido(float valorInvestido);
+
+    public ICFD clone();
 }

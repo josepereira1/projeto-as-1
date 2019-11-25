@@ -10,12 +10,15 @@ public class CFD implements ICFD {
 	private String username;
 	private float stopLess;
 	private float takeProfit;
-	private LocalDateTime dataExpiracao;
 	private LocalDateTime dataAbertura;
 	private LocalDateTime dataEncerramento;
 	private int numeroDeAtivos;
 	private float valorInicial;
 	private float valorInvestido;
+
+	public CFD(){
+
+	}
 
 	public CFD(String id, String idAtivo, int tipo, String username, float stopLess, float takeProfit, LocalDateTime dataAbertura, LocalDateTime dataEncerramento, int numeroDeAtivos, float valorInicial, float valorInvestido) {
 		this.id = id;
@@ -143,16 +146,6 @@ public class CFD implements ICFD {
 	@Override
 	public void setTakeProfit(float takeProfit) {
 		this.takeProfit = takeProfit;
-	}
-
-	@Override
-	public LocalDateTime getDataExpiracao() {
-		return dataExpiracao;
-	}
-
-	@Override
-	public void setDataExpiracao(LocalDateTime dataExpiracao) {
-		this.dataExpiracao = dataExpiracao;
 	}
 
 	@Override

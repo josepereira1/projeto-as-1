@@ -28,8 +28,8 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	 * @return Return this object if exists otherwise create
 	 */
 	public static ITradingAbstractFactory getInstance() {
-		if(abstractFactory != null)return abstractFactory;
-		else return new TradingAbstractFactory();
+		if(abstractFactory == null)abstractFactory = new TradingAbstractFactory();
+		return abstractFactory;
 	}
 
 }

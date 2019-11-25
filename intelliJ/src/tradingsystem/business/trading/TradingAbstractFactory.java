@@ -9,8 +9,8 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	 * @param type type of Ativo (Acao or Commoditie)
 	 */
 	public IAtivo createAtivo(String type) {
-		if(type.equals("Acao"))return new Acao();
-		else if(type.equals("Commoditie")) return new Commoditie();
+		if(type.equalsIgnoreCase("Acao"))return new Acao();
+		else if(type.equalsIgnoreCase("Commoditie")) return new Commoditie();
 		return null;
 	}
 
@@ -19,7 +19,8 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	 * @param type type of CFD (CFD)
 	 */
 	public ICFD createCFD(String type) {
-		return new CFD();
+		if(type.equalsIgnoreCase("CFD")) return new CFD();
+		return null;
 	}
 
 	/**

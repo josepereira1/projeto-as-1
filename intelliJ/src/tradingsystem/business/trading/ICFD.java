@@ -135,6 +135,4 @@ public interface ICFD {
      * @param valorInvestido invested amount
      */
     public void setValorInvestido(float valorInvestido);
-
-    public ICFD clone();
 }

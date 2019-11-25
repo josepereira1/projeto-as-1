@@ -2,13 +2,10 @@ package tradingsystem.data;
 
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.ITradingAbstractFactory;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -27,7 +24,7 @@ public class CFDDAO {
 	private GenericActiveObject genericActiveObject;
 	private ITradingAbstractFactory tradingAbstractFactory;
 
-	public CFDDAO() {
+	public CFDDAO(ITradingAbstractFactory tradingAbstractFactory) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn =  DriverManager.getConnection(url);
@@ -39,6 +36,7 @@ public class CFDDAO {
 			e.printStackTrace();
 		}
 		genericActiveObject = new GenericActiveObject();	//	thread start
+		this.tradingAbstractFactory = tradingAbstractFactory;
 	}
 
 	/**
@@ -59,11 +57,8 @@ public class CFDDAO {
 	    FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
 			Statement statement = null;
 			String time;
-			try {
-				statement = conn.createStatement();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			statement = conn.createStatement();
+
 			String sql = "INSERT INTO CFD (id, idAtivo, tipo, username, stopLess, takeProfit, dataAbertura, dataEncerramento, numeroDeAtivos, valorInicial, valorInvestido) VALUES (";
 			sql += "'" + value.getId() + "'" + ",";
 			sql += "'" + value.getIdAtivo() + "'" + ",";
@@ -77,20 +72,8 @@ public class CFDDAO {
 			sql += value.getValorInicial() + ",";
 			sql += value.getValorInvestido() + ")";
 
-			System.out.println(sql);
+			statement.executeUpdate(sql);
 
-			try {
-				Thread.sleep(5000);
-				System.out.println("Thread sleep");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			try {
-				statement.executeUpdate(sql);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			return value;
 		});
 
@@ -182,8 +165,8 @@ public class CFDDAO {
 				tmpCFD.setUsername(resultSet.getString("username"));
 				tmpCFD.setStopLess(resultSet.getFloat("stopLess"));
 				tmpCFD.setTakeProfit(resultSet.getFloat("takeProfit"));
-				tmpCFD.setDataAbertura(LocalDateTime.ofInstant(resultSet.getDate("dataAbertura").toInstant(), ZoneId.of("ECT")));
-				tmpCFD.setDataAbertura(LocalDateTime.ofInstant(resultSet.getDate("dataEncerramento").toInstant(), ZoneId.of("ECT")));
+				//tmpCFD.setDataAbertura(LocalDateTime.parse(resultSet.getDate("dataAbertura").toString()));
+				//tmpCFD.setDataAbertura(LocalDateTime.parse(resultSet.getDate("dataEncerramento").toString()));
 				tmpCFD.setNumeroDeAtivos(resultSet.getInt("numeroDeAtivos"));
 				tmpCFD.setValorInicial(resultSet.getFloat("valorInicial"));
 				tmpCFD.setValorInvestido(resultSet.getFloat("valorInvestido"));

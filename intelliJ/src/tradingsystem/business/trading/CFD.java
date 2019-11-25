@@ -34,6 +34,13 @@ public class CFD implements ICFD {
 		this.valorInvestido = valorInvestido;
 	}
 
+	public CFD(CFD cfd){
+		setId(cfd.getId());
+		setIdAtivo(cfd.getIdAtivo());
+		setTipo(cfd.getTipo());
+
+	}
+
 	//TODO	MUDAR AS VARIÁVEIS NO DIAGRAMA PARA PRIVADAS
 
 	/**

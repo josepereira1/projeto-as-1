@@ -2,6 +2,8 @@ package tests;
 
 import tradingsystem.business.trading.CFD;
 import tradingsystem.business.trading.ICFD;
+import tradingsystem.business.trading.ITradingAbstractFactory;
+import tradingsystem.business.trading.TradingAbstractFactory;
 import tradingsystem.data.CFDDAO;
 
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ import java.util.concurrent.FutureTask;
 
 public class CFDDAOTests {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        CFDDAO cfddao = new CFDDAO();
+        CFDDAO cfddao = new CFDDAO(TradingAbstractFactory.getInstance());
         //ITradingAbstractFactory iTradingAbstractFactory = TradingAbstractFactory.getInstance();
         /*ICFD cfd = new CFD("1","1",0, "josepereira", 0,0, LocalDateTime.now(),  LocalDateTime.now(),10, 100, 1000);
 

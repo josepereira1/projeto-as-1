@@ -16,7 +16,7 @@ public class UtilizadorDAOTests {
         /*user.setUsername("paulo");
         user.setPassword("password");*/
 
-        IAtor ator = null;
+        /*IAtor ator = null;
 
         try {
             ator = utilizadorDAO.get("josepereira", "Trader");
@@ -25,5 +25,17 @@ public class UtilizadorDAOTests {
         }
 
         System.out.println(ator);
+        */
+        /*try {
+            System.out.println(utilizadorDAO.contains("elon musk", "administrador"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+
+        try {
+            utilizadorDAO.addFundos("josepereira", 25);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

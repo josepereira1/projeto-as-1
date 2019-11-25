@@ -4,6 +4,10 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 
 	private static ITradingAbstractFactory abstractFactory;
 
+	private TradingAbstractFactory() {
+
+	}
+
 	/**
 	 * Create an Ativo
 	 * @param type type of Ativo (Acao or Commoditie)

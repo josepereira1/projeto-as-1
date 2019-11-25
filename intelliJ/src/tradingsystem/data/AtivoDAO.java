@@ -3,7 +3,6 @@ package tradingsystem.data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import tradingsystem.business.trading.Ativo;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ITradingAbstractFactory;
 import tradingsystem.business.trading.TradingAbstractFactory;
@@ -22,7 +21,7 @@ public class AtivoDAO {
 	private ITradingAbstractFactory tradingAbastractFactory;
 
 	public AtivoDAO() {
-		this.tradingAbastractFactory = new TradingAbstractFactory();
+		this.tradingAbastractFactory = TradingAbstractFactory.getInstance();
 	}
 
 
@@ -51,7 +50,7 @@ public class AtivoDAO {
 			float min=0.97f, max=0.99f;
 			float underPercentage = min + new Random().nextFloat() * (max - min);
 			float valorCompra = valorVenda*underPercentage;
-			IAtivo ativo = new Ativo(); //TODO substituir pela chamada ao ITradingAbastractFactory
+			IAtivo ativo = this.tradingAbastractFactory.createAtivo("ACAO");
 			ativo.setId(id);
 			ativo.setDesignacao(designacao);
 			ativo.setValorVenda(valorVenda);

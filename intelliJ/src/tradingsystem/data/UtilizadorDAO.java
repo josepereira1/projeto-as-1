@@ -38,7 +38,7 @@ public class UtilizadorDAO {
 	 * 	Insert user to database.
 	 * @param value user
 	 */
-	public IAtor put(IAtor value) throws SQLException {
+	public void put(IAtor value) throws SQLException {
 		// TODO - implement UtilizadorDAO.put
 		Statement statement = conn.createStatement();
 		String sql = "";
@@ -46,8 +46,7 @@ public class UtilizadorDAO {
 		if(value instanceof Trader)sql = queryTrader(value);
 		else if (value instanceof Administrador)sql = queryAdministrador(value);
 
-		statement.executeUpdate(sql);
-		return null;
+		if(sql.equalsIgnoreCase("")) statement.executeUpdate(sql);
 	}
 
 	private static String queryTrader(IAtor value){
@@ -77,18 +76,25 @@ public class UtilizadorDAO {
 		Statement statement = conn.createStatement();
 		IAtor user = null;
 
-		if(userType.equalsIgnoreCase("Trader")) user = getQueryTrader(statement, userType);
-		else if(userType.equalsIgnoreCase("Administrador"))  user = getQueryAdmnistrador(statement, userType);
+		if(userType.equalsIgnoreCase("Trader")) user = getQueryTrader(statement, username);
+		else if(userType.equalsIgnoreCase("Administrador"))  user = getQueryAdmnistrador(statement, username);
 
 		return user;
 	}
 
-	private IAtor getQueryTrader(Statement statement, String userType) throws SQLException {
+	/**
+	 * Return Trader user.
+	 * @param statement statement to execute queries
+	 * @param username username
+	 * @return Return Trader user
+	 * @throws SQLException SQLException
+	 */
+	private IAtor getQueryTrader(Statement statement, String username) throws SQLException {
 		String sql = "SELECT * FROM TRADER WHERE username='" + username + "'";
 
 		ResultSet resultSet = statement.executeQuery(sql);
 
-		IAtor user = factoryAtor.createAtor(userType);
+		IAtor user = factoryAtor.createAtor("Trader");
 
 		while(resultSet.next()){
 			user.setUsername(resultSet.getString("username"));
@@ -99,12 +105,19 @@ public class UtilizadorDAO {
 		return user;
 	}
 
-	private IAtor getQueryAdmnistrador(Statement statement, String userType) throws SQLException {
+	/**
+	 * Return Admnistrador user.
+	 * @param statement statement to execute queries
+	 * @param username username
+	 * @return Return Admnistrador user
+	 * @throws SQLException SQLException
+	 */
+	private IAtor getQueryAdmnistrador(Statement statement, String username) throws SQLException {
 		String sql = "SELECT * FROM ADMINISTRADOR WHERE username='" + username + "'";
 
 		ResultSet resultSet = statement.executeQuery(sql);
 
-		IAtor user = factoryAtor.createAtor(userType);
+		IAtor user = factoryAtor.createAtor("Administrador");
 
 		while(resultSet.next()){
 			user.setUsername(resultSet.getString("username"));
@@ -114,22 +127,39 @@ public class UtilizadorDAO {
 	}
 
 	/**
-	 * 
-	 * @param username
-	 * @param valor
+	 * Add funds to plafond of user.
+	 * @param username username
+	 * @param valor value of funds
 	 */
-	public void addFundos(String username, float valor) {
-		// TODO - implement UtilizadorDAO.addFundos
-		throw new UnsupportedOperationException();
+	public void addFundos(String username, float valor) throws SQLException {
+		Statement statement = conn.createStatement();
+		float plafond = 0;
+
+		ResultSet resultSet = statement.executeQuery("SELECT plafond FROM TRADER WHERE username=" + "'" + username + "'");
+		while (resultSet.next()) plafond = resultSet.getFloat("plafond");
+
+		statement.executeUpdate("UPDATE TRADER SET plafond = " + (plafond + valor) + "WHERE username=" + "'" + username + "'");
 	}
 
 	/**
-	 * 
-	 * @param username
+	 * Returns true if Utilizador exists in database, otherwise returns false.
+	 * @param username username
 	 */
-	public boolean contains(String username) {
-		// TODO - implement UtilizadorDAO.contains
-		throw new UnsupportedOperationException();
+	public boolean contains(String username, String userType) throws SQLException {
+		Statement statement = conn.createStatement();
+		String sql = "";
+
+		if(userType.equalsIgnoreCase("Trader"))sql = "SELECT EXISTS(SELECT username FROM TRADER WHERE username='" + username + "') as contains";
+		else if(userType.equalsIgnoreCase("Administrador")) sql = "SELECT EXISTS(SELECT username FROM ADMINISTRADOR WHERE username='" + username + "') as contains";
+
+		ResultSet rs = null;
+
+		if(!sql.equalsIgnoreCase("")) rs = statement.executeQuery(sql);
+		boolean res = false;
+		if (rs != null && rs.next()) {
+			res = rs.getBoolean("contains");
+		}
+		return res;
 	}
 
 }

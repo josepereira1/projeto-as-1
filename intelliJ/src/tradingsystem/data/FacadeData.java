@@ -137,7 +137,7 @@ public class FacadeData implements IFacadeData {
 		throw new UnsupportedOperationException();
 	}
 
-	public int getNumeroDeAtivosCFD() {
+	public int getNumeroDeAtivosCFD(String idCFD) {
 		// TODO - implement FacadeData.getNumeroDeAtivosCFD
 		throw new UnsupportedOperationException();
 	}

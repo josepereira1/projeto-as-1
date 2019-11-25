@@ -6,8 +6,10 @@ public class Utilizador implements IAtor {
 	public String password;
 
 	public String toString() {
-		// TODO - implement Utilizador.toString
-		throw new UnsupportedOperationException();
+		StringBuilder sb =  new StringBuilder("Utilizador={");
+		sb.append("username=").append(username);
+		sb.append(";password=").append(password).append("};");
+		return sb.toString();
 	}
 
 	public Utilizador clone() {
@@ -34,4 +36,23 @@ public class Utilizador implements IAtor {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

@@ -2,11 +2,14 @@ package tradingsystem.business.recursoshumanos;
 
 public class Trader extends Utilizador {
 
-	public float plafond;
+	private float plafond;
 
 	public String toString() {
-		// TODO - implement Trader.toString
-		throw new UnsupportedOperationException();
+		StringBuilder sb = new StringBuilder("Trader={");
+		sb.append("username=").append(username);
+		sb.append(";password=").append(password);
+		sb.append(";plafond=").append(plafond).append("};");
+		return sb.toString();
 	}
 
 	public Utilizador clone() {
@@ -23,4 +26,11 @@ public class Trader extends Utilizador {
 		throw new UnsupportedOperationException();
 	}
 
+	public float getPlafond() {
+		return plafond;
+	}
+
+	public void setPlafond(float plafond) {
+		this.plafond = plafond;
+	}
 }

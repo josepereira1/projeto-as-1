@@ -20,27 +20,6 @@ public class CFD implements ICFD {
 
 	}
 
-	public CFD(String id, String idAtivo, int tipo, String username, float stopLess, float takeProfit, LocalDateTime dataAbertura, LocalDateTime dataEncerramento, int numeroDeAtivos, float valorInicial, float valorInvestido) {
-		this.id = id;
-		this.idAtivo = idAtivo;
-		this.tipo = tipo;
-		this.username = username;
-		this.stopLess = stopLess;
-		this.takeProfit = takeProfit;
-		this.dataAbertura = dataAbertura;
-		this.dataEncerramento = dataEncerramento;
-		this.numeroDeAtivos = numeroDeAtivos;
-		this.valorInicial = valorInicial;
-		this.valorInvestido = valorInvestido;
-	}
-
-	public CFD(CFD cfd){
-		setId(cfd.getId());
-		setIdAtivo(cfd.getIdAtivo());
-		setTipo(cfd.getTipo());
-
-	}
-
 	//TODO	MUDAR AS VARIÁVEIS NO DIAGRAMA PARA PRIVADAS
 
 	/**

@@ -8,6 +8,7 @@ import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
@@ -113,5 +114,9 @@ public interface IFacadeData {
 	Future<Boolean> containsCFD(String idCFD);
 
 	Future<String> getNextId();
+
+	boolean containsAtivo(String id) throws IOException;
+
+	Future<Void> updateEndDateCFD(String id, LocalDateTime endDate);
 
 }

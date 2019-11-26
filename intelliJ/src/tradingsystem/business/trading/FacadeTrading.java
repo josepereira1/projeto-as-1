@@ -1,12 +1,13 @@
 package tradingsystem.business.trading;
 
+import tradingsystem.business.CFDNotExistsException;
+import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.data.FacadeData;
 import tradingsystem.data.IFacadeData;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
@@ -38,10 +39,10 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param takeProfit take profit value
 	 * @param numeroDeAtivos number of stock
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException {
-		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
+	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException {
+		if(!data.containsAtivo(idAtivo)) throw new StockIdNotExistsException(idAtivo);	//	verify if stock id exists
 
-		//TODO FALTA VERIFICAR ANTES SE O ID DO ATIVO EXISTE, MAS TENHO QUE FAZER O CONTAINS NO ATIVO PRIMEIRO E AINDA N FIZ
+		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
 
 		cfd.setId(data.getNextId().get());
 		cfd.setIdAtivo(idAtivo);
@@ -59,21 +60,22 @@ public class FacadeTrading implements IFacadeTrading {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 * End CFD.
+	 * @param id id CFD
+	 * @return Returns profit of CFD
 	 */
-	public void encerrarCFD(String id) {
-		// TODO - implement FacadeTrading.encerrarCFD
-		throw new UnsupportedOperationException();
+	public void encerrarCFD(String id) throws ExecutionException, InterruptedException, CFDNotExistsException, IOException {
+		if(!data.containsCFD(id).get()) throw new CFDNotExistsException(id);	//	verify if stock id exists
+		data.updateEndDateCFD(id,LocalDateTime.now());	//	in manual or automatic end CFD, the end date is current date
 	}
 
 	/**
-	 * 
-	 * @param username
+	 * Show portfolio of user.
+	 * @param username username
 	 */
-	public Collection<ICFD> getPortfolio(String username) {
-		// TODO - implement FacadeTrading.getPortfolio
-		throw new UnsupportedOperationException();
+	public Collection<ICFD> getPortfolio(String username) throws ExecutionException, InterruptedException {
+		//TODO O GET CFDS ESTÁ A FUNCIONAR MAL, POR CONSEGUINTE ESTE MÉTODO
+		return data.getCFDs(username).get();
 	}
 
 	/**
@@ -82,9 +84,10 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param TP
 	 * @param SL
 	 */
-	public void setCFDlimits(String id, float TP, float SL) {
-		// TODO - implement FacadeTrading.setCFDlimits
-		throw new UnsupportedOperationException();
+	public void setCFDlimits(String id, float TP, float SL) throws CFDNotExistsException, ExecutionException, InterruptedException {
+		if(!data.containsCFD(id).get()) throw new CFDNotExistsException(id);	//	verify if stock id exists
+
+		data.setCFDlimits(id,TP,SL).get();	//	although the return being void, we want an active wait
 	}
 
 	public static IFacadeTrading getInstance() throws SQLException, ClassNotFoundException {
@@ -93,21 +96,23 @@ public class FacadeTrading implements IFacadeTrading {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *  Returns the current value of stock
+	 * @param id id of stock
 	 */
-	public float getValorAtualAtivo(String id) {
-		// TODO - implement FacadeTrading.getValorAtualAtivo
-		throw new UnsupportedOperationException();
+	public float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException {
+		if(!data.containsAtivo(id)) throw new StockIdNotExistsException(id);	//	verify if stock id exists
+		return data.getValorAtualAtivo(id);
 	}
 
 	/**
-	 * 
-	 * @param idCFD
+	 * Returns the profit of CFD.
+	 * @param idCFD id of CFD
 	 */
-	public float getBalanco(String idCFD) {
-		// TODO - implement FacadeTrading.getBalanco
-		throw new UnsupportedOperationException();
+	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException {
+		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
+		ICFD cfd = data.getCFD(idCFD).get();
+
+		return CFD.getBalanco(data.getValorAtualAtivo(cfd.getIdAtivo()),cfd.getNumeroDeAtivos(),cfd.getValorInvestido());
 	}
 
 }

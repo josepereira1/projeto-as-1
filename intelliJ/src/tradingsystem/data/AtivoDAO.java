@@ -72,4 +72,15 @@ public class AtivoDAO {
 		return ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 	}
 
+	public boolean contains(String id) throws IOException {
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
+		JSONArray arr = RESTGet(url).getJSONArray("data");
+
+		for(int i=0; i<arr.length(); i++) {
+			JSONObject o = (JSONObject) arr.get(i); // gets() each IAtivo
+			if (o.getString("symbol").equals(id)) return true;
+		}
+		return false;
+	}
+
 }

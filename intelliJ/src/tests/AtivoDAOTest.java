@@ -11,7 +11,9 @@ public class AtivoDAOTest {
 
     public static void main(String[] args) throws IOException, StockTypeNotValidException {
         AtivoDAO AtivoDAO = new AtivoDAO();
+        /*System.out.println(AtivoDAO.values());
+        System.out.println(AtivoDAO.getValorAtual("SNAP"));*/
         System.out.println(AtivoDAO.values());
-        System.out.println(AtivoDAO.getValorAtual("SNAP"));
+        System.out.println(AtivoDAO.contains("CONA"));
     }
 }

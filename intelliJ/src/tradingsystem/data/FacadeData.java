@@ -8,8 +8,10 @@ import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public class FacadeData implements IFacadeData {
 
@@ -166,6 +168,14 @@ public class FacadeData implements IFacadeData {
 
 	public Future<String> getNextId(){
 		return cfds.getNextId();
+	}
+
+	public boolean containsAtivo(String id) throws IOException {
+		return ativos.contains(id);
+	}
+
+	public Future<Void> updateEndDateCFD(String id, LocalDateTime endDate){
+		return cfds.updateEndDateCFD(id,endDate);
 	}
 
 }

@@ -4,6 +4,7 @@ import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Future;
@@ -184,7 +185,7 @@ public class CFDDAO {
 		FutureTask<Collection<ICFD>> futureTask = new FutureTask<>(() -> {
 
 			Statement statement = conn.createStatement();
-			String sql = "SELECT id FROM CFD WHERE username = " + "'" + username + "'";
+			String sql = "SELECT * FROM CFD WHERE username = " + "'" + username + "'";
 			ResultSet rs = statement.executeQuery(sql);
 
 			Collection<ICFD> result = new ArrayList<>();
@@ -344,6 +345,24 @@ public class CFDDAO {
 		});
 
 		this.genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
+
+	/**
+	 * End CFD.
+	 * @param id id of CFD
+	 * @param endDate end date
+	 */
+	public Future<Void> updateEndDateCFD(String id, LocalDateTime endDate){
+		FutureTask<Void> futureTask = new FutureTask<>(() ->{
+			Statement statement = conn.createStatement();
+
+			statement.executeUpdate("SET SQL_SAFE_UPDATES = 0");
+			statement.executeUpdate("UPDATE CFD SET dataEncerramento='" + Timestamp.valueOf(endDate) + "' WHERE id='" + id + "'");
+
+			return null;
+		});
+		genericActiveObject.submit(futureTask);
 		return futureTask;
 	}
 }

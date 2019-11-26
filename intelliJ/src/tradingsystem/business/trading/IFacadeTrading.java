@@ -1,6 +1,8 @@
 package tradingsystem.business.trading;
 
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.CFDNotExistsException;
+import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.StockTypeNotValidException;
 
 import java.io.IOException;
@@ -20,19 +22,19 @@ public interface IFacadeTrading {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException;
+	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException;
 
 	/**
 	 * 
 	 * @param id
 	 */
-	void encerrarCFD(String id);
+	void encerrarCFD(String id) throws ExecutionException, InterruptedException, CFDNotExistsException, IOException;
 
 	/**
 	 * 
 	 * @param username
 	 */
-	Collection<ICFD> getPortfolio(String username);
+	Collection<ICFD> getPortfolio(String username) throws ExecutionException, InterruptedException;
 
 	/**
 	 * 
@@ -40,18 +42,18 @@ public interface IFacadeTrading {
 	 * @param TP
 	 * @param SL
 	 */
-	void setCFDlimits(String id, float TP, float SL);
+	void setCFDlimits(String id, float TP, float SL) throws CFDNotExistsException, ExecutionException, InterruptedException;
 
 	/**
 	 * 
 	 * @param id
 	 */
-	float getValorAtualAtivo(String id);
+	float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException;
 
 	/**
 	 * 
 	 * @param idCFD
 	 */
-	float getBalanco(String idCFD);
+	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException;
 
 }

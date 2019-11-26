@@ -1,11 +1,15 @@
 package tradingsystem.business.trading;
 
+import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.StockTypeNotValidException;
+
+import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 public interface IFacadeTrading {
 
-	Collection<IAtivo> getAtivos();
+	Collection<IAtivo> getAtivos() throws IOException, AtorTypeNotValidException, StockTypeNotValidException;
 
 	/**
 	 * 
@@ -16,7 +20,7 @@ public interface IFacadeTrading {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException;
+	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException;
 
 	/**
 	 * 

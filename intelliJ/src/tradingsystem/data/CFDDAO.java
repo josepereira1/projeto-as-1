@@ -100,7 +100,7 @@ public class CFDDAO {
 	/**
 	 *	Returns the last id of ICFD.
 	 */
-	public Future<String> getLastId() {
+	public Future<String> getNextId() {
 
 		FutureTask<String> futureTask = new FutureTask<>(() ->{
 
@@ -112,6 +112,8 @@ public class CFDDAO {
 			if(rs.next()) {
 				lastId = rs.getString("id");
 			}
+
+			if(lastId == null)return "0";
 
 			int res = Integer.parseInt(lastId) + 1;
 			return Integer.toString(res);

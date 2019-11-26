@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.TradingAbstractFactory;
 
@@ -31,7 +32,7 @@ public class AtivoDAO {
 	/**
 	 * Returns a Collection containing all IAtivos from REST server.
 	 */
-	public Collection<IAtivo> values() throws IOException, AtorTypeNotValidException {
+	public Collection<IAtivo> values() throws IOException, StockTypeNotValidException {
 		Collection<IAtivo> res = new ArrayList<>();
 		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
 		JSONArray arr = RESTGet(url).getJSONArray("data");
@@ -48,7 +49,7 @@ public class AtivoDAO {
 			IAtivo ativo = null;
 			// TODO se conseguir na API saber o tipo meter o if() aqui
 			if (true) ativo = TradingAbstractFactory.getInstance().createAtivo("ACAO");
-			else throw new AtorTypeNotValidException();
+			else throw new StockTypeNotValidException();
 
 			ativo.setId(id);
 			ativo.setDesignacao(designacao);

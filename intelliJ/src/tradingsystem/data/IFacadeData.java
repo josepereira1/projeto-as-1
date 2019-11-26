@@ -1,6 +1,7 @@
 package tradingsystem.data;
 
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -16,9 +17,9 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException, AtorTypeNotValidException;
+	IAtor getUtilizador(String username, String userType) throws SQLException, AtorTypeNotValidException;
 
-	Collection<IAtivo> getAtivos() throws IOException, AtorTypeNotValidException;
+	Collection<IAtivo> getAtivos() throws IOException, StockTypeNotValidException;
 
 	/**
 	 * 
@@ -111,6 +112,6 @@ public interface IFacadeData {
 	 */
 	Future<Boolean> containsCFD(String idCFD);
 
-	Future<String> getLastId();
+	Future<String> getNextId();
 
 }

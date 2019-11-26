@@ -27,7 +27,7 @@ public class CFDDAOTests {
         System.out.println(CFDDAO.put(cfd).get());
         System.out.println(CFDDAO.getCFDs("josepereira").get());
         System.out.println(CFDDAO.get("1").get());
-        System.out.println(CFDDAO.getLastId().get());
+        System.out.println(CFDDAO.getNextId().get());
         CFDDAO.setLimits(100f, -100f, "1");
         System.out.println(CFDDAO.values().get());
         System.out.println(CFDDAO.contains("1").get());

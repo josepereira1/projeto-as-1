@@ -3,7 +3,7 @@ package tradingsystem.data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import tradingsystem.business.AtorTypeNotValidException;
+
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.TradingAbstractFactory;

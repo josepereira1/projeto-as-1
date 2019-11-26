@@ -22,7 +22,7 @@ public interface IFacadeBusiness {
 	 * @param password
 	 * @param plafond
 	 */
-	IAtor registarUtilizador(String username, String password, float plafond);
+	IAtor registarUtilizador(String username, String password, float plafond) throws SQLException, AtorTypeNotValidException, AtorExistsException;
 
 	/**
 	 * 

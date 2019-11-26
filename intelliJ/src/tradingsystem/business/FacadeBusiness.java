@@ -45,9 +45,8 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * @param password
 	 * @param plafond
 	 */
-	public IAtor registarUtilizador(String username, String password, float plafond) {
-		// TODO - implement FacadeBusiness.registarUtilizador
-		throw new UnsupportedOperationException();
+	public IAtor registarUtilizador(String username, String password, float plafond) throws SQLException, AtorTypeNotValidException, AtorExistsException {
+		return this.recursosHumanos.registarUtilizador(username, password, plafond);
 	}
 
 	/**

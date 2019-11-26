@@ -11,8 +11,12 @@ public class LoginView {
 		System.out.println("Could not establish connection to database server! Try restarting this app.");
 	}
 
-	public void informInvalidUsername() {
-		System.out.println("Invalid username!");
+	public void informUsernameNotExists() {
+		System.out.println("Account with that username does not exists.");
+	}
+
+	public void informUsernameTooShort() {
+		System.out.println("Invalid username, length is too short!");
 	}
 
 	public void informInvalidType() {

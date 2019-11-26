@@ -6,7 +6,7 @@ import tradingsystem.business.AtorTypeNotValidException;
 
 import java.sql.SQLException;
 
-public class LoginController implements Runnable {
+public class LoginController {
 
 	private LoginView loginView;
 	private TradingSystem model;
@@ -17,26 +17,30 @@ public class LoginController implements Runnable {
 	}
 
 	public void run() {
-		loginView.login();
 		try {
+			loginView.login();
 			model.ator = model.business.autenticarUtilizador(loginView.username, loginView.password);
-			if (model.ator == null) {
+			if (model.ator == null) { // invalid password
 				loginView.informInvalidPassword();
 				this.run();
-			} else {
+			} else { // goes to main menu
 				new HomeController().run();
 			}
-		} catch (AtorNotExistsException | StringIndexOutOfBoundsException e) {
+		} catch (StringIndexOutOfBoundsException e) {
 			//e.printStackTrace();
-			loginView.informInvalidUsername();
+			loginView.informUsernameTooShort();
 			this.run();
 		} catch (SQLException e) {
 			//e.printStackTrace();
 			loginView.informConnIssue();
-			System.exit(1);
+			System.exit(1); // exits() app
 		} catch (AtorTypeNotValidException e) {
 			//e.printStackTrace();
 			loginView.informInvalidType();
+			this.run();
+		} catch (AtorNotExistsException e) {
+			//e.printStackTrace();
+			loginView.informUsernameNotExists();
 			this.run();
 		}
 	}

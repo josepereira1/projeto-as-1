@@ -1,6 +1,7 @@
 package tradingsystem.data;
 
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -33,7 +34,7 @@ public class FacadeData implements IFacadeData {
 		return this.utilizadores.get(username, userType);
 	}
 
-	public Collection<IAtivo> getAtivos() throws IOException, AtorTypeNotValidException {
+	public Collection<IAtivo> getAtivos() throws IOException, StockTypeNotValidException {
 		return this.ativos.values();
 	}
 

@@ -1,13 +1,13 @@
 package tradingsystem.business;
 
-import tradingsystem.business.recursoshumanos.FactoryAtor;
+import tradingsystem.business.recursoshumanos.FacadeRecursosHumanos;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.recursoshumanos.IFacadeRecursosHumanos;
-import tradingsystem.business.recursoshumanos.Trader;
-import tradingsystem.business.trading.CFD;
+import tradingsystem.business.trading.FacadeTrading;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.IFacadeTrading;
+import tradingsystem.data.FacadeData;
 import tradingsystem.data.IFacadeData;
 
 import java.sql.SQLException;
@@ -25,14 +25,18 @@ public class FacadeBusiness implements IFacadeBusiness {
 	private IFacadeRecursosHumanos recursosHumanos;
 	private IFacadeTrading trading;
 
+	private FacadeBusiness() throws SQLException, ClassNotFoundException {
+		this.data = FacadeData.getInstance();
+		this.recursosHumanos = FacadeRecursosHumanos.getInstance();
+	}
+
 	/**
 	 * 
 	 * @param username
 	 * @param password
 	 */
-	public IAtor autenticarUtilizador(int username, String password) {
-		// TODO - implement FacadeBusiness.autenticarUtilizador
-		throw new UnsupportedOperationException();
+	public IAtor autenticarUtilizador(String username, String password) throws AtorNotExistsException, SQLException, AtorTypeNotValidException {
+		return this.recursosHumanos.autenticarUtilizador(username, password);
 	}
 
 	/**
@@ -113,9 +117,9 @@ public class FacadeBusiness implements IFacadeBusiness {
 		throw new UnsupportedOperationException();
 	}
 
-	public static IFacadeBusiness getInstance() {
-		// TODO - implement FacadeBusiness.getInstance
-		throw new UnsupportedOperationException();
+	public static IFacadeBusiness getInstance() throws SQLException, ClassNotFoundException {
+		if (business == null) business = new FacadeBusiness();
+		return business;
 	}
 
 	/**

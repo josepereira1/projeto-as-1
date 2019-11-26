@@ -5,22 +5,21 @@ import tradingsystem.business.IFacadeBusiness;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.presentation.InitController;
 
+import java.sql.SQLException;
+
+
 public class TradingSystem {
 
 	public IFacadeBusiness business;
 	public IAtor ator;
 	private static TradingSystem tradingSystem;
 
-	private TradingSystem() {
+	private TradingSystem() throws SQLException, ClassNotFoundException {
 		this.business = FacadeBusiness.getInstance();
 		this.ator = null;
 	}
 
-	public void initAutoCloseCFDs(String username) {
-		this.business.initAutoCloseCFDs(username);
-	}
-
-	public static TradingSystem getInstance() {
+	public static TradingSystem getInstance() throws SQLException, ClassNotFoundException {
 		if (tradingSystem == null) tradingSystem = new TradingSystem();
 		return tradingSystem;
 	}
@@ -30,7 +29,13 @@ public class TradingSystem {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new InitController().run();
+		try {
+			new InitController().run();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

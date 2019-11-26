@@ -14,7 +14,7 @@ public interface IFacadeBusiness {
 	 * @param username
 	 * @param password
 	 */
-	IAtor autenticarUtilizador(int username, String password);
+	IAtor autenticarUtilizador(String username, String password) throws AtorNotExistsException, SQLException, AtorTypeNotValidException;
 
 	/**
 	 * 

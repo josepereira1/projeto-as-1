@@ -3,12 +3,12 @@ package tradingsystem.business.trading;
 import tradingsystem.data.IFacadeData;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public class FacadeTrading implements IFacadeTrading {
 
 	private IFacadeData data;
 	private static IFacadeTrading trading;
-	private ITradingAbstractFactory tradingAbastractFactory;
 
 	public Collection<IAtivo> getAtivos() {
 		// TODO - implement FacadeTrading.getAtivos
@@ -24,9 +24,14 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) {
-		// TODO - implement FacadeTrading.abrirCFD
-		throw new UnsupportedOperationException();
+	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException {
+		String lastId = data.getLastId().get();
+
+		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
+
+
+
+		//data.putCFD();
 	}
 
 	/**

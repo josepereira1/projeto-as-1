@@ -25,5 +25,4 @@ public class Acao extends Ativo {
 		// TODO - implement Acao.equals
 		throw new UnsupportedOperationException();
 	}
-
 }

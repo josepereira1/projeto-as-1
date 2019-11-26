@@ -1,5 +1,7 @@
 package tradingsystem.business.trading;
 
+import java.util.Objects;
+
 public class Ativo implements IAtivo {
 
 	public String id;
@@ -17,13 +19,15 @@ public class Ativo implements IAtivo {
 				'}';
 	}
 
-	/**
-	 * 
-	 * @param o
-	 */
+	@Override
 	public boolean equals(Object o) {
-		// TODO - implement Ativo.equals
-		throw new UnsupportedOperationException();
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Ativo ativo = (Ativo) o;
+		return Float.compare(ativo.valorVenda, valorVenda) == 0 &&
+				Float.compare(ativo.valorCompra, valorCompra) == 0 &&
+				Objects.equals(id, ativo.id) &&
+				Objects.equals(designacao, ativo.designacao);
 	}
 
 	public Ativo clone() {

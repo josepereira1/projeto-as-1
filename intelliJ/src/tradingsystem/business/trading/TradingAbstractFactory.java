@@ -1,5 +1,7 @@
 package tradingsystem.business.trading;
 
+import tradingsystem.business.StockTypeNotValidException;
+
 public class TradingAbstractFactory implements ITradingAbstractFactory {
 
 	private static ITradingAbstractFactory abstractFactory;
@@ -12,10 +14,10 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	 * Create an Ativo
 	 * @param type type of Ativo (Acao or Commoditie)
 	 */
-	public IAtivo createAtivo(String type) {
+	public IAtivo createAtivo(String type) throws StockTypeNotValidException {
 		if(type.equalsIgnoreCase("Acao"))return new Acao();
 		else if(type.equalsIgnoreCase("Commoditie")) return new Commoditie();
-		return null;
+		throw new StockTypeNotValidException(type);
 	}
 
 	/**

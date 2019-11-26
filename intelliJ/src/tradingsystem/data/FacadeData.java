@@ -163,4 +163,8 @@ public class FacadeData implements IFacadeData {
 		return this.cfds.contains(idCFD);
 	}
 
+	public Future<String> getLastId(){
+		return cfds.getLastId();
+	}
+
 }

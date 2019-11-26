@@ -111,4 +111,6 @@ public interface IFacadeData {
 	 */
 	Future<Boolean> containsCFD(String idCFD);
 
+	Future<String> getLastId();
+
 }

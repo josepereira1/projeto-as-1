@@ -1,6 +1,7 @@
 package tradingsystem.business.trading;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public interface IFacadeTrading {
 
@@ -15,7 +16,7 @@ public interface IFacadeTrading {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos);
+	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException;
 
 	/**
 	 * 

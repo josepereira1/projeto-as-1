@@ -63,15 +63,13 @@ public class CFD implements ICFD {
 	}
 
 	/**
-	 *
-	 * @param valorAtualAtivo
-	 * @param numeroDeAtivos
-	 * @param valorInvestido
-	 * @return
+	 *	Calculate profit of CFD
+	 * @param valorAtualAtivo current value of stock
+	 * @param numeroDeAtivos number of stock
+	 * @param valorInvestido invested value
 	 */
 	public static float getBalanco(float valorAtualAtivo, int numeroDeAtivos, int valorInvestido) {
-		// TODO - implement CFD.getBalanco
-		throw new UnsupportedOperationException();
+		return valorInvestido-(valorAtualAtivo*numeroDeAtivos);
 	}
 
 	@Override

@@ -1,12 +1,14 @@
 package tradingsystem.business.trading;
 
+import tradingsystem.business.StockTypeNotValidException;
+
 public interface ITradingAbstractFactory {
 
 	/**
 	 * 
 	 * @param type
 	 */
-	IAtivo createAtivo(String type);
+	IAtivo createAtivo(String type) throws StockTypeNotValidException;
 
 	/**
 	 * 

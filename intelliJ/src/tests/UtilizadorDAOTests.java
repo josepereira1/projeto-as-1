@@ -8,9 +8,9 @@ import tradingsystem.data.UtilizadorDAO;
 import java.sql.SQLException;
 
 public class UtilizadorDAOTests {
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         FactoryAtor factoryAtor = new FactoryAtor();
-        UtilizadorDAO utilizadorDAO = new UtilizadorDAO(factoryAtor);
+        UtilizadorDAO utilizadorDAO = new UtilizadorDAO();
 
         //IAtor user = factoryAtor.createAtor("Administrador");
         /*user.setUsername("paulo");

@@ -2,9 +2,14 @@ package tradingsystem.business.trading;
 
 public class Acao extends Ativo {
 
+	@Override
 	public String toString() {
-		// TODO - implement Acao.toString
-		throw new UnsupportedOperationException();
+		return "Acao{" +
+				"id='" + id + '\'' +
+				", designacao='" + designacao + '\'' +
+				", valorVenda=" + valorVenda +
+				", valorCompra=" + valorCompra +
+				'}';
 	}
 
 	public Ativo clone() {

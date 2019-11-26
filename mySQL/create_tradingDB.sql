@@ -34,30 +34,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `trading`.`Acao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `trading`.`Acao` (
-  `id` VARCHAR(45) NOT NULL,
-  `designacao` VARCHAR(45) NOT NULL,
-  `valorVenda` FLOAT NOT NULL,
-  `valorCompra` FLOAT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `trading`.`Commoditie`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `trading`.`Commoditie` (
-  `id` VARCHAR(45) NOT NULL,
-  `designacao` VARCHAR(45) NOT NULL,
-  `valorVenda` FLOAT NOT NULL,
-  `valorCompra` FLOAT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `trading`.`Administrador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `trading`.`Administrador` (

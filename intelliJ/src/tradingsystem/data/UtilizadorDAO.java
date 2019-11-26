@@ -15,27 +15,19 @@ public class UtilizadorDAO {
 	private static final String password = "password";
 	private static final boolean verifyServerCertificate = false;
 	private static final boolean userSSL = false;
-
 	private static final String url = "jdbc:mysql://localhost/" + schema + "?verifyServerCertificate=" + verifyServerCertificate + "&user=" + username + "&password=" + password + "&useSSL=" + userSSL;
 
 	private FactoryAtor factoryAtor;
 
-	public UtilizadorDAO(FactoryAtor factoryAtor){
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			this.conn =  DriverManager.getConnection(url);
-		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		this.factoryAtor = factoryAtor;
+	/** Constructs a Data Access Object to establish connection to database. */
+	public UtilizadorDAO() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		this.conn =  DriverManager.getConnection(url);
+		this.factoryAtor = new FactoryAtor();
 	}
 
 	/**
-	 * 	Insert user to database.
+	 * 	Inserts an IAtivo to database.
 	 * @param value user
 	 */
 	public void put(IAtor value) throws SQLException {
@@ -65,7 +57,7 @@ public class UtilizadorDAO {
 	}
 
 	/**
-	 * Return User with specific username.
+	 * Returns an IAtivo with specific username.
 	 * @param username username
 	 * @param userType user type (Trader or Administrador)
 	 * @return Return User with specific username

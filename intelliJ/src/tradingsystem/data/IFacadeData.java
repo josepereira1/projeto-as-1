@@ -1,10 +1,11 @@
 package tradingsystem.data;
 
 import tradingsystem.business.recursoshumanos.IAtor;
-import tradingsystem.business.recursoshumanos.Utilizador;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
@@ -14,15 +15,15 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	IAtor getUtilizador(String username);
+	public IAtor getUtilizador(String username, String userType) throws SQLException;
 
-	Collection<IAtivo> getAtivos();
+	Collection<IAtivo> getAtivos() throws IOException;
 
 	/**
 	 * 
 	 * @param id
 	 */
-	float getValorAtualAtivo(String id);
+	float getValorAtualAtivo(String id) throws IOException;
 
 	/**
 	 * 
@@ -46,7 +47,7 @@ public interface IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	void putUtilizador(Utilizador utilizador);
+	void putUtilizador(IAtor utilizador) throws SQLException;
 
 	/**
 	 * 
@@ -67,7 +68,7 @@ public interface IFacadeData {
 	 * @param username
 	 * @param valor
 	 */
-	void addFundos(String username, float valor);
+	void addFundos(String username, float valor) throws SQLException;
 
 	/**
 	 * 
@@ -85,20 +86,20 @@ public interface IFacadeData {
 	 * 
 	 * @param idCFD
 	 */
-	float getValorInvestidoCFD(String idCFD);
+	Future<Float> getValorInvestidoCFD(String idCFD);
 
-	int getNumeroDeAtivosCFD(String idCFD);
+	Future<Integer> getNumeroDeAtivosCFD(String idCFD);
 
 	/**
 	 * 
 	 * @param username
 	 */
-	boolean containsUtilizador(String username);
+	boolean containsUtilizador(String username, String userType) throws SQLException;
 
 	/**
 	 * 
-	 * @param id
+	 * @param idCFD
 	 */
-	boolean containsCFD(String id);
+	Future<Boolean> containsCFD(String idCFD);
 
 }

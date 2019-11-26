@@ -50,7 +50,7 @@ public class CFDDAO {
 	}
 
 	/**
-	 * Inserts ICFD into database.
+	 * Inserts an ICFD into database.
 	 * @param value ICFD.
 	 */
 	public Future<ICFD> put(ICFD value) {
@@ -122,7 +122,7 @@ public class CFDDAO {
 	}
 
 	/**
-	 * Removes ICFD from database.
+	 * Removes an ICFD from database.
 	 * @param id id of ICFD.
 	 */
 	public Future<ICFD> remove(String id) {

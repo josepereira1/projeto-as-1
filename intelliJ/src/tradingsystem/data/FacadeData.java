@@ -1,10 +1,11 @@
 package tradingsystem.data;
 
-import tradingsystem.business.recursoshumanos.Utilizador;
+import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
-import tradingsystem.business.trading.ITradingAbstractFactory;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.Future;
 
@@ -14,20 +15,25 @@ public class FacadeData implements IFacadeData {
 	private AtivoDAO ativos;
 	private CFDDAO cfds;
 	private static IFacadeData data;
-	private ITradingAbstractFactory tradingAbastractFactory;
+
+	public FacadeData() throws SQLException, ClassNotFoundException {
+		this.utilizadores = new UtilizadorDAO();
+		this.ativos = new AtivoDAO();
+		this.cfds = new CFDDAO();
+	}
+
+	//TODO copy documentation from inner classes to this class
 
 	/**
 	 * 
 	 * @param username
 	 */
-	public Utilizador getUtilizador(String username) {
-		// TODO - implement FacadeData.getUtilizador
-		throw new UnsupportedOperationException();
+	public IAtor getUtilizador(String username, String userType) throws SQLException {
+		return this.utilizadores.get(username, userType);
 	}
 
-	public Collection<IAtivo> getAtivos() {
-		// TODO - implement FacadeData.getAtivos
-		throw new UnsupportedOperationException();
+	public Collection<IAtivo> getAtivos() throws IOException {
+		return this.ativos.values();
 	}
 
 	/**
@@ -35,8 +41,7 @@ public class FacadeData implements IFacadeData {
 	 * @param cfd
 	 */
 	public void putCFD(ICFD cfd) {
-		// TODO - implement FacadeData.putCFD
-		throw new UnsupportedOperationException();
+		this.cfds.put(cfd);
 	}
 
 	/**
@@ -44,26 +49,23 @@ public class FacadeData implements IFacadeData {
 	 * @param id
 	 */
 	public void removeCFD(String id) {
-		// TODO - implement FacadeData.removeCFD
-		throw new UnsupportedOperationException();
+		this.cfds.remove(id);
 	}
 
 	/**
 	 * 
 	 * @param utilizador
 	 */
-	public void putUtilizador(Utilizador utilizador) {
-		// TODO - implement FacadeData.putUtilizador
-		throw new UnsupportedOperationException();
+	public void putUtilizador(IAtor utilizador) throws SQLException {
+		this.utilizadores.put(utilizador);
 	}
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public float getValorAtualAtivo(String id) {
-		// TODO - implement FacadeData.getValorAtualAtivo
-		throw new UnsupportedOperationException();
+	public float getValorAtualAtivo(String id) throws IOException {
+		return this.ativos.getValorAtual(id);
 	}
 
 	/**
@@ -73,8 +75,7 @@ public class FacadeData implements IFacadeData {
 	 * @param SL
 	 */
 	public void setCFDlimits(String id, float TP, float SL) {
-		// TODO - implement FacadeData.setCFDlimits
-		throw new UnsupportedOperationException();
+		this.cfds.setLimits(TP, SL, id);
 	}
 
 	/**
@@ -82,9 +83,8 @@ public class FacadeData implements IFacadeData {
 	 * @param username
 	 * @param valor
 	 */
-	public void addFundos(String username, float valor) {
-		// TODO - implement FacadeData.addFundos
-		throw new UnsupportedOperationException();
+	public void addFundos(String username, float valor) throws SQLException {
+		this.utilizadores.addFundos(username, valor);
 	}
 
 	/**
@@ -92,8 +92,7 @@ public class FacadeData implements IFacadeData {
 	 * @param id
 	 */
 	public Future<ICFD> getCFD(String id) {
-		// TODO - implement FacadeData.getCFD
-		throw new UnsupportedOperationException();
+		return this.cfds.get(id);
 	}
 
 	/**
@@ -101,8 +100,7 @@ public class FacadeData implements IFacadeData {
 	 * @param username
 	 */
 	public Future<Collection<ICFD>> getCFDs(String username) {
-		// TODO - implement FacadeData.getCFDs
-		throw new UnsupportedOperationException();
+		return this.cfds.getCFDs(username);
 	}
 
 	/**
@@ -110,8 +108,7 @@ public class FacadeData implements IFacadeData {
 	 * @param idCFD
 	 */
 	public Future<Float> getTakeProfit(String idCFD) {
-		// TODO - implement FacadeData.getTakeProfit
-		throw new UnsupportedOperationException();
+		return this.cfds.getTakeProfit(idCFD);
 	}
 
 	/**
@@ -119,45 +116,40 @@ public class FacadeData implements IFacadeData {
 	 * @param idCFD
 	 */
 	public Future<Float> getStopLess(String idCFD) {
-		// TODO - implement FacadeData.getStopLess
-		throw new UnsupportedOperationException();
+		return this.cfds.getStopLess(idCFD);
 	}
 
-	public static IFacadeData getInstance() {
-		// TODO - implement FacadeData.getInstance
-		throw new UnsupportedOperationException();
+	public static IFacadeData getInstance() throws SQLException, ClassNotFoundException {
+		if (data == null) data = new FacadeData();
+		return data;
 	}
 
 	/**
 	 * 
 	 * @param idCFD
 	 */
-	public float getValorInvestidoCFD(String idCFD) {
-		// TODO - implement FacadeData.getValorInvestidoCFD
-		throw new UnsupportedOperationException();
+	public Future<Float> getValorInvestidoCFD(String idCFD) {
+		return this.cfds.getValorInvestidoCFD(idCFD);
 	}
 
-	public int getNumeroDeAtivosCFD(String idCFD) {
-		// TODO - implement FacadeData.getNumeroDeAtivosCFD
-		throw new UnsupportedOperationException();
+	public Future<Integer> getNumeroDeAtivosCFD(String idCFD) {
+		return this.cfds.getNumeroDeAtivosCFD(idCFD);
 	}
 
 	/**
 	 * 
 	 * @param username
 	 */
-	public boolean containsUtilizador(String username) {
-		// TODO - implement FacadeData.containsUtilizador
-		throw new UnsupportedOperationException();
+	public boolean containsUtilizador(String username, String userType) throws SQLException {
+		return this.utilizadores.contains(username, userType);
 	}
 
 	/**
 	 * 
-	 * @param id
+	 * @param idCFD
 	 */
-	public boolean containsCFD(String id) {
-		// TODO - implement FacadeData.containsCFD
-		throw new UnsupportedOperationException();
+	public Future<Boolean> containsCFD(String idCFD) {
+		return this.cfds.contains(idCFD);
 	}
 
 }

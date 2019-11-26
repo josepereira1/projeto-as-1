@@ -15,7 +15,7 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException;
+	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid;
 
 	Collection<IAtivo> getAtivos() throws IOException;
 
@@ -47,7 +47,7 @@ public interface IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	void putUtilizador(IAtor utilizador) throws SQLException;
+	void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValid;
 
 	/**
 	 * 
@@ -94,7 +94,7 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	boolean containsUtilizador(String username, String userType) throws SQLException;
+	boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid;
 
 	/**
 	 * 

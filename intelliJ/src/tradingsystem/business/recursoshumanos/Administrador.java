@@ -2,9 +2,12 @@ package tradingsystem.business.recursoshumanos;
 
 public class Administrador extends Utilizador {
 
+	@Override
 	public String toString() {
-		// TODO - implement Administrador.toString
-		throw new UnsupportedOperationException();
+		return "Administrador{" +
+				"username='" + username + '\'' +
+				", password='" + password + '\'' +
+				'}';
 	}
 
 	public Utilizador clone() {

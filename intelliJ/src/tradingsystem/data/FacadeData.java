@@ -11,15 +11,15 @@ import java.util.concurrent.Future;
 
 public class FacadeData implements IFacadeData {
 
-	private UtilizadorDAO utilizadores;
-	private AtivoDAO ativos;
-	private CFDDAO cfds;
+	private IAtorDAO utilizadores;
+	private IAtivoDAO ativos;
+	private ICFDDAO cfds;
 	private static IFacadeData data;
 
 	public FacadeData() throws SQLException, ClassNotFoundException {
-		this.utilizadores = new UtilizadorDAO();
-		this.ativos = new AtivoDAO();
-		this.cfds = new CFDDAO();
+		this.utilizadores = new IAtorDAO();
+		this.ativos = new IAtivoDAO();
+		this.cfds = new ICFDDAO();
 	}
 
 	//TODO copy documentation from inner classes to this class
@@ -28,7 +28,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException {
+	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid {
 		return this.utilizadores.get(username, userType);
 	}
 
@@ -56,7 +56,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	public void putUtilizador(IAtor utilizador) throws SQLException {
+	public void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValid {
 		this.utilizadores.put(utilizador);
 	}
 
@@ -140,7 +140,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public boolean containsUtilizador(String username, String userType) throws SQLException {
+	public boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid {
 		return this.utilizadores.contains(username, userType);
 	}
 

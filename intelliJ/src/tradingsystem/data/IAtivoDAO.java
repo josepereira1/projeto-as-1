@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Random;
 
 
-public class AtivoDAO {
+public class IAtivoDAO {
 
 	/** Token used to access REST API server. */
 	private static final String APIToken = "demo";

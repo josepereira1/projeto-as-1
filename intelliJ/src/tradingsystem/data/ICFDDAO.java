@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-public class CFDDAO {
+public class ICFDDAO {
 
 	private static final String schema = "trading";
 	private static final String username = "root";
@@ -22,7 +22,7 @@ public class CFDDAO {
 	private GenericActiveObject genericActiveObject;
 
 	/** Constructs a Data Access Object to establish connection to database. */
-	public CFDDAO() throws ClassNotFoundException, SQLException {
+	public ICFDDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		this.conn =  DriverManager.getConnection(url);
 		this.genericActiveObject = new GenericActiveObject(); //	starts Active Object Scheduler

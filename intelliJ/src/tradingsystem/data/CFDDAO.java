@@ -148,6 +148,32 @@ public class CFDDAO {
 	}
 
 	/**
+	 * Returns a Collection containing all ICFDs ids associated to the specified user.
+     * @param username id of user.
+     * @return
+     */
+	public Future<Collection<String>> getCFDsIds(String username) {
+
+		FutureTask<Collection<String>> futureTask = new FutureTask<>(() -> {
+
+			Statement statement = conn.createStatement();
+			String sql = "SELECT id FROM CFD WHERE username = " + "'" + username + "'";
+			ResultSet rs = statement.executeQuery(sql);
+
+			Collection<String> result = new ArrayList<>();
+
+			while (rs.next()) {
+				result.add(rs.getString("id"));
+			}
+
+			return result;
+		});
+
+		genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
+
+	/**
 	 * Returns a Collection containing all ICFDs associated to the specified user.
 	 * @param username id of user.
 	 */
@@ -156,7 +182,7 @@ public class CFDDAO {
 		FutureTask<Collection<ICFD>> futureTask = new FutureTask<>(() -> {
 
 			Statement statement = conn.createStatement();
-			String sql = "SELECT * FROM CFD WHERE username = " + "'" + username + "'";
+			String sql = "SELECT id FROM CFD WHERE username = " + "'" + username + "'";
 			ResultSet rs = statement.executeQuery(sql);
 
 			Collection<ICFD> result = new ArrayList<>();

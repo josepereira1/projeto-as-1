@@ -1,6 +1,6 @@
 package tradingsystem.data;
 
-import tradingsystem.business.IAtorTypeNotValidException;
+import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.recursoshumanos.Administrador;
 import tradingsystem.business.recursoshumanos.FactoryAtor;
 import tradingsystem.business.recursoshumanos.IAtor;
@@ -28,14 +28,14 @@ public class AtorDAO {
 	 * 	Inserts an IAtivo to database.
 	 * @param value user
 	 */
-	public void put(IAtor value) throws SQLException, IAtorTypeNotValidException {
+	public void put(IAtor value) throws SQLException, AtorTypeNotValidException {
 
 		Statement statement = conn.createStatement();
 		String sql = "";
 
 		if(value instanceof Trader)sql = queryTrader(value);
 		else if (value instanceof Administrador)sql = queryAdministrador(value);
-		else throw new IAtorTypeNotValidException();
+		else throw new AtorTypeNotValidException();
 
 		statement.executeUpdate(sql);
 	}
@@ -62,13 +62,13 @@ public class AtorDAO {
 	 * @return Return User with specific username
 	 * @throws SQLException SQLException
 	 */
-	public IAtor get(String username, String userType) throws SQLException, IAtorTypeNotValidException {
+	public IAtor get(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		Statement statement = conn.createStatement();
 		IAtor user;
 
 		if(userType.equalsIgnoreCase("Trader")) user = getQueryTrader(statement, username);
 		else if(userType.equalsIgnoreCase("Administrador")) user = getQueryAdmnistrador(statement, username);
-		else throw new IAtorTypeNotValidException(userType);
+		else throw new AtorTypeNotValidException(userType);
 
 		return user;
 	}
@@ -80,7 +80,7 @@ public class AtorDAO {
 	 * @return Return Trader user
 	 * @throws SQLException SQLException
 	 */
-	private IAtor getQueryTrader(Statement statement, String username) throws SQLException, IAtorTypeNotValidException {
+	private IAtor getQueryTrader(Statement statement, String username) throws SQLException, AtorTypeNotValidException {
 		String sql = "SELECT * FROM TRADER WHERE username='" + username + "'";
 
 		ResultSet resultSet = statement.executeQuery(sql);
@@ -104,7 +104,7 @@ public class AtorDAO {
 	 * @return Return Admnistrador user
 	 * @throws SQLException SQLException
 	 */
-	private IAtor getQueryAdmnistrador(Statement statement, String username) throws SQLException, IAtorTypeNotValidException {
+	private IAtor getQueryAdmnistrador(Statement statement, String username) throws SQLException, AtorTypeNotValidException {
 		String sql = "SELECT * FROM ADMINISTRADOR WHERE username='" + username + "'";
 
 		ResultSet resultSet = statement.executeQuery(sql);
@@ -139,13 +139,13 @@ public class AtorDAO {
 	 * Returns true if Utilizador exists in database, otherwise returns false.
 	 * @param username username
 	 */
-	public boolean contains(String username, String userType) throws SQLException, IAtorTypeNotValidException {
+	public boolean contains(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		Statement statement = conn.createStatement();
 		String sql = "";
 
 		if(userType.equalsIgnoreCase("Trader"))sql = "SELECT EXISTS(SELECT username FROM TRADER WHERE username='" + username + "') as contains";
 		else if(userType.equalsIgnoreCase("Administrador")) sql = "SELECT EXISTS(SELECT username FROM ADMINISTRADOR WHERE username='" + username + "') as contains";
-		else throw new IAtorTypeNotValidException(userType);
+		else throw new AtorTypeNotValidException(userType);
 
 		ResultSet rs = statement.executeQuery(sql);
 		if (rs.next()) return rs.getBoolean("contains");

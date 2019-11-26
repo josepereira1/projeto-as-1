@@ -16,17 +16,21 @@ public class TradingSystem {
 		this.ator = null;
 	}
 
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new InitController().run();
+	public void initAutoCloseCFDs(String username) {
+		this.business.initAutoCloseCFDs(username);
 	}
 
 	public static TradingSystem getInstance() {
 		if (tradingSystem == null) tradingSystem = new TradingSystem();
 		return tradingSystem;
+	}
+
+	/**
+	 * Starts
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		new InitController().run();
 	}
 
 }

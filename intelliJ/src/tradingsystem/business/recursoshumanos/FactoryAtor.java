@@ -1,7 +1,7 @@
 package tradingsystem.business.recursoshumanos;
 
 
-import tradingsystem.business.IAtorTypeNotValidException;
+import tradingsystem.business.AtorTypeNotValidException;
 
 public class FactoryAtor {
 
@@ -18,10 +18,10 @@ public class FactoryAtor {
 	 * 
 	 * @param type
 	 */
-	public IAtor createAtor(String type) throws IAtorTypeNotValidException {
+	public IAtor createAtor(String type) throws AtorTypeNotValidException {
 		if(type.equalsIgnoreCase("Trader")) return new Trader();
 		else if(type.equalsIgnoreCase("Administrador")) return new Administrador();
-		else throw new IAtorTypeNotValidException(type);
+		else throw new AtorTypeNotValidException(type);
 	}
 
 	public static FactoryAtor getInstance() {

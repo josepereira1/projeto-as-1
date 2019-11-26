@@ -3,12 +3,12 @@ package tests;
 import tradingsystem.business.recursoshumanos.FactoryAtor;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.data.AtorDAO;
-import tradingsystem.business.IAtorTypeNotValidException;
+import tradingsystem.business.AtorTypeNotValidException;
 
 import java.sql.SQLException;
 
 public class AtorDAOTests {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, IAtorTypeNotValidException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, AtorTypeNotValidException {
 
         IAtor admin = FactoryAtor.getInstance().createAtor("Administrador");
         admin.setUsername("paulo");

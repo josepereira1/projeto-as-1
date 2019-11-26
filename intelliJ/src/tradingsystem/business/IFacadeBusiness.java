@@ -4,6 +4,7 @@ import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface IFacadeBusiness {
@@ -75,4 +76,5 @@ public interface IFacadeBusiness {
 	 */
 	float getBalanco(String idCFD);
 
+    void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException;
 }

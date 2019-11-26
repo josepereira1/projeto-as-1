@@ -3,22 +3,27 @@ package tradingsystem.business;
 import tradingsystem.business.recursoshumanos.FactoryAtor;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.recursoshumanos.IFacadeRecursosHumanos;
+import tradingsystem.business.recursoshumanos.Trader;
+import tradingsystem.business.trading.CFD;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.IFacadeTrading;
-import tradingsystem.business.trading.ITradingAbstractFactory;
 import tradingsystem.data.IFacadeData;
 
+import java.sql.SQLException;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public class FacadeBusiness implements IFacadeBusiness {
+
+	private static final int SEC = 1000;
+	private static final int INTERVAL = 1 * SEC;
+
+	private static IFacadeBusiness business;
 
 	private IFacadeData data;
 	private IFacadeRecursosHumanos recursosHumanos;
 	private IFacadeTrading trading;
-	private static IFacadeBusiness business;
-	private ITradingAbstractFactory tradingAbstractFactory;
-	private FactoryAtor factoryAtor;
 
 	/**
 	 * 
@@ -120,6 +125,36 @@ public class FacadeBusiness implements IFacadeBusiness {
 	public float getBalanco(String idCFD) {
 		// TODO - implement FacadeBusiness.getBalanco
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException {
+
+		String type = username.substring(0, 2); // fst two characters of username to get its type
+
+		if (type.equals("a_")) {
+			if (this.data.containsUtilizador(username, "Administrador")) throw new AtorExistsException(username);
+		}
+		else if (type.equals("t_")) {
+			if (this.data.containsUtilizador(username, "Trader")) throw new AtorExistsException(username);
+		}
+		else throw new AtorTypeNotValidException();
+
+		new Thread(() -> {
+			try {
+				while(true) {
+					Thread.sleep(INTERVAL);
+					Collection<String> cfds = this.data.getCFDsIds(username).get();
+					for (String id : cfds) {
+						encerrarCFD(id);
+					}
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 }

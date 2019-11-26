@@ -4,12 +4,13 @@ public class Trader extends Utilizador {
 
 	private float plafond;
 
+	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Trader={");
-		sb.append("username=").append(username);
-		sb.append(";password=").append(password);
-		sb.append(";plafond=").append(plafond).append("};");
-		return sb.toString();
+		return "Trader{" +
+				"plafond=" + plafond +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				'}';
 	}
 
 	public Utilizador clone() {

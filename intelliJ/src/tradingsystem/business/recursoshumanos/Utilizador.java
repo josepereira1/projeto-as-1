@@ -27,13 +27,12 @@ public class Utilizador implements IAtor {
 	}
 
 	/**
-	 * 
-	 * @param username
-	 * @param password
+	 * Returns true if given credentials matches, otherwise returns false.
+	 * @param username id of Utilizador.
+	 * @param password password of Utilizador.
 	 */
 	public boolean autenticar(String username, String password) {
-		// TODO - implement Utilizador.autenticar
-		throw new UnsupportedOperationException();
+		return this.username.equals(username) && this.password.equals(password);
 	}
 
 	@Override

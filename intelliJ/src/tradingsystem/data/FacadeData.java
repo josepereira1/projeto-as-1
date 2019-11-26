@@ -1,6 +1,6 @@
 package tradingsystem.data;
 
-import tradingsystem.business.IAtorTypeNotValidException;
+import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -29,11 +29,11 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException {
+	public IAtor getUtilizador(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		return this.utilizadores.get(username, userType);
 	}
 
-	public Collection<IAtivo> getAtivos() throws IOException, IAtorTypeNotValidException {
+	public Collection<IAtivo> getAtivos() throws IOException, AtorTypeNotValidException {
 		return this.ativos.values();
 	}
 
@@ -57,7 +57,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	public void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValidException {
+	public void putUtilizador(IAtor utilizador) throws SQLException, AtorTypeNotValidException {
 		this.utilizadores.put(utilizador);
 	}
 
@@ -97,11 +97,21 @@ public class FacadeData implements IFacadeData {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param username
+	 * @return
 	 */
 	public Future<Collection<ICFD>> getCFDs(String username) {
 		return this.cfds.getCFDs(username);
+	}
+
+	/**
+	 *
+	 * @param username
+	 * @return
+	 */
+	public Future<Collection<String>> getCFDsIds(String username) {
+		return this.cfds.getCFDsIds(username);
 	}
 
 	/**
@@ -141,7 +151,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException {
+	public boolean containsUtilizador(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		return this.utilizadores.contains(username, userType);
 	}
 

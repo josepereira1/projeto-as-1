@@ -3,6 +3,7 @@ package tradingsystem.data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import tradingsystem.business.IAtorTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.TradingAbstractFactory;
 
@@ -13,7 +14,7 @@ import java.util.Collection;
 import java.util.Random;
 
 
-public class IAtivoDAO {
+public class AtivoDAO {
 
 	/** Token used to access REST API server. */
 	private static final String APIToken = "demo";
@@ -30,7 +31,7 @@ public class IAtivoDAO {
 	/**
 	 * Returns a Collection containing all IAtivos from REST server.
 	 */
-	public Collection<IAtivo> values() throws IOException {
+	public Collection<IAtivo> values() throws IOException, IAtorTypeNotValidException {
 		Collection<IAtivo> res = new ArrayList<>();
 		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
 		JSONArray arr = RESTGet(url).getJSONArray("data");
@@ -44,7 +45,11 @@ public class IAtivoDAO {
 			float underPercentage = min + new Random().nextFloat() * (max - min);
 			float valorCompra = valorVenda*underPercentage;
 
-			IAtivo ativo = TradingAbstractFactory.getInstance().createAtivo("ACAO");
+			IAtivo ativo = null;
+			// TODO se conseguir na API saber o tipo meter o if() aqui
+			if (true) ativo = TradingAbstractFactory.getInstance().createAtivo("ACAO");
+			else throw new IAtorTypeNotValidException();
+
 			ativo.setId(id);
 			ativo.setDesignacao(designacao);
 			ativo.setValorVenda(valorVenda);

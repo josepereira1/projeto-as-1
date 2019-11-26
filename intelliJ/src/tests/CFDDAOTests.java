@@ -2,7 +2,7 @@ package tests;
 
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
-import tradingsystem.data.ICFDDAO;
+import tradingsystem.data.CFDDAO;
 
 import java.time.LocalDateTime;
 
@@ -22,18 +22,18 @@ public class CFDDAOTests {
         cfd.setValorInicial(100f);
         cfd.setValorInvestido(cfd.getNumeroDeAtivos()*cfd.getValorInicial());
 
-        ICFDDAO ICFDDAO = new ICFDDAO();
-        ICFDDAO.remove("1");
-        System.out.println(ICFDDAO.put(cfd).get());
-        System.out.println(ICFDDAO.getCFDs("josepereira").get());
-        System.out.println(ICFDDAO.get("1").get());
-        System.out.println(ICFDDAO.getLastId().get());
-        ICFDDAO.setLimits(100f, -100f, "1");
-        System.out.println(ICFDDAO.values().get());
-        System.out.println(ICFDDAO.contains("1").get());
-        System.out.println(ICFDDAO.getStopLess("1").get());
-        System.out.println(ICFDDAO.getTakeProfit("1").get());
-        System.out.println(ICFDDAO.getNumeroDeAtivosCFD("1").get());
-        System.out.println(ICFDDAO.getValorInvestidoCFD("1").get());
+        CFDDAO CFDDAO = new CFDDAO();
+        CFDDAO.remove("1");
+        System.out.println(CFDDAO.put(cfd).get());
+        System.out.println(CFDDAO.getCFDs("josepereira").get());
+        System.out.println(CFDDAO.get("1").get());
+        System.out.println(CFDDAO.getLastId().get());
+        CFDDAO.setLimits(100f, -100f, "1");
+        System.out.println(CFDDAO.values().get());
+        System.out.println(CFDDAO.contains("1").get());
+        System.out.println(CFDDAO.getStopLess("1").get());
+        System.out.println(CFDDAO.getTakeProfit("1").get());
+        System.out.println(CFDDAO.getNumeroDeAtivosCFD("1").get());
+        System.out.println(CFDDAO.getValorInvestidoCFD("1").get());
     }
 }

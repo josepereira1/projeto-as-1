@@ -1,5 +1,6 @@
 package tradingsystem.data;
 
+import tradingsystem.business.IAtorTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -11,15 +12,15 @@ import java.util.concurrent.Future;
 
 public class FacadeData implements IFacadeData {
 
-	private IAtorDAO utilizadores;
-	private IAtivoDAO ativos;
-	private ICFDDAO cfds;
+	private AtorDAO utilizadores;
+	private AtivoDAO ativos;
+	private CFDDAO cfds;
 	private static IFacadeData data;
 
-	public FacadeData() throws SQLException, ClassNotFoundException {
-		this.utilizadores = new IAtorDAO();
-		this.ativos = new IAtivoDAO();
-		this.cfds = new ICFDDAO();
+	private FacadeData() throws SQLException, ClassNotFoundException {
+		this.utilizadores = new AtorDAO();
+		this.ativos = new AtivoDAO();
+		this.cfds = new CFDDAO();
 	}
 
 	//TODO copy documentation from inner classes to this class
@@ -28,11 +29,11 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid {
+	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException {
 		return this.utilizadores.get(username, userType);
 	}
 
-	public Collection<IAtivo> getAtivos() throws IOException {
+	public Collection<IAtivo> getAtivos() throws IOException, IAtorTypeNotValidException {
 		return this.ativos.values();
 	}
 
@@ -56,7 +57,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	public void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValid {
+	public void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValidException {
 		this.utilizadores.put(utilizador);
 	}
 
@@ -69,13 +70,13 @@ public class FacadeData implements IFacadeData {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 *  @param id
 	 * @param TP
 	 * @param SL
+	 * @return
 	 */
-	public void setCFDlimits(String id, float TP, float SL) {
-		this.cfds.setLimits(TP, SL, id);
+	public Future<Void> setCFDlimits(String id, float TP, float SL) {
+		return this.cfds.setLimits(TP, SL, id);
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid {
+	public boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException {
 		return this.utilizadores.contains(username, userType);
 	}
 

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-public class ICFDDAO {
+public class CFDDAO {
 
 	private static final String schema = "trading";
 	private static final String username = "root";
@@ -22,7 +22,7 @@ public class ICFDDAO {
 	private GenericActiveObject genericActiveObject;
 
 	/** Constructs a Data Access Object to establish connection to database. */
-	public ICFDDAO() throws ClassNotFoundException, SQLException {
+	public CFDDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		this.conn =  DriverManager.getConnection(url);
 		this.genericActiveObject = new GenericActiveObject(); //	starts Active Object Scheduler
@@ -53,8 +53,8 @@ public class ICFDDAO {
 	 * Inserts an ICFD into database.
 	 * @param value ICFD.
 	 */
-	public Future<ICFD> put(ICFD value) {
-	    FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
+	public Future<Void> put(ICFD value) {
+	    FutureTask<Void> futureTask = new FutureTask<>(() -> {
 
 	    	Statement statement = conn.createStatement();
 
@@ -73,7 +73,7 @@ public class ICFDDAO {
 
 			statement.executeUpdate(sql);
 
-			return value;
+			return null;
 		});
 
 	    genericActiveObject.submit(futureTask);
@@ -153,7 +153,7 @@ public class ICFDDAO {
 	 */
 	public Future<Collection<ICFD>> getCFDs(String username) {
 
-		FutureTask<Collection<ICFD>> futureTask = new FutureTask<Collection<ICFD>>(() -> {
+		FutureTask<Collection<ICFD>> futureTask = new FutureTask<>(() -> {
 
 			Statement statement = conn.createStatement();
 			String sql = "SELECT * FROM CFD WHERE username = " + "'" + username + "'";
@@ -179,20 +179,20 @@ public class ICFDDAO {
 	 * @param SL stop Less of ICFD.
 	 * @param id key of ICFD.
 	 */
-	public void setLimits(float TP, float SL, String id) {
-		Runnable task = () -> {
-			try {
-				Statement statement = conn.createStatement();
-				String sql = "SET SQL_SAFE_UPDATES = 0";
-				statement.executeQuery(sql);
+	public Future<Void> setLimits(float TP, float SL, String id) {
+		FutureTask<Void> futuretask = new FutureTask<>(() -> {
+			Statement statement = conn.createStatement();
+			String sql = "SET SQL_SAFE_UPDATES = 0";
+			statement.executeQuery(sql);
 
-				sql = "UPDATE cfd SET stopLess=" + SL + ", takeprofit=" + TP + " WHERE id =" + id;
-				statement.executeUpdate(sql);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		};
-		this.genericActiveObject.submit(task);
+			sql = "UPDATE cfd SET stopLess=" + SL + ", takeprofit=" + TP + " WHERE id =" + id;
+			statement.executeUpdate(sql);
+
+			return null;
+		});
+
+		this.genericActiveObject.submit(futuretask);
+		return futuretask;
 	}
 
 	/**

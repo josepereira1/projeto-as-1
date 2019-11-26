@@ -1,15 +1,16 @@
 package tests;
 
 
-import tradingsystem.data.IAtivoDAO;
+import tradingsystem.data.AtivoDAO;
+import tradingsystem.business.IAtorTypeNotValidException;
 
 import java.io.IOException;
 
 public class AtivoDAOTest {
 
-    public static void main(String[] args) throws IOException {
-        IAtivoDAO IAtivoDAO = new IAtivoDAO();
-        System.out.println(IAtivoDAO.values());
-        System.out.println(IAtivoDAO.getValorAtual("SNAP"));
+    public static void main(String[] args) throws IOException, IAtorTypeNotValidException {
+        AtivoDAO AtivoDAO = new AtivoDAO();
+        System.out.println(AtivoDAO.values());
+        System.out.println(AtivoDAO.getValorAtual("SNAP"));
     }
 }

@@ -1,5 +1,6 @@
 package tradingsystem.data;
 
+import tradingsystem.business.IAtorTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -15,9 +16,9 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid;
+	public IAtor getUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException;
 
-	Collection<IAtivo> getAtivos() throws IOException;
+	Collection<IAtivo> getAtivos() throws IOException, IAtorTypeNotValidException;
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public interface IFacadeData {
 	 * 
 	 * @param utilizador
 	 */
-	void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValid;
+	void putUtilizador(IAtor utilizador) throws SQLException, IAtorTypeNotValidException;
 
 	/**
 	 * 
@@ -56,12 +57,12 @@ public interface IFacadeData {
 	Future<Collection<ICFD>> getCFDs(String username);
 
 	/**
-	 * 
-	 * @param id
+	 *  @param id
 	 * @param TP
 	 * @param SL
+	 * @return
 	 */
-	void setCFDlimits(String id, float TP, float SL);
+	Future<Void> setCFDlimits(String id, float TP, float SL);
 
 	/**
 	 * 
@@ -94,7 +95,7 @@ public interface IFacadeData {
 	 * 
 	 * @param username
 	 */
-	boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValid;
+	boolean containsUtilizador(String username, String userType) throws SQLException, IAtorTypeNotValidException;
 
 	/**
 	 * 

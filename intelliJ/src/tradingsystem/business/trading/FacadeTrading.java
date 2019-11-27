@@ -74,7 +74,6 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param username username
 	 */
 	public Collection<ICFD> getPortfolio(String username) throws ExecutionException, InterruptedException {
-		//TODO O GET CFDS ESTÁ A FUNCIONAR MAL, POR CONSEGUINTE ESTE MÉTODO
 		return data.getCFDs(username).get();
 	}
 

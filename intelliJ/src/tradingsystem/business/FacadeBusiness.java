@@ -57,7 +57,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException {
+	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException {
 		trading.abrirCFD(idAtivo, username, tipo,stopLess,takeProfit, numeroDeAtivos);
 	}
 
@@ -65,7 +65,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * 
 	 * @param id
 	 */
-	public void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException {
+	public void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException, CFDTypeNotValidException {
 		trading.encerrarCFD(id);
 		recursosHumanos.addFundos(username, trading.getBalanco(id));	//	update plafond of user
 	}
@@ -102,11 +102,16 @@ public class FacadeBusiness implements IFacadeBusiness {
 	}
 
 	/**
-	 * 
-	 * @param id
+	 * Returns the current value of stock.
+	 * @param id id of stock
+	 * @param typeOfCFD type of CFD (0 -> Sell, 1 -> Buy)
+	 * @return Returns the current value of stock
+	 * @throws IOException IOException
+	 * @throws StockIdNotExistsException error on stock id
+	 * @throws CFDTypeNotValidException error on type of CFD
 	 */
-	public float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException {
-		return trading.getValorAtualAtivo(id);
+	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException {
+		return trading.getValorAtualAtivo(id, typeOfCFD);
 	}
 
 	public static IFacadeBusiness getInstance() throws SQLException, ClassNotFoundException {
@@ -118,7 +123,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * 
 	 * @param idCFD
 	 */
-	public float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException {
+	public float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException {
 		return trading.getBalanco(idCFD);
 	}
 

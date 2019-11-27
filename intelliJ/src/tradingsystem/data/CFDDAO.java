@@ -386,4 +386,16 @@ public class CFDDAO {
 		this.genericActiveObject.submit(futureTask);
 		return futureTask;
 	}
+
+	public Future<Integer> getTipoCFD(String id){
+		FutureTask<Integer> futureTask = new FutureTask<>(() ->{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT tipo FROM CFD WHERE id=" + id);
+			if(resultSet.next()){
+				return resultSet.getInt("tipo");
+			}else throw new CFDNotExistsException(id);
+		});
+		genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
 }

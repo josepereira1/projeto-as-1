@@ -20,7 +20,7 @@ public interface IFacadeTrading {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException;
+	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException;
 
 	/**
 	 * 
@@ -46,13 +46,13 @@ public interface IFacadeTrading {
 	 * 
 	 * @param id
 	 */
-	float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException;
+	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException;
 
 	/**
 	 * 
 	 * @param idCFD
 	 */
-	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException;
+	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException;
 
 	void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
 

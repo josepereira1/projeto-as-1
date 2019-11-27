@@ -35,13 +35,13 @@ public interface IFacadeBusiness {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException;
+	void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException;
 
 	/**
 	 * 
 	 * @param id
 	 */
-	void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException;
+	void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException, CFDTypeNotValidException;
 
 	Collection<IAtivo> getAtivos() throws AtorTypeNotValidException, IOException, StockTypeNotValidException;
 
@@ -70,13 +70,13 @@ public interface IFacadeBusiness {
 	 * 
 	 * @param id
 	 */
-	float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException;
+	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException;
 
 	/**
 	 * 
 	 * @param idCFD
 	 */
-	float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException;
+	float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException;
 
     void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
 

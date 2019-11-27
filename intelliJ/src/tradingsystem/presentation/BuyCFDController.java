@@ -17,7 +17,7 @@ public class BuyCFDController implements Runnable {
 	}
 
 	public void run() {
-		buyCFDView.organization();
+		/*buyCFDView.organization();
         try {
             buyCFDView.displayCurrentPrice(model.business.getValorAtualAtivo(buyCFDView.organizationId));
 
@@ -35,7 +35,7 @@ public class BuyCFDController implements Runnable {
            buyCFDView.stockIdNotExists();
            this.run();
             // e.printStackTrace();
-        }
+        }*/
 
     }
 

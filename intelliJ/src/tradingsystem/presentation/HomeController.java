@@ -44,7 +44,7 @@ public class HomeController implements Runnable {
 					break;
 				case "\\b":
 				case "\\buy":
-					new BuyCFDController();
+					//new BuyCFDController();
 					break;
 				case "\\s":
 				case "\\sell":

@@ -1,6 +1,7 @@
 package tests;
 
 
+import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.data.AtivoDAO;
 import tradingsystem.business.AtorTypeNotValidException;
@@ -13,7 +14,13 @@ public class AtivoDAOTest {
         AtivoDAO AtivoDAO = new AtivoDAO();
         /*System.out.println(AtivoDAO.values());
         System.out.println(AtivoDAO.getValorAtual("SNAP"));*/
-        System.out.println(AtivoDAO.values());
-        System.out.println(AtivoDAO.contains("CONA"));
+        //System.out.println(AtivoDAO.values());
+        //System.out.println(AtivoDAO.contains("CONA"));
+
+        try {
+            System.out.println(AtivoDAO.getValorAtual("SNAP", 1));
+        } catch (CFDTypeNotValidException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -183,4 +183,8 @@ public class FacadeData implements IFacadeData {
 		return cfds.getIdAtivoDoCFD(idCFD);
 	}
 
+	public Future<Integer> getTipoCFD(String id){
+		return cfds.getTipoCFD(id);
+	}
+
 }

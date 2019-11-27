@@ -1,6 +1,7 @@
 package tests;
 
 import tradingsystem.business.CFDNotExistsException;
+import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.trading.FacadeTrading;
 import tradingsystem.business.trading.IFacadeTrading;
@@ -62,6 +63,8 @@ public class FacadeTradingTest {
         try {
             System.out.println(facadeTrading.getBalanco("99999"));
         } catch (CFDNotExistsException e) {
+            e.printStackTrace();
+        } catch (CFDTypeNotValidException e) {
             e.printStackTrace();
         }
     }

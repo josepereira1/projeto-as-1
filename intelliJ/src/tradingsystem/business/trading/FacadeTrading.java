@@ -40,7 +40,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param takeProfit take profit value
 	 * @param numeroDeAtivos number of stock
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException {
+	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException {
 		if(!data.containsAtivo(idAtivo)) throw new StockIdNotExistsException(idAtivo);	//	verify if stock id exists
 
 		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
@@ -53,7 +53,7 @@ public class FacadeTrading implements IFacadeTrading {
 		cfd.setTakeProfit(takeProfit);
 		cfd.setDataAbertura(LocalDateTime.now());
 		cfd.setNumeroDeAtivos(numeroDeAtivos);
-		float currentValueStock = data.getValorAtualAtivo(idAtivo);
+		float currentValueStock = data.getValorAtualAtivo(idAtivo, tipo);
 		cfd.setValorInicial(currentValueStock);
 		cfd.setValorInvestido(currentValueStock*numeroDeAtivos);
 
@@ -104,19 +104,19 @@ public class FacadeTrading implements IFacadeTrading {
 	 *  Returns the current value of stock
 	 * @param id id of stock
 	 */
-	public float getValorAtualAtivo(String id) throws IOException, StockIdNotExistsException {
+	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException {
 		if(!data.containsAtivo(id)) throw new StockIdNotExistsException(id);	//	verify if stock id exists
-		return data.getValorAtualAtivo(id);
+		return data.getValorAtualAtivo(id, typeOfCFD);
 	}
 
 	/**
 	 * Returns the profit of CFD.
 	 * @param idCFD id of CFD
 	 */
-	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException {
+	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException {
 		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
 
-		return CFD.getBalanco(data.getValorAtualAtivo(data.getIdAtivoDoCFD(idCFD).get()), data.getNumeroDeAtivosCFD(idCFD).get(),data.getValorInvestidoCFD(idCFD).get());
+		return CFD.getBalanco(data.getValorAtualAtivo(data.getIdAtivoDoCFD(idCFD).get(), data.getTipoCFD(idCFD).get()), data.getNumeroDeAtivosCFD(idCFD).get(),data.getValorInvestidoCFD(idCFD).get());
 	}
 
 	/**

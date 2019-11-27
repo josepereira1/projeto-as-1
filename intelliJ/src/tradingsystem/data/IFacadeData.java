@@ -120,6 +120,8 @@ public interface IFacadeData {
 
 	Future<Void> updateEndDateCFD(String id, LocalDateTime endDate);
 
-	public Future<String> getIdAtivoDoCFD(String idCFD);
+	Future<String> getIdAtivoDoCFD(String idCFD);
+
+	public Future<Integer> getTipoCFD(String id);
 
 }

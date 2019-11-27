@@ -1,5 +1,7 @@
 package tradingsystem.presentation;
 
+import tradingsystem.business.InvalidInputException;
+
 import java.util.Scanner;
 
 public class SetLimitsCFDView {
@@ -13,22 +15,20 @@ public class SetLimitsCFDView {
 		stopLess = -1;
 	}
 
-	public void setLimit() {
+	public void setLimit() throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("[Set limits] active ID:");
 		idCFD = scanner.nextLine();
 		System.out.println("[Set limits] take profit value ($) (fill with <<-1>> if not usable):");
-		if(scanner.hasNextInt()) {	//	only numbers
-			takeProfit = scanner.nextFloat();
-		}
+		if(scanner.hasNextInt() == false) throw new InvalidInputException();
+		takeProfit = scanner.nextFloat();
 		System.out.println("[Set limits] stop less value ($) (fill with <<-1>> if not usable):");
-		if(scanner.hasNextInt()) {	//	only numbers
-			stopLess = scanner.nextFloat();
-		}
+		if(scanner.hasNextInt() == false) throw new InvalidInputException();
+		stopLess = scanner.nextFloat();
 	}
 
-	public void CFDIdNotExists(){
-		System.out.println("CFD id not exists!");
+	public void CFDIdNotExists(String id){
+		System.out.println("CFD with "+ id + "id not exists! Try Again");
 	}
 
 	public void sucess(){
@@ -37,6 +37,10 @@ public class SetLimitsCFDView {
 
 	public void error(){
 		System.out.println("Internal error, try later!");
+	}
+
+	public void inputError(){
+		System.out.println("Invalid values, please type numbers!");
 	}
 
 }

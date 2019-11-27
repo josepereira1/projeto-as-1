@@ -2,6 +2,7 @@ package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
 import tradingsystem.business.CFDNotExistsException;
+import tradingsystem.business.InvalidInputException;
 
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
@@ -17,9 +18,9 @@ public class SetLimitsCFDController implements Runnable {
 	}
 
 	public void run() {
-		setLimitsCFDView.setLimit();
 		try {
-			model.business.setCFDlimits(setLimitsCFDView.idCFD,setLimitsCFDView.takeProfit, setLimitsCFDView.stopLess);
+			setLimitsCFDView.setLimit();
+			model.business.setCFDlimits(setLimitsCFDView.idCFD, setLimitsCFDView.takeProfit, setLimitsCFDView.stopLess);
 			setLimitsCFDView.sucess();
 			new HomeController().run();
 		} catch (InterruptedException e) {
@@ -30,12 +31,16 @@ public class SetLimitsCFDController implements Runnable {
 			System.exit(1);
 		} catch (CFDNotExistsException e) {
 			setLimitsCFDView.CFDIdNotExists();
-			this.run();	//	restart method
+			this.run();    //	restart method
 		} catch (SQLException e) {
 			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			//e.printStackTrace();
 			setLimitsCFDView.error();
+		} catch (InvalidInputException e) {
+			//e.printStackTrace();
+			setLimitsCFDView.inputError();
+			this.run();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package tradingsystem.data;
 
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
@@ -68,8 +69,8 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param id
 	 */
-	public float getValorAtualAtivo(String id) throws IOException {
-		return this.ativos.getValorAtual(id);
+	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
+		return this.ativos.getValorAtual(id, typeOfCFD);
 	}
 
 	/**

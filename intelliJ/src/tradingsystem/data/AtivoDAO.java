@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.TradingAbstractFactory;
@@ -64,12 +65,21 @@ public class AtivoDAO {
 	/**
 	 * Returns the current price of specified stock.
 	 * @param id id of IAtivo.
+	 * @param typeOfCFD type of CFD of CFD (Buy or Sell)
 	 */
-	public float getValorAtual(String id) throws IOException {
+	public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
 		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
 		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
-		return ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
+
+		float res = ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
+
+		if(typeOfCFD == 1){	//	BUY
+			float min=0.97f, max=0.99f;
+			float underPercentage = min + new Random().nextFloat() * (max - min);
+			return res*underPercentage;
+		}else if(typeOfCFD == 0)return res;	//	SELL
+		else throw new CFDTypeNotValidException(String.valueOf(typeOfCFD));
 	}
 
 	public boolean contains(String id) throws IOException {

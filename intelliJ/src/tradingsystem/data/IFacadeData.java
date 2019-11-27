@@ -1,6 +1,7 @@
 package tradingsystem.data;
 
 import tradingsystem.business.AtorTypeNotValidException;
+import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
@@ -26,7 +27,7 @@ public interface IFacadeData {
 	 * 
 	 * @param id
 	 */
-	float getValorAtualAtivo(String id) throws IOException;
+	float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException;
 
 	/**
 	 * 

@@ -1,13 +1,21 @@
 package tradingsystem.presentation;
 
+import java.util.Scanner;
+
 public class HomeView {
 
 	public String option;
-	private static String helpOptions;
 
 	public void executeOption() {
-		// TODO - implement HomeView.executeOption
-		throw new UnsupportedOperationException();
+		Scanner input = new Scanner(System.in);
+		option = input.nextLine();
 	}
 
+	public void errors(){
+		System.out.println("Error with aplication, try it later!");
+	}
+
+	public void displayInitialSugestion(){
+		System.out.println("Type \\? or \\help to see options");
+	}
 }

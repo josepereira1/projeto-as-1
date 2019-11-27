@@ -26,6 +26,8 @@ public class HomeController implements Runnable {
 				model.firstTime = false;
 			}
 
+			homeView.token();
+
 			homeView.executeOption();
 
 			switch (homeView.option) {

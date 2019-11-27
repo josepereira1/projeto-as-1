@@ -39,4 +39,8 @@ public class HomeView {
 	public void displayInitialSugestion() {
 		System.out.println("type \\? or \\help to access help frame.");
 	}
+
+	public void token(){
+		System.out.print(">>");
+	}
 }

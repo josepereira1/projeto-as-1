@@ -22,50 +22,33 @@ public class BuyCFDController implements Runnable {
 	public void run() {
 		buyCFDView.organization();
         try {
-            buyCFDView.displayCurrentPrice(model.business.getValorAtualAtivo(buyCFDView.organizationId, 0),model.business.getValorAtualAtivo(buyCFDView.organizationId, 1));
-			ICFD cfd = model.business.abrirCFD(buyCFDView.organizationId, model.ator.getUsername(), 1, -1, -1 ,buyCFDView.units).get();
-			buyCFDView.displayCurrentProfit(cfd.getBalanco(model.business.getValorAtualAtivo(buyCFDView.organizationId, 1)));	//	display profit
+			buyCFDView.displayCurrentPrice(model.business.getValorAtualAtivo(buyCFDView.organizationId, 0), model.business.getValorAtualAtivo(buyCFDView.organizationId, 1));
+			ICFD cfd = model.business.abrirCFD(buyCFDView.organizationId, model.ator.getUsername(), 1, -1, -1, buyCFDView.units).get();
+			//buyCFDView.displayCurrentProfit(cfd.getBalanco(model.business.getValorAtualAtivo(buyCFDView.organizationId, 1)));    //	display profit	//TODO USAR ISTO NO ENCERRAR!!!
 
 			new HomeController().run();
 
-        } catch (IOException e) {
-            buyCFDView.error();
-            try {
-                new HomeController();
-            } catch (SQLException ex) {
-                //ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                //ex.printStackTrace();
-            }
-            //e.printStackTrace();
-        } catch (StockIdNotExistsException e) {
-           buyCFDView.stockIdNotExists();
-           this.run();
-            //e.printStackTrace();
-        } catch (CFDTypeNotValidException e) {
-			buyCFDView.CFDTypeNotExists();
-			try {
-				new HomeController().run();
-			} catch (SQLException ex) {
-				buyCFDView.error();
-				//ex.printStackTrace();
-			} catch (ClassNotFoundException ex) {
-				buyCFDView.error();
-				//ex.printStackTrace();
-			}
-			//e.printStackTrace();
-		} catch (InterruptedException e) {
-			//e.printStackTrace();
-			buyCFDView.error();
-		} catch (ExecutionException e) {
-			//e.printStackTrace();
-			buyCFDView.error();
-		} catch (SQLException e) {
-			buyCFDView.error();
-			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			buyCFDView.error();
-			//e.printStackTrace();
+			System.exit(1);
+		} catch (ExecutionException e) {
+			buyCFDView.error();
+			System.exit(1);
+		} catch (SQLException e) {
+			buyCFDView.error();
+			System.exit(1);
+		} catch (IOException e) {
+			buyCFDView.error();
+			System.exit(1);
+		} catch (InterruptedException e) {
+			buyCFDView.error();
+			System.exit(1);
+		} catch (CFDTypeNotValidException e) {
+			buyCFDView.CFDTypeNotExists();
+			System.exit(1);
+		} catch (StockIdNotExistsException e) {
+			buyCFDView.stockIdNotExists();
+			this.run();
 		}
 	}
 

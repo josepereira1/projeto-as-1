@@ -31,7 +31,7 @@ public class FacadeTrading implements IFacadeTrading {
 	}
 
 	/**
-	 * Add new CFD.
+	 * Opens/add a new CFD.
 	 * @param idAtivo id of stock associated to this CFD
 	 * @param username username of owner
 	 * @param tipo type of CFD (Buy or Sell)
@@ -60,7 +60,7 @@ public class FacadeTrading implements IFacadeTrading {
 	}
 
 	/**
-	 * End CFD.
+	 * Close a CFD.
 	 * @param id id CFD
 	 * @return Returns profit of CFD
 	 */
@@ -79,10 +79,10 @@ public class FacadeTrading implements IFacadeTrading {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 * @param TP
-	 * @param SL
+	 * Set take profit and/or stop less limits.
+	 * @param id id of CFD
+	 * @param TP value of take profit
+	 * @param SL value of stop less
 	 */
 	public void setCFDlimits(String id, float TP, float SL) throws CFDNotExistsException, ExecutionException, InterruptedException {
 		if(!data.containsCFD(id).get()) throw new CFDNotExistsException(id);	//	verify if stock id exists
@@ -90,6 +90,11 @@ public class FacadeTrading implements IFacadeTrading {
 		data.setCFDlimits(id,TP,SL).get();	//	although the return being void, we want an active wait
 	}
 
+	/**
+	 * Returns a single instance of this class. If not exists, create otherwise return this instance.
+	 * @throws SQLException SQLException
+	 * @throws ClassNotFoundException ClassNotFoundException
+	 */
 	public static IFacadeTrading getInstance() throws SQLException, ClassNotFoundException {
 		if(trading == null) trading = new FacadeTrading();
 		return trading;

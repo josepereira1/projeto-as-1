@@ -77,8 +77,9 @@ public class CFD implements ICFD {
 	 * @param valorAtualAtivo current value
 	 * @return Calculate profit of CFD with instance variables
 	 */
-	public float getBalanco(float valorAtualAtivo){
-		return valorInvestido-(valorAtualAtivo*numeroDeAtivos);
+	public float getBalanco(float valorAtualAtivo) {
+		if (tipo == 0) return valorInvestido-(valorAtualAtivo*numeroDeAtivos); // 0 - SELL
+		else return (valorAtualAtivo*numeroDeAtivos)-valorInvestido; // 1 - BUY
 	}
 
 	@Override

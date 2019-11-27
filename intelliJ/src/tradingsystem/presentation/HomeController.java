@@ -46,13 +46,7 @@ public class HomeController implements Runnable {
 					break;
 				case "\\b":
 				case "\\buy":
-					try {
-						new BuyCFDController().run();
-					} catch (ClassNotFoundException e) {
-						//e.printStackTrace();
-						homeView.informConnIssue();
-						this.run();
-					}
+					new BuyCFDController().run();
 					break;
 				case "\\s":
 				case "\\sell":
@@ -82,6 +76,9 @@ public class HomeController implements Runnable {
 		} catch (AtorNotExistsException e) {
 			//e.printStackTrace();
 			homeView.informUsernameNotExists();
+			System.exit(1);
+		} catch (ClassNotFoundException e) {
+			//e.printStackTrace();
 			System.exit(1);
 		}
 	}

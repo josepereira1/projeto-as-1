@@ -7,7 +7,7 @@ public class SellCFDController implements Runnable {
 
 	public void run() {
 		sellCFDView = new SellCFDView();
-		model = 
+		//model =
 	}
 
 }

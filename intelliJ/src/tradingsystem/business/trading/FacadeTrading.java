@@ -53,8 +53,9 @@ public class FacadeTrading implements IFacadeTrading {
 		cfd.setStopLess(stopLess);
 		cfd.setTakeProfit(takeProfit);
 		cfd.setDataAbertura(LocalDateTime.now());
+		cfd.setDataEncerramento(null);
 		cfd.setNumeroDeAtivos(numeroDeAtivos);
-		float currentValueStock = data.getValorAtualAtivo(idAtivo, tipo);
+		float currentValueStock = data.getValorAtualAtivo(idAtivo, tipo); //TODO
 		cfd.setValorInicial(currentValueStock);
 		cfd.setValorInvestido(currentValueStock*numeroDeAtivos);
 
@@ -145,11 +146,7 @@ public class FacadeTrading implements IFacadeTrading {
 					Thread.sleep(INTERVAL);
 					Collection<String> cfds = this.data.getCFDsIds(username).get();
 					for (String id : cfds) {
-						try {
-							encerrarCFD(id);
-						} catch (CFDNotExistsException e) {
-							e.printStackTrace();
-						}
+
 					}
 				}
 			} catch (InterruptedException e) {

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
 
 
 public class AtivoDAO {
@@ -43,9 +42,7 @@ public class AtivoDAO {
 			String id = o.getString("symbol");
 			String designacao = o.getString("name");
 			float valorCompra = o.getFloat("price");
-			float min=0.97f, max=0.99f;
-			float underPercentage = min + new Random().nextFloat() * (max - min);
-			float valorVenda = valorCompra*underPercentage;
+			float valorVenda = valorCompra*0.975f;
 
 			IAtivo ativo = null;
 			// TODO se conseguir na API saber o tipo meter o if() aqui
@@ -75,10 +72,9 @@ public class AtivoDAO {
 		float res = ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 
 		if(typeOfCFD == 0){	//	SELL
-			float min=0.97f, max=0.99f;
-			float underPercentage = min + new Random().nextFloat() * (max - min);
-			return res*underPercentage;
-		}else if(typeOfCFD == 1)return res;	//	BUY
+			return res*0.975f;
+		}
+		else if(typeOfCFD == 1) return res;	//	BUY
 		else throw new CFDTypeNotValidException(String.valueOf(typeOfCFD));
 	}
 

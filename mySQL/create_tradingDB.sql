@@ -18,7 +18,7 @@ USE `trading` ;
 -- Table `trading`.`CFD`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `trading`.`CFD` (
-  `id` VARCHAR(45) NOT NULL,
+  `id` INT NOT NULL,
   `idAtivo` VARCHAR(45) NOT NULL,
   `tipo` INT NOT NULL,
   `username` VARCHAR(45) NOT NULL,

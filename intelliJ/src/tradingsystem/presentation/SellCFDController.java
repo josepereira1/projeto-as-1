@@ -6,8 +6,8 @@ public class SellCFDController implements Runnable {
 	private tradingsystem.TradingSystem model;
 
 	public void run() {
-		// TODO - implement SellCFDController.run
-		throw new UnsupportedOperationException();
+		sellCFDView = new SellCFDView();
+		model = 
 	}
 
 }

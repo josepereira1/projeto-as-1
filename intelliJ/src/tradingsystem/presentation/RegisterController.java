@@ -53,6 +53,7 @@ public class RegisterController {
 			this.run();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 

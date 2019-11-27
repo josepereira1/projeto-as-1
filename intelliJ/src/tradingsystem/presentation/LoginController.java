@@ -44,6 +44,7 @@ public class LoginController implements Runnable {
 			this.run();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 

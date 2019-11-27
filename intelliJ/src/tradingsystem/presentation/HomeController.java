@@ -61,13 +61,20 @@ public class HomeController implements Runnable {
 			}
 
 		} catch (AtorExistsException e) {
+			// TODO remover este Exception do método
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			homeView.informConnIssue();
+			System.exit(1);
 		} catch (AtorTypeNotValidException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			homeView.informInvalidType();
+			System.exit(1);
 		} catch (AtorNotExistsException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			homeView.informUsernameNotExists();
+			System.exit(1);
 		}
 	}
 

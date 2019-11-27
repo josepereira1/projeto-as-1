@@ -29,4 +29,6 @@ public interface IFacadeRecursosHumanos {
 	 * @param valor
 	 */
 	void addFundos(String username, float valor) throws SQLException, AtorTypeNotValidException, AtorNotExistsException;
+
+	float getPlafond(String username) throws AtorNotExistsException, SQLException;
 }

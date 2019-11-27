@@ -1,6 +1,7 @@
 package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
+import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
 
@@ -56,6 +57,9 @@ public class ConsultPortfolioController implements Runnable {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (AtorNotExistsException e) {
+			//e.printStackTrace();	//	falta colocar uma mensagem de erro
+			System.exit(1);
 		}
 	}
 }

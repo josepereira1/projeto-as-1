@@ -36,7 +36,7 @@ public interface IFacadeBusiness {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException;
+	Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException, NoFundsToCFDException, SQLException, AtorNotExistsException;
 
 	/**
 	 * 
@@ -80,5 +80,7 @@ public interface IFacadeBusiness {
 	float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException;
 
     void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
+
+	float getPlafond(String username) throws AtorNotExistsException, SQLException;
 
 }

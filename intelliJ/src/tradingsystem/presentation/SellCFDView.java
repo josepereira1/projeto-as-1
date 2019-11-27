@@ -47,4 +47,8 @@ public class SellCFDView {
 	public void inputError(){
 		System.out.println("Invalid values, please type numbers!");
 	}
+
+	public void noFunds(){
+		System.out.println("No funds to this CFD!");
+	}
 }

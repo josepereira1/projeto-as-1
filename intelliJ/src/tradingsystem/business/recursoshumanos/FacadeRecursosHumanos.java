@@ -106,4 +106,8 @@ public class FacadeRecursosHumanos implements IFacadeRecursosHumanos {
 		return recursosHumanos;
 	}
 
+	public float getPlafond(String username) throws AtorNotExistsException, SQLException {
+		return data.getPlafond(username);
+	}
+
 }

@@ -41,25 +41,33 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param takeProfit take profit value
 	 * @param numeroDeAtivos number of stock
 	 */
-	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException {
+	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException, AtorNotExistsException, SQLException, NoFundsToCFDException {
 		if(!data.containsAtivo(idAtivo)) throw new StockIdNotExistsException(idAtivo);	//	verify if stock id exists
 
 		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
 
-		cfd.setId(data.getNextId().get());
-		cfd.setIdAtivo(idAtivo);
-		cfd.setUsername(username);
-		cfd.setTipo(tipo);
-		cfd.setStopLess(stopLess);
-		cfd.setTakeProfit(takeProfit);
-		cfd.setDataAbertura(LocalDateTime.now());
-		cfd.setDataEncerramento(null);
-		cfd.setNumeroDeAtivos(numeroDeAtivos);
-		float currentValueStock = data.getValorAtualAtivo(idAtivo, tipo); //TODO
-		cfd.setValorInicial(currentValueStock);
-		cfd.setValorInvestido(currentValueStock*numeroDeAtivos);
+		float plafond = data.getPlafond(username);
+		float valorAtualDoAtivo = data.getValorAtualAtivo(idAtivo,tipo);
+		float valorInvestido = valorAtualDoAtivo * numeroDeAtivos;
 
-		return data.putCFD(cfd);
+		if(plafond >= valorInvestido) {
+
+			data.addFundos(username, -valorInvestido);	//	tirar o dinheiro ao utilizador
+
+			cfd.setId(data.getNextId().get());
+			cfd.setIdAtivo(idAtivo);
+			cfd.setUsername(username);
+			cfd.setTipo(tipo);
+			cfd.setStopLess(stopLess);
+			cfd.setTakeProfit(takeProfit);
+			cfd.setDataAbertura(LocalDateTime.now());
+			cfd.setDataEncerramento(null);
+			cfd.setNumeroDeAtivos(numeroDeAtivos);
+			cfd.setValorInicial(valorAtualDoAtivo);
+			cfd.setValorInvestido(valorInvestido);
+
+			return data.putCFD(cfd);
+		}else throw new NoFundsToCFDException(String.valueOf(plafond));
 	}
 
 	/**

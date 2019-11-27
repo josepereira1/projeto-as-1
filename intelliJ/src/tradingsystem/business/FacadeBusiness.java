@@ -58,7 +58,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException {
+	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException, NoFundsToCFDException, SQLException, AtorNotExistsException {
 		return trading.abrirCFD(idAtivo, username, tipo,stopLess,takeProfit, numeroDeAtivos);
 	}
 
@@ -131,6 +131,11 @@ public class FacadeBusiness implements IFacadeBusiness {
 	@Override
 	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException, AtorExistsException {
 		trading.initAutoCloseCFDs(username);
+	}
+
+	@Override
+	public float getPlafond(String username) throws AtorNotExistsException, SQLException {
+		return recursosHumanos.getPlafond(username);
 	}
 
 }

@@ -1,9 +1,7 @@
 package tests;
 
 import tradingsystem.TradingSystem;
-import tradingsystem.business.CFDNotExistsException;
-import tradingsystem.business.CFDTypeNotValidException;
-import tradingsystem.business.StockIdNotExistsException;
+import tradingsystem.business.*;
 import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
@@ -13,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PortfolioTeste {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDNotExistsException, CFDTypeNotValidException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDNotExistsException, CFDTypeNotValidException, NoFundsToCFDException, AtorNotExistsException {
 
         TradingSystem model = TradingSystem.getInstance();
 

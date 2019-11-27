@@ -18,7 +18,7 @@ public class BuyCFDView {
 
 	public void displayCurrentPrice(float sellPrice, float buyPrice) throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("[Buy/long active] Current price ($): " + sellPrice + " (BUY) / " + buyPrice + "(SELL)");
+		System.out.println("[Buy/long active] Current price ($): " + sellPrice + " (SELL) / " + buyPrice + "(BUY)");
 		System.out.println("[Buy/long active] Units\n>>");
 		if(scanner.hasNextInt() == false) throw new InvalidInputException();
 		units = scanner.nextInt();
@@ -46,6 +46,10 @@ public class BuyCFDView {
 
 	public void inputError(){
 		System.out.println("Input error!");
+	}
+
+	public void noFunds(){
+		System.out.println("No funds to this CFD!");
 	}
 
 }

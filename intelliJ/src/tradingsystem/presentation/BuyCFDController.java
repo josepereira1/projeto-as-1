@@ -1,9 +1,7 @@
 package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
-import tradingsystem.business.CFDTypeNotValidException;
-import tradingsystem.business.InvalidInputException;
-import tradingsystem.business.StockIdNotExistsException;
+import tradingsystem.business.*;
 import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
@@ -31,30 +29,45 @@ public class BuyCFDController implements Runnable {
 			new HomeController().run();
 
 		} catch (ClassNotFoundException e) {
-			buyCFDView.error();
+			e.printStackTrace();
+        	buyCFDView.error();
 			System.exit(1);
 		} catch (ExecutionException e) {
-			buyCFDView.error();
+			e.printStackTrace();
+        	buyCFDView.error();
 			System.exit(1);
 		} catch (SQLException e) {
-			buyCFDView.error();
+			e.printStackTrace();
+        	buyCFDView.error();
 			System.exit(1);
 		} catch (IOException e) {
-			buyCFDView.error();
+			e.printStackTrace();
+        	buyCFDView.error();
 			System.exit(1);
 		} catch (InterruptedException e) {
-			buyCFDView.error();
+			e.printStackTrace();
+        	buyCFDView.error();
 			System.exit(1);
 		} catch (CFDTypeNotValidException e) {
-			buyCFDView.CFDTypeNotExists();
+			e.printStackTrace();
+        	buyCFDView.CFDTypeNotExists();
 			System.exit(1);
 		} catch (StockIdNotExistsException e) {
-			buyCFDView.stockIdNotExists();
+			e.printStackTrace();
+        	buyCFDView.stockIdNotExists();
 			this.run();
 		} catch (InvalidInputException e) {
 			//e.printStackTrace();
 			buyCFDView.inputError();
 			this.run();
+		} catch (NoFundsToCFDException e) {
+			//e.printStackTrace();
+			buyCFDView.noFunds();
+			this.run();
+		} catch (AtorNotExistsException e) {
+			//e.printStackTrace();
+			buyCFDView.error();
+			System.exit(1);
 		}
 	}
 

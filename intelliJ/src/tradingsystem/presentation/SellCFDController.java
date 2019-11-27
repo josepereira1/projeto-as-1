@@ -1,9 +1,7 @@
 package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
-import tradingsystem.business.CFDTypeNotValidException;
-import tradingsystem.business.InvalidInputException;
-import tradingsystem.business.StockIdNotExistsException;
+import tradingsystem.business.*;
 import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
@@ -57,6 +55,14 @@ public class SellCFDController implements Runnable {
 			//e.printStackTrace();
 			sellCFDView.inputError();
 			this.run();
+		} catch (NoFundsToCFDException e) {
+			//e.printStackTrace();
+			sellCFDView.noFunds();
+			this.run();
+		} catch (AtorNotExistsException e) {
+			//e.printStackTrace();
+			sellCFDView.error();
+			System.exit(1);
 		}
 	}
 

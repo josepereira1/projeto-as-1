@@ -1,11 +1,13 @@
 package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
+import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.trading.ICFD;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
@@ -56,7 +58,7 @@ public class ConsultPortfolioView {
 	}
 
 
-	public void  displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException {
+	public void  displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -145,7 +147,7 @@ public class ConsultPortfolioView {
 		// Print Footer
 		sb.append("Total invested = ").append(String.format("%.2f", totalInvested)).append("\n");
 		sb.append("Total balance = ").append(String.format("%.2f", totalBalance)).append("\n");
-		sb.append("Plafond: 200 + ").append(String.format("%.2f", total)); //TODO implementar o getPlafond(String username);
+		sb.append("Plafond: ").append(model.business.getPlafond(model.ator.getUsername())).append(" + ").append(String.format("%.2f", total)); //TODO implementar o getPlafond(String username);
 		total += 200;
 		sb.append(" = ").append(String.format("%.2f", total)).append("\n\n");
 

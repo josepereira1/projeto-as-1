@@ -1,5 +1,6 @@
 package tradingsystem.data;
 
+import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.recursoshumanos.Administrador;
 import tradingsystem.business.recursoshumanos.FactoryAtor;
@@ -150,6 +151,16 @@ public class AtorDAO {
 		ResultSet rs = statement.executeQuery(sql);
 		if (rs.next()) return rs.getBoolean("contains");
 		return false;
+	}
+
+	public float getPlafond(String username) throws SQLException, AtorNotExistsException {
+		Statement statement = conn.createStatement();
+
+		ResultSet resultSet = statement.executeQuery("SELECT plafond FROM TRADER WHERE username='" + username + "'");
+
+		if(resultSet.next()){
+			return resultSet.getFloat("plafond");
+		}else throw new AtorNotExistsException(username);
 	}
 
 }

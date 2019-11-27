@@ -1,5 +1,6 @@
 package tradingsystem.data;
 
+import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
@@ -122,6 +123,8 @@ public interface IFacadeData {
 
 	Future<String> getIdAtivoDoCFD(String idCFD);
 
-	public Future<Integer> getTipoCFD(String id);
+	Future<Integer> getTipoCFD(String id);
+
+	float getPlafond(String username) throws SQLException, AtorNotExistsException;
 
 }

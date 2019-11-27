@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class FacadeTrading implements IFacadeTrading {
 
@@ -40,7 +41,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param takeProfit take profit value
 	 * @param numeroDeAtivos number of stock
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException {
+	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws ExecutionException, InterruptedException, IOException, StockIdNotExistsException, CFDTypeNotValidException {
 		if(!data.containsAtivo(idAtivo)) throw new StockIdNotExistsException(idAtivo);	//	verify if stock id exists
 
 		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
@@ -57,7 +58,7 @@ public class FacadeTrading implements IFacadeTrading {
 		cfd.setValorInicial(currentValueStock);
 		cfd.setValorInvestido(currentValueStock*numeroDeAtivos);
 
-		data.putCFD(cfd);
+		return data.putCFD(cfd);
 	}
 
 	/**

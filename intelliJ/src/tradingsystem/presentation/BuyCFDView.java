@@ -1,13 +1,11 @@
 package tradingsystem.presentation;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class BuyCFDView {
 
 	public String organizationId;
 	public int units;
-	public float amount;
 
 	public void organization() {
 		Scanner scanner = new Scanner(System.in);
@@ -15,13 +13,15 @@ public class BuyCFDView {
 		organizationId = scanner.nextLine();
 	}
 
-	public void displayCurrentPrice(float currentPrice) {
-		// TODO - TEMOS QUE ADICIONAR O CURRENT PRICE AO VPP
-		throw new UnsupportedOperationException();
+	public void displayCurrentPrice(float sellPrice, float buyPrice) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("[Buy/long active] Current price ($): " + sellPrice + " / " + buyPrice);
+		System.out.println("[Buy/long active] Units\n>>");
+		units = scanner.nextInt();
 	}
 
-	public void getValue() {
-		System.out.println("[Buy/long active]");
+	public void displayCurrentProfit(float profit){
+		System.out.println("[Buy/long active] CFD profit: " + profit +"($)");
 	}
 
 	public void stockIdNotExists(){
@@ -30,6 +30,10 @@ public class BuyCFDView {
 
 	public void error(){
 		System.out.println("Internal error, try later!");
+	}
+
+	public void CFDTypeNotExists(){
+		System.out.println("The CFD type not exists yet! Try later!");
 	}
 
 }

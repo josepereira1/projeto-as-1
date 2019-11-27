@@ -45,8 +45,8 @@ public class FacadeData implements IFacadeData {
 	 * 
 	 * @param cfd
 	 */
-	public void putCFD(ICFD cfd) {
-		this.cfds.put(cfd);
+	public Future<ICFD> putCFD(ICFD cfd) {
+		return 	this.cfds.put(cfd);
 	}
 
 	/**

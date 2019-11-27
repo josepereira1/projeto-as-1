@@ -45,7 +45,7 @@ public interface IFacadeData {
 	 * 
 	 * @param cfd
 	 */
-	void putCFD(ICFD cfd);
+	Future<ICFD> putCFD(ICFD cfd);
 
 	/**
 	 * 

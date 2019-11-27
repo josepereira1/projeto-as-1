@@ -40,19 +40,25 @@ public class HomeController implements Runnable {
 					break;
 				case "\\p":
 				case "\\portfolio":
-					new ConsultPortfolioController();
+					new ConsultPortfolioController().run();
 					break;
 				case "\\b":
 				case "\\buy":
-					//new BuyCFDController();
+					try {
+						new BuyCFDController().run();
+					} catch (ClassNotFoundException e) {
+						//e.printStackTrace();
+						homeView.informConnIssue();
+						this.run();
+					}
 					break;
 				case "\\s":
 				case "\\sell":
-					new SellCFDController();
+					new SellCFDController().run();
 					break;
 				case "\\l":
 				case "\\limits":
-					new SetLimitsCFDController();
+					new SetLimitsCFDController().run();
 					break;
 				default:
 					homeView.informInvalidAction();

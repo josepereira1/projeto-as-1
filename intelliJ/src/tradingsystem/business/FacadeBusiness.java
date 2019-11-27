@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class FacadeBusiness implements IFacadeBusiness {
 
@@ -57,8 +58,8 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * @param takeProfit
 	 * @param numeroDeAtivos
 	 */
-	public void abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException {
-		trading.abrirCFD(idAtivo, username, tipo,stopLess,takeProfit, numeroDeAtivos);
+	public Future<ICFD> abrirCFD(String idAtivo, String username, int tipo, float stopLess, float takeProfit, int numeroDeAtivos) throws InterruptedException, ExecutionException, StockIdNotExistsException, IOException, CFDTypeNotValidException {
+		return trading.abrirCFD(idAtivo, username, tipo,stopLess,takeProfit, numeroDeAtivos);
 	}
 
 	/**

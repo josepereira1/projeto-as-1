@@ -56,13 +56,13 @@ public class CFDDAO {
 	 * Inserts an ICFD into database.
 	 * @param value ICFD.
 	 */
-	public Future<Void> put(ICFD value) {
-	    FutureTask<Void> futureTask = new FutureTask<>(() -> {
+	public Future<ICFD> put(ICFD value) {
+	    FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
 
 	    	Statement statement = conn.createStatement();
 
 			String sql = "INSERT INTO CFD (id, idAtivo, tipo, username, stopLess, takeProfit, dataAbertura, dataEncerramento, numeroDeAtivos, valorInicial, valorInvestido) VALUES (";
-			sql += "'" + value.getId() + "'" + ",";
+			sql += value.getId()  + ",";
 			sql += "'" + value.getIdAtivo() + "'" + ",";
 			sql += value.getTipo() + ",";
 			sql += "'" + value.getUsername() + "'" + ",";
@@ -76,7 +76,7 @@ public class CFDDAO {
 
 			statement.executeUpdate(sql);
 
-			return null;
+			return value;
 		});
 
 	    genericActiveObject.submit(futureTask);

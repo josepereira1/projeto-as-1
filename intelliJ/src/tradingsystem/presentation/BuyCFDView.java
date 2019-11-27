@@ -15,7 +15,7 @@ public class BuyCFDView {
 
 	public void displayCurrentPrice(float sellPrice, float buyPrice) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("[Buy/long active] Current price ($): " + sellPrice + " / " + buyPrice);
+		System.out.println("[Buy/long active] Current price ($): " + sellPrice + " (BUY) / " + buyPrice + "(SELL)");
 		System.out.println("[Buy/long active] Units\n>>");
 		units = scanner.nextInt();
 	}
@@ -34,6 +34,10 @@ public class BuyCFDView {
 
 	public void CFDTypeNotExists(){
 		System.out.println("The CFD type not exists yet! Try later!");
+	}
+
+	public void sucess(){
+		System.out.println("Open long CFD with sucess! Congrats!!!");
 	}
 
 }

@@ -13,6 +13,7 @@ public class BuyCFDController implements Runnable {
 
 	private BuyCFDView buyCFDView;
 	private TradingSystem model;
+	private static final int TYPE_OF_CFD = 1;	//	SELL
 
 	public BuyCFDController() throws SQLException, ClassNotFoundException {
 		buyCFDView = new BuyCFDView();
@@ -23,9 +24,9 @@ public class BuyCFDController implements Runnable {
 		buyCFDView.organization();
         try {
 			buyCFDView.displayCurrentPrice(model.business.getValorAtualAtivo(buyCFDView.organizationId, 0), model.business.getValorAtualAtivo(buyCFDView.organizationId, 1));
-			ICFD cfd = model.business.abrirCFD(buyCFDView.organizationId, model.ator.getUsername(), 1, -1, -1, buyCFDView.units).get();
+			ICFD cfd = model.business.abrirCFD(buyCFDView.organizationId, model.ator.getUsername(), TYPE_OF_CFD, -1, -1, buyCFDView.units).get();
 			//buyCFDView.displayCurrentProfit(cfd.getBalanco(model.business.getValorAtualAtivo(buyCFDView.organizationId, 1)));    //	display profit	//TODO USAR ISTO NO ENCERRAR!!!
-
+			buyCFDView.sucess();
 			new HomeController().run();
 
 		} catch (ClassNotFoundException e) {

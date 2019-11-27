@@ -178,4 +178,8 @@ public class FacadeData implements IFacadeData {
 		return cfds.updateEndDateCFD(id,endDate);
 	}
 
+	public Future<String> getIdAtivoDoCFD(String idCFD){
+		return cfds.getIdAtivoDoCFD(idCFD);
+	}
+
 }

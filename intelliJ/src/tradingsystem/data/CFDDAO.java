@@ -1,5 +1,7 @@
 package tradingsystem.data;
 
+import tradingsystem.business.CFDNotExistsException;
+import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
 
@@ -363,6 +365,25 @@ public class CFDDAO {
 			return null;
 		});
 		genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
+
+	public Future<String> getIdAtivoDoCFD(String idCFD){
+		FutureTask<String> futureTask = new FutureTask<>(() -> {
+
+			Statement statement = conn.createStatement();
+
+			String sql = "SELECT idAtivo FROM CFD WHERE idCFD=" + idCFD;
+
+			ResultSet resultSet = statement.executeQuery("SELECT idAtivo FROM CFD WHERE id=" + idCFD);
+
+			if(resultSet.next())
+				return resultSet.getString("idAtivo");
+			else
+				throw new CFDNotExistsException(idCFD);
+		});
+
+		this.genericActiveObject.submit(futureTask);
 		return futureTask;
 	}
 }

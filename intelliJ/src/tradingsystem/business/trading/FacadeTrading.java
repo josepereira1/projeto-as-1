@@ -115,11 +115,8 @@ public class FacadeTrading implements IFacadeTrading {
 	 */
 	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException {
 		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
-		ICFD cfd = data.getCFD(idCFD).get();
 
-		//TODO mudar para usar os metodos getValorInvestido() getNumeroDeAtivos()
-
-		return CFD.getBalanco(data.getValorAtualAtivo(cfd.getIdAtivo()),cfd.getNumeroDeAtivos(),cfd.getValorInvestido());
+		return CFD.getBalanco(data.getValorAtualAtivo(data.getIdAtivoDoCFD(idCFD).get()), data.getNumeroDeAtivosCFD(idCFD).get(),data.getValorInvestidoCFD(idCFD).get());
 	}
 
 	/**

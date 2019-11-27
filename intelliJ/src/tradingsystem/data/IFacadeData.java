@@ -119,4 +119,6 @@ public interface IFacadeData {
 
 	Future<Void> updateEndDateCFD(String id, LocalDateTime endDate);
 
+	public Future<String> getIdAtivoDoCFD(String idCFD);
+
 }

@@ -23,7 +23,7 @@ public class FacadeTradingTest {
             e.printStackTrace();
         }*/
 
-        System.out.println(facadeTrading.getPortfolio("josepereira"));
+        //System.out.println(facadeTrading.getPortfolio("josepereira"));
 
         /*try {
             facadeTrading.setCFDlimits("9999", 1.5f, 9.9f);
@@ -58,5 +58,11 @@ public class FacadeTradingTest {
         } catch (CFDNotExistsException e) {
             e.printStackTrace();
         }*/
+
+        try {
+            System.out.println(facadeTrading.getBalanco("99999"));
+        } catch (CFDNotExistsException e) {
+            e.printStackTrace();
+        }
     }
 }

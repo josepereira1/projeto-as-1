@@ -27,8 +27,8 @@ public class SetLimitsCFDView {
 		stopLess = scanner.nextFloat();
 	}
 
-	public void CFDIdNotExists(String id){
-		System.out.println("CFD with "+ id + "id not exists! Try Again");
+	public void CFDIdNotExists(){
+		System.out.println("CFD with "+ idCFD + "id not exists! Try Again");
 	}
 
 	public void sucess(){

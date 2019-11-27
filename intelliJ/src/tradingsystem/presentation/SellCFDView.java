@@ -1,5 +1,7 @@
 package tradingsystem.presentation;
 
+import tradingsystem.business.InvalidInputException;
+
 import java.util.Scanner;
 
 public class SellCFDView {
@@ -7,16 +9,18 @@ public class SellCFDView {
 	public String organizationId;
 	public int units;
 
-	public void organization() {
+	public void organization() throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("[Sell/short active] Organization id:\n>>");
+		if(scanner.hasNextLine() == false) throw new InvalidInputException();
 		organizationId = scanner.nextLine();
 	}
 
-	public void displayCurrentPrice(float sellPrice, float buyPrice) {
+	public void displayCurrentPrice(float sellPrice, float buyPrice) throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("[Sell/short active] Current price ($): " + sellPrice + " / " + buyPrice);
 		System.out.println("[Sell/short active] Units\n>>");
+		if(scanner.hasNextInt() == false)throw new InvalidInputException();
 		units = scanner.nextInt();
 	}
 
@@ -25,7 +29,7 @@ public class SellCFDView {
 	}
 
 	public void stockIdNotExists(){
-		System.out.println("Stock id" + organizationId +" not exists! Type correct id.");
+		System.out.println("Stock id " + organizationId +" not exists! Type correct id.");
 	}
 
 	public void error(){
@@ -38,5 +42,9 @@ public class SellCFDView {
 
 	public void sucess(){
 		System.out.println("Open short CFD with sucess! Congrats!!!");
+	}
+
+	public void inputError(){
+		System.out.println("Invalid values, please type numbers!");
 	}
 }

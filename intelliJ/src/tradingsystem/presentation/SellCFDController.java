@@ -2,6 +2,7 @@ package tradingsystem.presentation;
 
 import tradingsystem.TradingSystem;
 import tradingsystem.business.CFDTypeNotValidException;
+import tradingsystem.business.InvalidInputException;
 import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.trading.ICFD;
 
@@ -21,8 +22,8 @@ public class SellCFDController implements Runnable {
 	}
 
 	public void run() {
-		sellCFDView.organization();
 		try {
+			sellCFDView.organization();
 			sellCFDView.displayCurrentPrice(model.business.getValorAtualAtivo(sellCFDView.organizationId, 0), model.business.getValorAtualAtivo(sellCFDView.organizationId, 1));
 			ICFD cfd = model.business.abrirCFD(sellCFDView.organizationId, model.ator.getUsername(), TYPE_OF_CFD, -1, -1, sellCFDView.units).get();
 			//buyCFDView.displayCurrentProfit(cfd.getBalanco(model.business.getValorAtualAtivo(buyCFDView.organizationId, 1)));    //	display profit	//TODO USAR ISTO NO ENCERRAR!!!
@@ -51,6 +52,10 @@ public class SellCFDController implements Runnable {
 			System.exit(1);
 		} catch (StockIdNotExistsException e) {
 			sellCFDView.stockIdNotExists();
+			this.run();
+		} catch (InvalidInputException e) {
+			//e.printStackTrace();
+			sellCFDView.inputError();
 			this.run();
 		}
 	}

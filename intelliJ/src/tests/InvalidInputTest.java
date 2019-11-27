@@ -2,7 +2,7 @@ package tests;
 
 import java.util.Scanner;
 
-public class tests {
+public class InvalidInputTest {
     public static void main(String[] args){
         Scanner scanner  =new Scanner(System.in);
         float res = 0;

@@ -78,5 +78,6 @@ public interface IFacadeBusiness {
 	 */
 	float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException;
 
-    void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException;
+    void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
+
 }

@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 public class FacadeBusiness implements IFacadeBusiness {
 
-	private static final int SEC = 1000;
-	private static final int INTERVAL = 1 * SEC;
-
 	private static IFacadeBusiness business;
 
 	private IFacadeData data;
@@ -29,6 +26,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	private FacadeBusiness() throws SQLException, ClassNotFoundException {
 		this.data = FacadeData.getInstance();
 		this.recursosHumanos = FacadeRecursosHumanos.getInstance();
+		this.trading = FacadeTrading.getInstance();
 	}
 
 	/**
@@ -125,45 +123,8 @@ public class FacadeBusiness implements IFacadeBusiness {
 	}
 
 	@Override
-	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException {
-
-		String type = username.substring(0, 2); // fst two characters of username to get its type
-
-		if (type.equals("a_")) {
-			if (this.data.containsUtilizador(username, "Administrador")) throw new AtorExistsException(username);
-		}
-		else if (type.equals("t_")) {
-			if (this.data.containsUtilizador(username, "Trader")) throw new AtorExistsException(username);
-		}
-		else throw new AtorTypeNotValidException();
-
-		new Thread(() -> {
-			try {
-				while(true) {
-					Thread.sleep(INTERVAL);
-					Collection<String> cfds = this.data.getCFDsIds(username).get();
-					for (String id : cfds) {
-						try {
-							encerrarCFD(id, username);
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (CFDNotExistsException e) {
-							e.printStackTrace();
-						} catch (AtorNotExistsException e) {
-							e.printStackTrace();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						} catch (AtorTypeNotValidException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-		}).start();
+	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException, AtorExistsException {
+		trading.initAutoCloseCFDs(username);
 	}
 
 }

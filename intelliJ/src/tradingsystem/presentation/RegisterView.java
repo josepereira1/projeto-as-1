@@ -34,6 +34,10 @@ public class RegisterView {
 		System.out.println("Plafond inválido.");
 	}
 
+	public void informUsername() {
+		System.out.println("Successful registered as: " + username);
+	}
+
 	public void register() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("username:");

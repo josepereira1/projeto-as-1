@@ -1,8 +1,6 @@
 package tradingsystem.business.trading;
 
-import tradingsystem.business.CFDNotExistsException;
-import tradingsystem.business.StockIdNotExistsException;
-import tradingsystem.business.StockTypeNotValidException;
+import tradingsystem.business.*;
 import tradingsystem.data.FacadeData;
 import tradingsystem.data.IFacadeData;
 
@@ -14,8 +12,11 @@ import java.util.concurrent.ExecutionException;
 
 public class FacadeTrading implements IFacadeTrading {
 
-	private IFacadeData data;
+	private static final int SEC = 1000;
+	private static final int INTERVAL = 1 * SEC;
 	private static IFacadeTrading trading;
+
+	private IFacadeData data;
 
 	private FacadeTrading() throws SQLException, ClassNotFoundException {
 		this.data = FacadeData.getInstance();
@@ -64,7 +65,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param id id CFD
 	 * @return Returns profit of CFD
 	 */
-	public void encerrarCFD(String id) throws ExecutionException, InterruptedException, CFDNotExistsException, IOException {
+	public void encerrarCFD(String id) throws ExecutionException, InterruptedException, CFDNotExistsException {
 		if(!data.containsCFD(id).get()) throw new CFDNotExistsException(id);	//	verify if stock id exists
 		data.updateEndDateCFD(id,LocalDateTime.now());	//	in manual or automatic end CFD, the end date is current date
 	}
@@ -116,7 +117,49 @@ public class FacadeTrading implements IFacadeTrading {
 		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
 		ICFD cfd = data.getCFD(idCFD).get();
 
+		//TODO mudar para usar os metodos getValorInvestido() getNumeroDeAtivos()
+
 		return CFD.getBalanco(data.getValorAtualAtivo(cfd.getIdAtivo()),cfd.getNumeroDeAtivos(),cfd.getValorInvestido());
+	}
+
+	/**
+	 *
+	 * @param username
+	 * @throws SQLException
+	 * @throws AtorTypeNotValidException
+	 * @throws AtorExistsException
+	 */
+	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException {
+
+		String type = username.substring(0, 2); // fst two characters of username to get its type
+
+		if (type.equals("a_")) {
+			if (this.data.containsUtilizador(username, "Administrador") == false) throw new AtorNotExistsException(username);
+		}
+		else if (type.equals("t_")) {
+			if (this.data.containsUtilizador(username, "Trader") == false) throw new AtorNotExistsException(username);
+		}
+		else throw new AtorTypeNotValidException();
+
+		new Thread(() -> {
+			try {
+				while(true) {
+					Thread.sleep(INTERVAL);
+					Collection<String> cfds = this.data.getCFDsIds(username).get();
+					for (String id : cfds) {
+						try {
+							encerrarCFD(id);
+						} catch (CFDNotExistsException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 }

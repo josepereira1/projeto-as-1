@@ -1,11 +1,9 @@
 package tradingsystem.business.trading;
 
-import tradingsystem.business.AtorTypeNotValidException;
-import tradingsystem.business.CFDNotExistsException;
-import tradingsystem.business.StockIdNotExistsException;
-import tradingsystem.business.StockTypeNotValidException;
+import tradingsystem.business.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
@@ -55,5 +53,7 @@ public interface IFacadeTrading {
 	 * @param idCFD
 	 */
 	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException;
+
+	void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
 
 }

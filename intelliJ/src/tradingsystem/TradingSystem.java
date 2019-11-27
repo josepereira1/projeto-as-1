@@ -12,11 +12,13 @@ public class TradingSystem {
 
 	public IFacadeBusiness business;
 	public IAtor ator;
+	public boolean firstTime;
 	private static TradingSystem tradingSystem;
 
 	private TradingSystem() throws SQLException, ClassNotFoundException {
 		this.business = FacadeBusiness.getInstance();
 		this.ator = null;
+		this.firstTime = true;
 	}
 
 	public static TradingSystem getInstance() throws SQLException, ClassNotFoundException {
@@ -29,13 +31,7 @@ public class TradingSystem {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try {
-			new InitController().run();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		new InitController().run();
 	}
 
 }

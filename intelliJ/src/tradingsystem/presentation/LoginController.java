@@ -6,7 +6,7 @@ import tradingsystem.business.AtorTypeNotValidException;
 
 import java.sql.SQLException;
 
-public class LoginController {
+public class LoginController implements Runnable {
 
 	private LoginView loginView;
 	private TradingSystem model;
@@ -42,6 +42,8 @@ public class LoginController {
 			//e.printStackTrace();
 			loginView.informUsernameNotExists();
 			this.run();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 

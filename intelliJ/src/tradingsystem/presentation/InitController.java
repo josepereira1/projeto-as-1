@@ -2,7 +2,7 @@ package tradingsystem.presentation;
 
 import java.sql.SQLException;
 
-public class InitController {
+public class InitController implements Runnable {
 
 	private InitView initView;
 
@@ -10,7 +10,7 @@ public class InitController {
 		this.initView = new InitView();
 	}
 
-	public void run() throws SQLException, ClassNotFoundException {
+	public void run() {
 		try {
 			initView.selectAction(); // display action selection
 			switch (initView.action) {
@@ -29,6 +29,10 @@ public class InitController {
 			// e.printStackTrace();
 			initView.informInvalidAction();
 			this.run();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 

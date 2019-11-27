@@ -27,7 +27,9 @@ public class RegisterController {
 				registerView.informInvalidPlafondNumber();
 				this.run();
 			}
+			registerView.username = "t_" + registerView.username;
 			model.ator = model.business.registarUtilizador(registerView.username, registerView.password, registerView.plafond);
+			registerView.informUsername();
 			new HomeController().run();
 		} catch (StringIndexOutOfBoundsException e) {
 			//e.printStackTrace();
@@ -49,6 +51,8 @@ public class RegisterController {
 			//e.printStackTrace();
 			registerView.informInvalidPlafondNumber();
 			this.run();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 

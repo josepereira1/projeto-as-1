@@ -55,6 +55,10 @@ public class HomeController implements Runnable {
 				case "\\limits":
 					new SetLimitsCFDController().run();
 					break;
+				case "\\c":
+				case "\\close":
+					new CloseCFDSController().run();
+					break;
 				default:
 					homeView.informInvalidAction();
 					this.run(); //

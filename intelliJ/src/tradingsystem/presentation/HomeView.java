@@ -22,6 +22,7 @@ public class HomeView {
 		System.out.println("\\b or \\buy to buy stocks");
 		System.out.println("\\s or \\sell to sell stocks");
 		System.out.println("\\l or \\limits to set stock limits");
+		System.out.println("\\c or \\close to close CFD");
 	}
 
 	public void informConnIssue() {

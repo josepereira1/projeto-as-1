@@ -1,6 +1,7 @@
 package tradingsystem.business;
 
-import tradingsystem.Subject;
+import tradingsystem.SubjectAtivo;
+import tradingsystem.SubjectCFD;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -82,6 +83,8 @@ public interface IFacadeBusiness {
 
 	float getPlafond(String username) throws AtorNotExistsException, SQLException;
 
-	Future<Subject> getCFDSubject();
+	Future<SubjectCFD> getCFDSubject();
+
+	SubjectAtivo getSubjectAtivo();
 
 }

@@ -207,4 +207,7 @@ public class ConsultPortfolioView {
 	}
 
 
+	public void notification(String id, float price) {
+		System.err.println("WARNING! THE ACTIVE " + id + " is now avaible for " + price + " $!");
+	}
 }

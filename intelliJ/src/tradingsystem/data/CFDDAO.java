@@ -1,7 +1,7 @@
 package tradingsystem.data;
 
 import tradingsystem.Observer;
-import tradingsystem.Subject;
+import tradingsystem.SubjectCFD;
 import tradingsystem.business.CFDNotExistsException;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-public class CFDDAO implements Subject {
+public class CFDDAO implements SubjectCFD {
 
 	private static final String schema = "trading";
 	private static final String username = "root";
@@ -414,8 +414,8 @@ public class CFDDAO implements Subject {
 		return futureTask;
 	}
 
-	public Future<Subject> getCFDSubject(){
-		FutureTask<Subject> futureTask = new FutureTask<>(() ->{
+	public Future<SubjectCFD> getCFDSubject(){
+		FutureTask<SubjectCFD> futureTask = new FutureTask<>(() ->{
 			return this;
 		});
 		genericActiveObject.submit(futureTask);

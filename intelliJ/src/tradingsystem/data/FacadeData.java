@@ -1,6 +1,7 @@
 package tradingsystem.data;
 
-import tradingsystem.Subject;
+import tradingsystem.SubjectAtivo;
+import tradingsystem.SubjectCFD;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.CFDTypeNotValidException;
@@ -192,8 +193,12 @@ public class FacadeData implements IFacadeData {
 		return utilizadores.getPlafond(username);
 	}
 
-	public Future<Subject> getCFDSubject(){
+	public Future<SubjectCFD> getCFDSubject(){
 		return cfds.getCFDSubject();
+	}
+
+	public SubjectAtivo getSubjectAtivo(){
+		return ativos.getSubjectAtivo();
 	}
 
 }

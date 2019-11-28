@@ -43,7 +43,7 @@ public class HomeController implements Runnable {
                     break;
 				case "\\p":
 				case "\\portfolio":
-					new ConsultPortfolioController(model.business.getCFDSubject().get()).run();
+					new ConsultPortfolioController().run();
 					break;
 				case "\\b":
 				case "\\buy":

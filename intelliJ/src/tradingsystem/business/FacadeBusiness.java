@@ -1,6 +1,7 @@
 package tradingsystem.business;
 
-import tradingsystem.Subject;
+import tradingsystem.SubjectAtivo;
+import tradingsystem.SubjectCFD;
 import tradingsystem.business.recursoshumanos.FacadeRecursosHumanos;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.recursoshumanos.IFacadeRecursosHumanos;
@@ -186,8 +187,12 @@ public class FacadeBusiness implements IFacadeBusiness {
 		}).start();
 	}
 
-	public Future<Subject> getCFDSubject(){
+	public Future<SubjectCFD> getCFDSubject(){
 		return data.getCFDSubject();
+	}
+
+	public SubjectAtivo getSubjectAtivo(){
+		return data.getSubjectAtivo();
 	}
 
 }

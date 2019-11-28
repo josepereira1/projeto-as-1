@@ -1,7 +1,8 @@
 package tradingsystem.presentation;
 
 import tradingsystem.Observer;
-import tradingsystem.Subject;
+import tradingsystem.SubjectAtivo;
+import tradingsystem.SubjectCFD;
 import tradingsystem.TradingSystem;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
@@ -19,13 +20,16 @@ public class ConsultPortfolioController implements Runnable, Observer {
 	private ConsultPortfolioView consultPortfolioView;
 	private TradingSystem model;
 
-	private Subject subject;	//	objeto observado
+	private SubjectCFD subjectCFD;	//	objeto observado
+	private SubjectAtivo subjectAtivo;	//	objeto observado
 
-	public ConsultPortfolioController(Subject subject) throws SQLException, ClassNotFoundException {
+	public ConsultPortfolioController() throws SQLException, ClassNotFoundException, ExecutionException, InterruptedException {
 		this.consultPortfolioView = new ConsultPortfolioView();
 		this.model = TradingSystem.getInstance();
-		this.subject = subject;
-		this.subject.registerObserver(this);
+		this.subjectCFD = model.business.getCFDSubject().get();
+		this.subjectCFD.registerObserver(this);
+		this.subjectAtivo = model.business.getSubjectAtivo();
+		this.subjectAtivo.registerObserver(this);
 	}
 
 	@Override
@@ -91,6 +95,12 @@ public class ConsultPortfolioController implements Runnable, Observer {
 
 			if (arg instanceof Collection) {
 				consultPortfolioView.displayPortfolio(model, (Collection<ICFD>) arg);
+			}
+
+			if(arg instanceof Object[]){
+				String id = (String) ((Object[])arg)[0];
+				float price = (float) ((Object[])arg)[1];
+				consultPortfolioView.notification(id, price);
 			}
 		} catch (StockIdNotExistsException e) {
 			//e.printStackTrace();

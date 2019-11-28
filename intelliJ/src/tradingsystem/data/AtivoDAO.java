@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import tradingsystem.Observer;
+import tradingsystem.SubjectAtivo;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
@@ -11,16 +13,38 @@ import tradingsystem.business.trading.TradingAbstractFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 
-public class AtivoDAO {
+public class AtivoDAO implements SubjectAtivo {
 
 	/** Token used to access REST API server. */
 	//private static final String APIToken = "demo";
 	private static String APIToken = "IwkmgAv406p5lc2mJ3vXkww56P6cw9QIjPmtpW4I4e4weBztvCsji44H9NLr";
+	private Map<String, Float> historicValuesOfStocks;
+	private final static float INTERVAL = 5;
+	private Collection<Observer> observers;
+	private GenericActiveObject genericActiveObject;
+
+	public AtivoDAO(){
+		historicValuesOfStocks = new HashMap<>();
+		observers = new ArrayList<>();
+		genericActiveObject = new GenericActiveObject();
+
+		/*new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(20000);
+					historicValuesOfStocks.put("SNAP", 10000f);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();*/
+	}
 
 	/**
 	 * Returns a JSONObject containing information obtained by method GET.
@@ -74,14 +98,38 @@ public class AtivoDAO {
 	 * @param id id of IAtivo.
 	 * @param typeOfCFD type of CFD of CFD (Buy or Sell)
 	 */
-	public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
+	 public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
 		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
 		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
 
 		float res = ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 
-		if(typeOfCFD == 0){	//	SELL
+		//System.err.println(historicValuesOfStocks);
+
+		 FutureTask<Void> futureTask = new FutureTask<>(() -> {	//	Isto é para verificar se o preço baixou um valor X
+			 float beforeValue;
+		 	if(historicValuesOfStocks.containsKey(id)){
+				 beforeValue = historicValuesOfStocks.get(id);
+				 if(Math.abs(beforeValue - res) >= INTERVAL){
+					 historicValuesOfStocks.put(id, res);
+					 notifyObservers(new Object[]{id,res});
+				 }
+			 }else historicValuesOfStocks.put(id, res);
+		 	return null;
+		 });
+
+		 genericActiveObject.submit(futureTask);
+
+		 try {
+			 futureTask.get();
+		 } catch (InterruptedException e) {
+			 e.printStackTrace();
+		 } catch (ExecutionException e) {
+			 e.printStackTrace();
+		 }
+
+		 if(typeOfCFD == 0){	//	SELL
 			return res*0.975f;
 		}
 		else if(typeOfCFD == 1) return res;	//	BUY
@@ -96,6 +144,20 @@ public class AtivoDAO {
 		JSONArray arr = RESTGet(url).getJSONArray("data");
 
 		return arr != null;
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void notifyObservers(Object arg) {
+		for(Observer observer : observers) observer.update(arg);
+	}
+
+	public SubjectAtivo getSubjectAtivo(){
+	 	return this;
 	}
 
 }

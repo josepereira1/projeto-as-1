@@ -6,6 +6,10 @@ public class HomeView {
 
 	public String option;
 
+	public HomeView() {
+		this.displayInitialSugestion(); // always displays initial sugestion when HomeController is accessed
+	}
+
 	public void executeOption() {
 		Scanner input = new Scanner(System.in);
 		option = input.nextLine();
@@ -41,6 +45,6 @@ public class HomeView {
 	}
 
 	public void token(){
-		System.out.print(">>");
+		System.out.print(">> ");
 	}
 }

@@ -21,7 +21,6 @@ public class HomeController implements Runnable {
 		try {
 
 			if (model.firstTime) {
-				homeView.displayInitialSugestion();    //	when applications is opened display for the first time display initial suggestion
 				model.business.initAutoCloseCFDs(model.ator.getUsername()); // starts auto CFD closing
 				model.firstTime = false;
 			}

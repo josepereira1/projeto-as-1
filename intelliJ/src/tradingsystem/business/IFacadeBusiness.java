@@ -73,11 +73,9 @@ public interface IFacadeBusiness {
 	 */
 	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException;
 
-	/**
-	 * 
-	 * @param idCFD
-	 */
+	/*
 	float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException;
+	*/
 
     void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
 

@@ -120,13 +120,10 @@ public class FacadeBusiness implements IFacadeBusiness {
 		return business;
 	}
 
-	/**
-	 * 
-	 * @param idCFD
-	 */
+	/*
 	public float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException {
 		return trading.getBalanco(idCFD);
-	}
+	}*/
 
 	@Override
 	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException, AtorExistsException {

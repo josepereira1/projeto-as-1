@@ -5,7 +5,6 @@ import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
 
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -26,22 +25,23 @@ public class ConsultPortfolioController implements Runnable {
 	public void run() {
 		try {
 
-			Scanner sc = new Scanner(System.in);
-			String input = sc.nextLine();
+			consultPortfolioView.promptOption();
 
-			switch (input) {
+			switch (consultPortfolioView.option) {
 				case "\\b":
 					new HomeController().run();
 					break;
 				case "\\u":
-					consultPortfolioView.header();
 					consultPortfolioView.displayPortfolio(model);
 					this.run();
 					break;
 				default:
+					consultPortfolioView.informInvalidAction();
 					this.run();
 					break;
 			}
+
+			//TODO falta meter mensagens de erro para cada Exception
 
 		} catch (ExecutionException e) {
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class ConsultPortfolioController implements Runnable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (AtorNotExistsException e) {
-			//e.printStackTrace();	//	falta colocar uma mensagem de erro
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}

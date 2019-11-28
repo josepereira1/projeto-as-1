@@ -9,6 +9,7 @@ import tradingsystem.business.trading.ICFD;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class ConsultPortfolioView {
@@ -21,11 +22,13 @@ public class ConsultPortfolioView {
 	private static final int maxSpaces6 = maxSpaces5; //  Curr. Prc. ... Invested
 	private static final int maxSpaces7 = maxSpaces5; // Invested ... Balance
 	private static final int maxSpaces8 = maxSpaces5; // Balance ... Total
-
 	private static String header;
+
+	public String option;
 
 	public ConsultPortfolioView() {
 		// Constructs Header Line -------------------------------------------
+		// Como esta String nunca vai mudar pode ser gerada logo ao inicio
 		StringBuilder sb = new StringBuilder();
 		String str = "Id";
 		sb.append(str).append(" ".repeat(maxSpaces1-str.length()));
@@ -53,22 +56,38 @@ public class ConsultPortfolioView {
 		System.out.println("Type \\u to update portfolio.");
 	}
 
-	public void header() {
-		System.out.print(header);
+	public void promptOption() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print(">> ");
+		if (sc.hasNextLine()) {
+			option = sc.nextLine();
+		}
 	}
 
+	public void informInvalidAction() {
+		System.out.println("Please type a valid option.");
+	}
 
-	public void  displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
-
-		StringBuilder sb = new StringBuilder();
+	public void displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
 
 		float total = 0f;
 		float totalBalance = 0f;
 		float totalInvested = 0f;
-		float valor = 0f;
+		float valor = 0f; // tmp variable
 
-		for (ICFD cfd : model.business.getPortfolio(model.ator.getUsername())) {
+		Collection<ICFD> cfds =  model.business.getPortfolio(model.ator.getUsername());
 
+		if (cfds.isEmpty()) {
+			System.err.println("You haven't got any open CFD contract.");
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(header); // fst line with identifiers
+
+		for (ICFD cfd : cfds) {
+
+			//TODO implementar o método Opened and Closed getCFDs()
 			if (cfd.getDataEncerramento() != null) continue; // já foi encerrado
 
 			// Id
@@ -144,12 +163,13 @@ public class ConsultPortfolioView {
 			sb.append("\n");
 		}
 
-		// Print Footer
+		// print Footer
+		float plafond = model.business.getPlafond(model.ator.getUsername());
 		sb.append("Total invested = ").append(String.format("%.2f", totalInvested)).append("\n");
 		sb.append("Total balance = ").append(String.format("%.2f", totalBalance)).append("\n");
-		sb.append("Plafond: ").append(model.business.getPlafond(model.ator.getUsername())).append(" + ").append(String.format("%.2f", total)); //TODO implementar o getPlafond(String username);
-		total += 200;
-		sb.append(" = ").append(String.format("%.2f", total)).append("\n\n");
+		sb.append("Plafond: ").append(String.format("%.2f", plafond)).append(" + ").append(String.format("%.2f", total));
+		total += plafond;
+		sb.append(" = ").append(String.format("%.2f", total)).append("\n");
 
 		System.out.print(sb.toString());
 	}

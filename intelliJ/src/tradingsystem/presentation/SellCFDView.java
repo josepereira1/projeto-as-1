@@ -11,15 +11,17 @@ public class SellCFDView {
 
 	public void organization() throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("[Sell/short active] Organization id:\n>>");
+		System.out.println("[Sell/short active] Organization id:");
+		System.out.print(">> ");
 		if(scanner.hasNextLine() == false) throw new InvalidInputException();
 		organizationId = scanner.nextLine();
 	}
 
 	public void displayCurrentPrice(float sellPrice, float buyPrice) throws InvalidInputException {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("[Sell/short active] Current price ($): " + sellPrice + " / " + buyPrice);
-		System.out.println("[Sell/short active] Units\n>>");
+		System.out.println("[Sell/short active] Current price ($): " + String.format("%.2f", sellPrice) + " / " + String.format("%.2f", buyPrice));
+		System.out.println("[Sell/short active] Units");
+		System.out.print(">> ");
 		if(scanner.hasNextInt() == false)throw new InvalidInputException();
 		units = scanner.nextInt();
 	}

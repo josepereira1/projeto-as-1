@@ -1,5 +1,6 @@
 package tradingsystem.data;
 
+import tradingsystem.Subject;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.AtorTypeNotValidException;
 import tradingsystem.business.CFDTypeNotValidException;
@@ -190,6 +191,10 @@ public class FacadeData implements IFacadeData {
 
 	public float getPlafond(String username) throws SQLException, AtorNotExistsException{
 		return utilizadores.getPlafond(username);
+	}
+
+	public Future<Subject> getCFDSubject(){
+		return cfds.getCFDSubject();
 	}
 
 }

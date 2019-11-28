@@ -1,23 +1,28 @@
 package tradingsystem.presentation;
 
+import tradingsystem.Observer;
+import tradingsystem.Subject;
 import tradingsystem.TradingSystem;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
 
 
-public class ConsultPortfolioController implements Runnable {
+public class ConsultPortfolioController implements Runnable, Observer {
 
 	private ConsultPortfolioView consultPortfolioView;
 	private TradingSystem model;
 
-	public ConsultPortfolioController() throws SQLException, ClassNotFoundException {
+	private Subject subject;	//	objeto observado
+
+	public ConsultPortfolioController(Subject subject) throws SQLException, ClassNotFoundException {
 		this.consultPortfolioView = new ConsultPortfolioView();
 		this.model = TradingSystem.getInstance();
+		this.subject = subject;
+		this.subject.registerObserver(this);
 	}
 
 	@Override
@@ -43,21 +48,72 @@ public class ConsultPortfolioController implements Runnable {
 			//TODO falta meter mensagens de erro para cada Exception
 
 		} catch (ExecutionException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (StockIdNotExistsException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (CFDTypeNotValidException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
 		} catch (AtorNotExistsException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		}
+	}
+
+	@Override
+	public void update() {
+		try {
+			System.err.println("ENTREI NO UPDATE!");
+			consultPortfolioView.displayPortfolio(model);
+		} catch (ExecutionException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (StockIdNotExistsException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (CFDTypeNotValidException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (IOException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (AtorNotExistsException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
+			System.exit(1);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			consultPortfolioView.error();
 			System.exit(1);
 		}
 	}

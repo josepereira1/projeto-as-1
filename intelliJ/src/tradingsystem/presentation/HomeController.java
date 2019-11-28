@@ -6,6 +6,7 @@ import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.AtorTypeNotValidException;
 
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 public class HomeController implements Runnable {
 
@@ -42,7 +43,7 @@ public class HomeController implements Runnable {
                     break;
 				case "\\p":
 				case "\\portfolio":
-					new ConsultPortfolioController().run();
+					new ConsultPortfolioController(model.business.getCFDSubject().get()).run();
 					break;
 				case "\\b":
 				case "\\buy":
@@ -86,6 +87,12 @@ public class HomeController implements Runnable {
 			homeView.informUsernameNotExists();
 			System.exit(1);
 		} catch (ClassNotFoundException e) {
+			//e.printStackTrace();
+			System.exit(1);
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+			System.exit(1);
+		} catch (ExecutionException e) {
 			//e.printStackTrace();
 			System.exit(1);
 		}

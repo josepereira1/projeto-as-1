@@ -1,5 +1,6 @@
 package tradingsystem.business;
 
+import tradingsystem.Subject;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
@@ -80,5 +81,7 @@ public interface IFacadeBusiness {
     void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
 
 	float getPlafond(String username) throws AtorNotExistsException, SQLException;
+
+	Future<Subject> getCFDSubject();
 
 }

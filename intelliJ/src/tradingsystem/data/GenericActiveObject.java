@@ -14,7 +14,9 @@ public class GenericActiveObject {
 			public void run() {
 				while (true){
 					try {
+						//System.err.println("ANTES DO GENERIC");
 						listaDeTarefas.take().run();
+						//System.err.println("DEPOIS DO GENERIC");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

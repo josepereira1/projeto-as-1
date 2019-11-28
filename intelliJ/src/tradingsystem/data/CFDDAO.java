@@ -1,7 +1,8 @@
 package tradingsystem.data;
 
+import tradingsystem.Observer;
+import tradingsystem.Subject;
 import tradingsystem.business.CFDNotExistsException;
-import tradingsystem.business.StockIdNotExistsException;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
 
@@ -9,10 +10,11 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-public class CFDDAO {
+public class CFDDAO implements Subject {
 
 	private static final String schema = "trading";
 	private static final String username = "root";
@@ -24,11 +26,14 @@ public class CFDDAO {
 	private Connection conn;
 	private GenericActiveObject genericActiveObject;
 
+	private Collection<Observer> observers;
+
 	/** Constructs a Data Access Object to establish connection to database. */
 	public CFDDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		this.conn =  DriverManager.getConnection(url);
 		this.genericActiveObject = new GenericActiveObject(); //	starts Active Object Scheduler
+		this.observers = new ArrayList<>();
 	}
 
 	/** Given a ResultSet creates an ICFD.
@@ -330,6 +335,7 @@ public class CFDDAO {
 	 * @param endDate end date
 	 */
 	public Future<Void> updateEndDateCFD(String id, LocalDateTime endDate){
+
 		FutureTask<Void> futureTask = new FutureTask<>(() ->{
 			Statement statement = conn.createStatement();
 
@@ -339,6 +345,15 @@ public class CFDDAO {
 			return null;
 		});
 		genericActiveObject.submit(futureTask);
+
+		try {
+			notifyObservers().get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
 		return futureTask;
 	}
 
@@ -368,6 +383,34 @@ public class CFDDAO {
 			if(resultSet.next()){
 				return resultSet.getInt("tipo");
 			}else throw new CFDNotExistsException(id);
+		});
+		genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		FutureTask<Void> futureTask = new FutureTask<>(()->{
+			observers.add(observer);
+			return null;
+		});
+
+		genericActiveObject.submit(futureTask);
+	}
+
+	@Override
+	public Future<Void> notifyObservers() {
+		FutureTask<Void> futureTask = new FutureTask<>(() -> {
+			for (Observer observer : observers)observer.update();
+			return null;
+		});
+		genericActiveObject.submit(futureTask);
+		return futureTask;
+	}
+
+	public Future<Subject> getCFDSubject(){
+		FutureTask<Subject> futureTask = new FutureTask<>(() ->{
+			return this;
 		});
 		genericActiveObject.submit(futureTask);
 		return futureTask;

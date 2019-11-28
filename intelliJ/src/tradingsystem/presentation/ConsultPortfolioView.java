@@ -75,7 +75,7 @@ public class ConsultPortfolioView {
 	}
 
 	public void displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
-
+		System.err.println("ENTREI NO DISPLAY");
 		float total = 0f;
 		float totalBalance = 0f;
 		float totalInvested = 0f;
@@ -85,6 +85,8 @@ public class ConsultPortfolioView {
 
 		boolean skip = false;
 
+		System.err.println(cfds.size());
+
 		if (cfds.isEmpty()) {
 			System.err.println("You haven't got any open CFD contract yet.");
 			skip = true;
@@ -93,6 +95,8 @@ public class ConsultPortfolioView {
 		StringBuilder sb = new StringBuilder();
 
 		if (skip == false) {
+
+			System.err.println("NÃO DEI SKIP!");
 
 			sb.append(header); // fst line with identifiers
 
@@ -204,6 +208,10 @@ public class ConsultPortfolioView {
 		sb.append(" = ").append(String.format("%.2f", total)).append("\n");
 
 		System.out.print(sb.toString());
+	}
+
+	public void error(){
+		System.err.println("Internal error! Please try later!");
 	}
 
 

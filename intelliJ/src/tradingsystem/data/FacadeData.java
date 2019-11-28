@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 public class FacadeData implements IFacadeData {
 
@@ -177,8 +176,8 @@ public class FacadeData implements IFacadeData {
 		return ativos.contains(id);
 	}
 
-	public Future<Void> updateEndDateCFD(String id, LocalDateTime endDate){
-		return cfds.updateEndDateCFD(id,endDate);
+	public void updateEndDateCFD(String id, LocalDateTime endDate){
+		cfds.updateEndDateCFD(id,endDate);
 	}
 
 	public Future<String> getIdAtivoDoCFD(String idCFD){

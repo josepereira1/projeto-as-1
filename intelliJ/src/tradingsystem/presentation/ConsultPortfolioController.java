@@ -6,8 +6,11 @@ import tradingsystem.TradingSystem;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockIdNotExistsException;
+import tradingsystem.business.trading.ICFD;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 
@@ -36,7 +39,7 @@ public class ConsultPortfolioController implements Runnable, Observer {
 					new HomeController().run();
 					break;
 				case "\\u":
-					consultPortfolioView.displayPortfolio(model);
+					consultPortfolioView.displayPortfolio(model, model.business.getPortfolio(model.ator.getUsername()));
 					this.run();
 					break;
 				default:
@@ -83,18 +86,12 @@ public class ConsultPortfolioController implements Runnable, Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(Object arg) {
 		try {
-			System.err.println("ENTREI NO UPDATE!");
-			consultPortfolioView.displayPortfolio(model);
-		} catch (ExecutionException e) {
-			//e.printStackTrace();
-			consultPortfolioView.error();
-			System.exit(1);
-		} catch (InterruptedException e) {
-			//e.printStackTrace();
-			consultPortfolioView.error();
-			System.exit(1);
+
+			if (arg instanceof Collection) {
+				consultPortfolioView.displayPortfolio(model, (Collection<ICFD>) arg);
+			}
 		} catch (StockIdNotExistsException e) {
 			//e.printStackTrace();
 			consultPortfolioView.error();

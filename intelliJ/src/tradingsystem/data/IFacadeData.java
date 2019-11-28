@@ -120,7 +120,7 @@ public interface IFacadeData {
 
 	boolean containsAtivo(String id) throws IOException;
 
-	Future<Void> updateEndDateCFD(String id, LocalDateTime endDate);
+	void updateEndDateCFD(String id, LocalDateTime endDate);
 
 	Future<String> getIdAtivoDoCFD(String idCFD);
 

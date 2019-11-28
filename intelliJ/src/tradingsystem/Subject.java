@@ -3,6 +3,6 @@ package tradingsystem;
 import java.util.concurrent.Future;
 
 public interface Subject {
-    void registerObserver(Observer observer);
-    Future<Void> notifyObservers();
+    Future<Void> registerObserver(Observer observer);
+    Future<Void> notifyObservers(Object arg);
 }

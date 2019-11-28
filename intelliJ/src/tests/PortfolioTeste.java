@@ -21,6 +21,6 @@ public class PortfolioTeste {
         //model.business.abrirCFD("SNAP", "t_ricardo", 1, -50f, 50f, 10); // BUY
 
         ConsultPortfolioView view = new ConsultPortfolioView();
-        view.displayPortfolio(model);
+        view.displayPortfolio(model, null);
     }
 }

@@ -1,5 +1,5 @@
 package tradingsystem;
 
 public interface Observer {
-    void update();
+    void update(Object arg);
 }

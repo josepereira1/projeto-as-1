@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class ConsultPortfolioView {
 
@@ -74,18 +73,14 @@ public class ConsultPortfolioView {
 		System.out.println("Please type a valid option.");
 	}
 
-	public void displayPortfolio(TradingSystem model) throws ExecutionException, InterruptedException, StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
-		System.err.println("ENTREI NO DISPLAY");
+	public void displayPortfolio(TradingSystem model, Collection<ICFD> cfds) throws StockIdNotExistsException, CFDTypeNotValidException, IOException, AtorNotExistsException, SQLException {
+
 		float total = 0f;
 		float totalBalance = 0f;
 		float totalInvested = 0f;
 		float valor = 0f; // tmp variable
 
-		Collection<ICFD> cfds =  model.business.getPortfolio(model.ator.getUsername());
-
 		boolean skip = false;
-
-		System.err.println(cfds.size());
 
 		if (cfds.isEmpty()) {
 			System.err.println("You haven't got any open CFD contract yet.");
@@ -96,10 +91,7 @@ public class ConsultPortfolioView {
 
 		if (skip == false) {
 
-			System.err.println("NÃO DEI SKIP!");
-
 			sb.append(header); // fst line with identifiers
-
 
 			for (ICFD cfd : cfds) {
 

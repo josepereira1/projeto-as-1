@@ -75,7 +75,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 */
 	public void encerrarCFD(String id) throws ExecutionException, InterruptedException, CFDNotExistsException {
 		if(!data.containsCFD(id).get()) throw new CFDNotExistsException(id);	//	verify if stock id exists
-		data.updateEndDateCFD(id,LocalDateTime.now()).get();	//	in manual or automatic end CFD, the end date is current date
+		data.updateEndDateCFD(id,LocalDateTime.now());	//	in manual or automatic end CFD, the end date is current date
 	}
 
 	/**

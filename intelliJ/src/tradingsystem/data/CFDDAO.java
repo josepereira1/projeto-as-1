@@ -334,27 +334,32 @@ public class CFDDAO implements Subject {
 	 * @param id id of CFD
 	 * @param endDate end date
 	 */
-	public Future<Void> updateEndDateCFD(String id, LocalDateTime endDate){
-
-		FutureTask<Void> futureTask = new FutureTask<>(() ->{
-			Statement statement = conn.createStatement();
-
-			statement.executeUpdate("SET SQL_SAFE_UPDATES = 0");
-			statement.executeUpdate("UPDATE CFD SET dataEncerramento='" + Timestamp.valueOf(endDate) + "' WHERE id='" + id + "'");
-
-			return null;
-		});
-		genericActiveObject.submit(futureTask);
+	public void updateEndDateCFD(String id, LocalDateTime endDate) {
 
 		try {
-			notifyObservers().get();
+			FutureTask<String> futureTask = new FutureTask<>(() -> {
+				Statement statement = conn.createStatement();
+
+				statement.executeUpdate("SET SQL_SAFE_UPDATES = 0");
+				statement.executeUpdate("UPDATE CFD SET dataEncerramento='" + Timestamp.valueOf(endDate) + "' WHERE id='" + id + "'");
+
+				String sql = "SELECT username FROM cfd WHERE id =" + id;
+				ResultSet resultSet = statement.executeQuery(sql);
+
+				if (resultSet.next()) return resultSet.getString("username");
+				else return null;
+			});
+
+			genericActiveObject.submit(futureTask);
+			String username = futureTask.get();
+			Collection<ICFD> cfds = getCFDsOpen(username).get();
+			notifyObservers(cfds).get();
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-
-		return futureTask;
 	}
 
 	public Future<String> getIdAtivoDoCFD(String idCFD){
@@ -389,19 +394,20 @@ public class CFDDAO implements Subject {
 	}
 
 	@Override
-	public void registerObserver(Observer observer) {
+	public Future<Void> registerObserver(Observer observer) {
 		FutureTask<Void> futureTask = new FutureTask<>(()->{
 			observers.add(observer);
 			return null;
 		});
 
 		genericActiveObject.submit(futureTask);
+		return futureTask;
 	}
 
 	@Override
-	public Future<Void> notifyObservers() {
+	public Future<Void> notifyObservers(Object arg) {
 		FutureTask<Void> futureTask = new FutureTask<>(() -> {
-			for (Observer observer : observers)observer.update();
+			for (Observer observer : observers)observer.update(arg);
 			return null;
 		});
 		genericActiveObject.submit(futureTask);

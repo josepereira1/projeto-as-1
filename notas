@@ -20,8 +20,8 @@ Design Pattern a aplicar e aplicados:
 
 
 Dúvidas:
-	1 - AbstractFactory ?? (futuro)
-	2 - Threads => ActiveObject?
+	-- 1 - AbstractFactory ?? (futuro)
+	-- 2 - Threads => ActiveObject?
 	3 - A ligação deve ser com a interface ou com a classe?
 	4 - Listar os ativos, a view vai diretamente à base de dados ou vamos ao business e este depois é que vai ao data?
 	5 - o factorymethod deve ser static ou instance?
@@ -38,3 +38,4 @@ Dúvidas:
 	15 - devemos colocar a variável creator no package utilizador, pq para permitir extensibilidade, onde no futuro se o package Utilizador precisar de criar objectos CFD e Ativo.
 	16 - No factory do utilizador devemos colocar o creator a implementar uma interface, para reduzir as depencias de classes
 	17 - Nas views é correcto colocarmos os inputs como variáveis de instância?
+

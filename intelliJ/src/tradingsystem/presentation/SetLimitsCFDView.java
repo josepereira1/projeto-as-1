@@ -20,10 +20,10 @@ public class SetLimitsCFDView {
 		System.out.println("[Set limits] active ID:");
 		idCFD = scanner.nextLine();
 		System.out.println("[Set limits] take profit value ($) (fill with <<-1>> if not usable):");
-		if(scanner.hasNextInt() == false) throw new InvalidInputException();
+		if(scanner.hasNextFloat() == false) throw new InvalidInputException();
 		takeProfit = scanner.nextFloat();
 		System.out.println("[Set limits] stop less value ($) (fill with <<-1>> if not usable):");
-		if(scanner.hasNextInt() == false) throw new InvalidInputException();
+		if(scanner.hasNextFloat() == false) throw new InvalidInputException();
 		stopLess = scanner.nextFloat();
 	}
 

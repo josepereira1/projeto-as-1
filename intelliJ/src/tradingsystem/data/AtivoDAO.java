@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 public class AtivoDAO {
 
 	/** Token used to access REST API server. */
-	private static final String APIToken = "demo";
-	//private static String APIToken = "IwkmgAv406p5lc2mJ3vXkww56P6cw9QIjPmtpW4I4e4weBztvCsji44H9NLr";
+	//private static final String APIToken = "demo";
+	private static String APIToken = "IwkmgAv406p5lc2mJ3vXkww56P6cw9QIjPmtpW4I4e4weBztvCsji44H9NLr";
 
 	/**
 	 * Returns a JSONObject containing information obtained by method GET.
@@ -34,27 +35,36 @@ public class AtivoDAO {
 	 */
 	public Collection<IAtivo> values() throws IOException, StockTypeNotValidException {
 		Collection<IAtivo> res = new ArrayList<>();
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
-		JSONArray arr = RESTGet(url).getJSONArray("data");
-		for(int i=0; i<arr.length(); i++) {
-			JSONObject o = (JSONObject) arr.get(i); // gets() each IAtivo
 
-			String id = o.getString("symbol");
-			String designacao = o.getString("name");
-			float valorCompra = o.getFloat("price");
-			float valorVenda = valorCompra*0.975f;
+		List<String> urls = new ArrayList<>();
+		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=AAPL,GOOG,FB,NFLX,TSLA&api_token=" + APIToken);
+		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=NVDA,INTC,AMZN,V,MSFT&api_token=" + APIToken);
+		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=TWTR,SNAP,VOD.L,BA,DIS&api_token=" + APIToken);
+		urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo");
 
-			IAtivo ativo = null;
-			// TODO se conseguir na API saber o tipo meter o if() aqui
-			if (true) ativo = TradingAbstractFactory.getInstance().createAtivo("ACAO");
-			else throw new StockTypeNotValidException();
+		for(String url: urls) {
+			JSONArray arr = RESTGet(url).getJSONArray("data");
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject o = (JSONObject) arr.get(i); // gets() each IAtivo
 
-			ativo.setId(id);
-			ativo.setDesignacao(designacao);
-			ativo.setValorVenda(valorCompra);
-			ativo.setValorCompra(valorVenda);
-			res.add(ativo);
+				String id = o.getString("symbol");
+				String designacao = o.getString("name");
+				float valorCompra = o.getFloat("price");
+				float valorVenda = valorCompra * 0.975f;
+
+				IAtivo ativo;
+				// TODO se conseguir na API saber o tipo meter o if() aqui
+				if (true) ativo = TradingAbstractFactory.getInstance().createAtivo("ACAO");
+				else throw new StockTypeNotValidException();
+
+				ativo.setId(id);
+				ativo.setDesignacao(designacao);
+				ativo.setValorVenda(valorCompra);
+				ativo.setValorCompra(valorVenda);
+				res.add(ativo);
+			}
 		}
+
 		return res;
 	}
 
@@ -67,7 +77,7 @@ public class AtivoDAO {
 	public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
 		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
 
 		float res = ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 
@@ -78,15 +88,14 @@ public class AtivoDAO {
 		else throw new CFDTypeNotValidException(String.valueOf(typeOfCFD));
 	}
 
+
 	public boolean contains(String id) throws IOException {
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=" + APIToken;
+		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
+		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
 		JSONArray arr = RESTGet(url).getJSONArray("data");
 
-		for(int i=0; i<arr.length(); i++) {
-			JSONObject o = (JSONObject) arr.get(i); // gets() each IAtivo
-			if (o.getString("symbol").equals(id)) return true;
-		}
-		return false;
+		return arr != null;
 	}
 
 }

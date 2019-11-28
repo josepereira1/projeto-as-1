@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class ConsultAtivosView {
 
     private static final int maxSpaces1 = 12; // Id ... Org.
-    private static final int maxSpaces2 = 23; // Org. ... Buy Prc.
+    private static final int maxSpaces2 = 30; // Org. ... Buy Prc.
     private static final int maxSpaces3 = 15; // Buy Prc. ... Sell Prc.
     private static String header;
 

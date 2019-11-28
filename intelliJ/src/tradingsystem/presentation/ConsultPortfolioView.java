@@ -99,9 +99,6 @@ public class ConsultPortfolioView {
 
 			for (ICFD cfd : cfds) {
 
-				//TODO implementar o método Opened and Closed getCFDs()
-				if (cfd.getDataEncerramento() != null) continue; // já foi encerrado
-
 				// Id
 				String idCFD = cfd.getId();
 				sb.append(idCFD);

@@ -38,7 +38,8 @@ public class HomeController implements Runnable {
 				case "\\q":
 				case "\\quit":
 					//new LogOutController(); 	//	TODO ainda não existe, mas deviamos criar para printar uma cena do género "See you later"
-					break;
+					System.exit(1);
+                    break;
 				case "\\p":
 				case "\\portfolio":
 					new ConsultPortfolioController().run();
@@ -59,6 +60,10 @@ public class HomeController implements Runnable {
 				case "\\close":
 					new CloseCFDSController().run();
 					break;
+                case "\\a":
+                case "\\ativos":
+                    new ConsultAtivosController().run();
+                    break;
 				default:
 					homeView.informInvalidAction();
 					this.run(); //

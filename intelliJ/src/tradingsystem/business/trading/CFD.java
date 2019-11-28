@@ -68,8 +68,9 @@ public class CFD implements ICFD {
 	 * @param numeroDeAtivos number of stock
 	 * @param valorInvestido invested value
 	 */
-	public static float getBalanco(float valorAtualAtivo, int numeroDeAtivos, float valorInvestido) {
-		return valorInvestido-(valorAtualAtivo*numeroDeAtivos);
+	public static float getBalanco(int tipoCFD, float valorAtualAtivo, int numeroDeAtivos, float valorInvestido) {
+		if (tipoCFD == 0) return valorInvestido-(valorAtualAtivo*numeroDeAtivos); // 0 - SELL
+		else return (valorAtualAtivo*numeroDeAtivos)-valorInvestido; // 1 - BUY
 	}
 
 	/**

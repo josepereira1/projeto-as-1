@@ -83,7 +83,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 * @param username username
 	 */
 	public Collection<ICFD> getPortfolio(String username) throws ExecutionException, InterruptedException {
-		return data.getCFDs(username).get();
+		return data.getCFDsOpen(username).get();
 	}
 
 	/**
@@ -117,13 +117,16 @@ public class FacadeTrading implements IFacadeTrading {
 		return data.getValorAtualAtivo(id, typeOfCFD);
 	}
 
-	/**
-	 * Returns the profit of CFD.
-	 * @param idCFD id of CFD
-	 */
+
 	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException {
 		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
-		return CFD.getBalanco(data.getValorAtualAtivo(data.getIdAtivoDoCFD(idCFD).get(), data.getTipoCFD(idCFD).get()), data.getNumeroDeAtivosCFD(idCFD).get(),data.getValorInvestidoCFD(idCFD).get());
+		int tipoCFD = data.getTipoCFD(idCFD).get();
+		String idAtivo = data.getIdAtivoDoCFD(idCFD).get();
+		float valorAtualAtivo;
+		if (tipoCFD == 0) valorAtualAtivo = data.getValorAtualAtivo(idAtivo, 1);
+		else valorAtualAtivo = data.getValorAtualAtivo(idAtivo, 0);
+		return CFD.getBalanco(tipoCFD, valorAtualAtivo, data.getNumeroDeAtivosCFD(idCFD).get(), data.getValorInvestidoCFD(idCFD).get());
 	}
+
 
 }

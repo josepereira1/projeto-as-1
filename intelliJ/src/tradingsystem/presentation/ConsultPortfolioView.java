@@ -83,112 +83,119 @@ public class ConsultPortfolioView {
 
 		Collection<ICFD> cfds =  model.business.getPortfolio(model.ator.getUsername());
 
+		boolean skip = false;
+
 		if (cfds.isEmpty()) {
-			System.err.println("You haven't got any open CFD contract.");
-			return;
+			System.err.println("You haven't got any open CFD contract yet.");
+			skip = true;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(header); // fst line with identifiers
 
-		for (ICFD cfd : cfds) {
+		if (skip == false) {
 
-			//TODO implementar o método Opened and Closed getCFDs()
-			if (cfd.getDataEncerramento() != null) continue; // já foi encerrado
+			sb.append(header); // fst line with identifiers
 
-			// Id
-			String idCFD = cfd.getId();
-			sb.append(idCFD);
-			sb.append(" ".repeat(maxSpaces1 - idCFD.length()));
 
-			// Org
-			String idAtivo = cfd.getIdAtivo();
-			sb.append(idAtivo);
-			sb.append(" ".repeat(maxSpaces2 - idAtivo.length()));
+			for (ICFD cfd : cfds) {
 
-			// Type
-			if (cfd.getTipo() == 0) { // 0 - SELL
-				sb.append("Sell");
-				sb.append(" ".repeat(maxSpaces3 - 4));
-			} else if (cfd.getTipo() == 1) { // 1 - BUY
-				sb.append("Buy");
-				sb.append(" ".repeat(maxSpaces3 - 3));
+				//TODO implementar o método Opened and Closed getCFDs()
+				if (cfd.getDataEncerramento() != null) continue; // já foi encerrado
+
+				// Id
+				String idCFD = cfd.getId();
+				sb.append(idCFD);
+				sb.append(" ".repeat(maxSpaces1 - idCFD.length()));
+
+				// Org
+				String idAtivo = cfd.getIdAtivo();
+				sb.append(idAtivo);
+				sb.append(" ".repeat(maxSpaces2 - idAtivo.length()));
+
+				// Type
+				if (cfd.getTipo() == 0) { // 0 - SELL
+					sb.append("Sell");
+					sb.append(" ".repeat(maxSpaces3 - 4));
+				} else if (cfd.getTipo() == 1) { // 1 - BUY
+					sb.append("Buy");
+					sb.append(" ".repeat(maxSpaces3 - 3));
+				}
+
+				// Units
+				String numeroDeAtivos = Integer.toString(cfd.getNumeroDeAtivos());
+				sb.append(numeroDeAtivos);
+				sb.append(" ".repeat(maxSpaces4 - numeroDeAtivos.length()));
+
+				// Initial Price
+				if (cfd.getTipo() == 0) { // 0 - SELL
+					valor = cfd.getValorInicial();
+					String valorInicial = String.format("%.2f", valor) + " (S)";
+					sb.append(valorInicial);
+					sb.append(" ".repeat(maxSpaces5 - valorInicial.length()));
+				} else if (cfd.getTipo() == 1) { // 1 - BUY
+					valor = cfd.getValorInicial();
+					String valorInicial = String.format("%.2f", valor) + " (B)";
+					sb.append(valorInicial);
+					sb.append(" ".repeat(maxSpaces5 - valorInicial.length()));
+				}
+
+				// Current Price
+				if (cfd.getTipo() == 0) { // 0 - SELL
+					valor = model.business.getValorAtualAtivo(cfd.getIdAtivo(), 1);
+					String valorAtual = String.format("%.2f", valor) + " (B)";
+					sb.append(valorAtual);
+					sb.append(" ".repeat(maxSpaces6 - valorAtual.length()));
+				} else if (cfd.getTipo() == 1) { // 1 - BUY
+					valor = model.business.getValorAtualAtivo(cfd.getIdAtivo(), 0);
+					String valorAtual = String.format("%.2f", valor) + " (S)";
+					sb.append(valorAtual);
+					sb.append(" ".repeat(maxSpaces6 - valorAtual.length()));
+				}
+
+				float valorAtualDoAtivo = valor; // guardar o valor atual do ativo
+
+				// Invested
+				valor = cfd.getValorInvestido();
+				totalInvested += valor;
+				String invested = String.format("%.2f", valor);
+				sb.append(invested);
+				sb.append(" ".repeat(maxSpaces7 - invested.length()));
+
+				// Balance
+				valor = cfd.getBalanco(valorAtualDoAtivo);
+				totalBalance += valor;
+				String balance = String.format("%.2f", valor);
+				sb.append(balance);
+				sb.append(" ".repeat(maxSpaces8 - balance.length()));
+
+				// Total
+				valor = cfd.getValorInvestido() + valor; // este <<valor>> mais á esquerda é o balance (assim aproveita-se a variável temporária)
+				total += valor;
+				String totalC = String.format("%.2f", valor);
+				sb.append(totalC);
+				sb.append(" ".repeat(maxSpaces9 - totalC.length()));
+
+				// Stop Loss
+				valor = cfd.getStopLess();
+				if (valor == -1f) {
+					sb.append("null");
+					sb.append(" ".repeat(maxSpaces10 - 4));
+				} else {
+					String sl = String.format("%.2f", valor);
+					sb.append(sl);
+					sb.append(" ".repeat(maxSpaces10 - sl.length()));
+				}
+
+				// Take Profit
+				valor = cfd.getTakeProfit();
+				if (valor == -1f) {
+					sb.append("null");
+				} else {
+					String tp = String.format("%.2f", valor);
+					sb.append(tp);
+				}
+				sb.append("\n");
 			}
-
-			// Units
-			String numeroDeAtivos = Integer.toString(cfd.getNumeroDeAtivos());
-			sb.append(numeroDeAtivos);
-			sb.append(" ".repeat(maxSpaces4 - numeroDeAtivos.length()));
-
-			// Initial Price
-			if (cfd.getTipo() == 0) { // 0 - SELL
-				valor = cfd.getValorInicial();
-				String valorInicial = String.format("%.2f", valor) + " (S)";
-				sb.append(valorInicial);
-				sb.append(" ".repeat(maxSpaces5 - valorInicial.length()));
-			} else if (cfd.getTipo() == 1) { // 1 - BUY
-				valor = cfd.getValorInicial();
-				String valorInicial = String.format("%.2f", valor) + " (B)";
-				sb.append(valorInicial);
-				sb.append(" ".repeat(maxSpaces5 - valorInicial.length()));
-			}
-
-			// Current Price
-			if (cfd.getTipo() == 0) { // 0 - SELL
-				valor = model.business.getValorAtualAtivo(cfd.getIdAtivo(), 1);
-				String valorAtual = String.format("%.2f", valor) + " (B)";
-				sb.append(valorAtual);
-				sb.append(" ".repeat(maxSpaces6 - valorAtual.length()));
-			} else if (cfd.getTipo() == 1) { // 1 - BUY
-				valor = model.business.getValorAtualAtivo(cfd.getIdAtivo(), 0);
-				String valorAtual = String.format("%.2f", valor) + " (S)";
-				sb.append(valorAtual);
-				sb.append(" ".repeat(maxSpaces6 - valorAtual.length()));
-			}
-
-			float valorAtualDoAtivo = valor; // guardar o valor atual do ativo
-
-			// Invested
-			valor = cfd.getValorInvestido();
-			totalInvested += valor;
-			String invested = String.format("%.2f", valor);
-			sb.append(invested);
-			sb.append(" ".repeat(maxSpaces7 - invested.length()));
-
-			// Balance
-			valor = cfd.getBalanco(valorAtualDoAtivo);
-			totalBalance += valor;
-			String balance = String.format("%.2f", valor);
-			sb.append(balance);
-			sb.append(" ".repeat(maxSpaces8 - balance.length()));
-
-			// Total
-			valor = cfd.getValorInvestido() + valor; // este <<valor>> mais á esquerda é o balance (assim aproveita-se a variável temporária)
-			total += valor;
-			String totalC =  String.format("%.2f", valor);
-			sb.append(totalC);
-			sb.append(" ".repeat(maxSpaces9 - totalC.length()));
-
-			// Stop Loss
-			valor = cfd.getStopLess();
-			if (valor == -1f) {
-				sb.append("null");
-				sb.append(" ".repeat(maxSpaces10 - 4));
-			} else {
-				String sl = String.format("%.2f", valor);
-				sb.append(sl);
-				sb.append(" ".repeat(maxSpaces10 - sl.length()));
-			}
-
-			// Take Profit
-			valor = cfd.getTakeProfit();
-			if (valor == -1f) {
-				sb.append("null");
-			} else {
-				String tp = String.format("%.2f", valor);
-				sb.append(tp);
-			}
-			sb.append("\n");
 		}
 
 		// print Footer

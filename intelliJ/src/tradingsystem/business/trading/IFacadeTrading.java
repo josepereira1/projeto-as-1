@@ -49,10 +49,7 @@ public interface IFacadeTrading {
 	 */
 	public float getValorAtualAtivo(String id, int typeOfCFD) throws IOException, StockIdNotExistsException, CFDTypeNotValidException;
 
-	/**
-	 * 
-	 * @param idCFD
-	 */
+
 	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException;
 
 }

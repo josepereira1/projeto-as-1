@@ -106,8 +106,8 @@ public class FacadeData implements IFacadeData {
 	 * @param username
 	 * @return
 	 */
-	public Future<Collection<ICFD>> getCFDs(String username) {
-		return this.cfds.getCFDs(username);
+	public Future<Collection<ICFD>> getCFDsOpen(String username) {
+		return this.cfds.getCFDsOpen(username);
 	}
 
 	/**
@@ -115,9 +115,9 @@ public class FacadeData implements IFacadeData {
 	 * @param username
 	 * @return
 	 */
-	public Future<Collection<String>> getCFDsIdsOpen(String username) {
+	/*public Future<Collection<String>> getCFDsIdsOpen(String username) {
 		return this.cfds.getCFDsIdsOpen(username);
-	}
+	}*/
 
 	/**
 	 * 

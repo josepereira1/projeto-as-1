@@ -3,10 +3,7 @@ package tradingsystem.business;
 import tradingsystem.business.recursoshumanos.FacadeRecursosHumanos;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.recursoshumanos.IFacadeRecursosHumanos;
-import tradingsystem.business.trading.FacadeTrading;
-import tradingsystem.business.trading.IAtivo;
-import tradingsystem.business.trading.ICFD;
-import tradingsystem.business.trading.IFacadeTrading;
+import tradingsystem.business.trading.*;
 import tradingsystem.data.FacadeData;
 import tradingsystem.data.IFacadeData;
 
@@ -68,6 +65,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 */
 	public void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException, CFDTypeNotValidException {
 		trading.encerrarCFD(id);
+
 		float invested = data.getValorInvestidoCFD(id).get();
 		float balance = trading.getBalanco(id);
 		float total = invested + balance;
@@ -153,13 +151,17 @@ public class FacadeBusiness implements IFacadeBusiness {
 			try {
 				while(true) {
 					Thread.sleep(INTERVAL);
-					Collection<String> cfds = this.data.getCFDsIdsOpen(username).get();
-					for (String id : cfds) {
-						float sl = this.data.getStopLess(id).get();
-						float tp = this.data.getTakeProfit(id).get();
-						float balance = this.trading.getBalanco(id);
-						if ( (sl != -1 && balance < sl) || (tp != -1 && balance > tp) ) {
-							this.encerrarCFD(id, username);
+					Collection<ICFD> cfds = this.data.getCFDsOpen(username).get();
+					for (ICFD cfd : cfds) {
+						int tipo;
+						if (cfd.getTipo() == 1) tipo = 0;
+						else tipo = 1;
+						float valorAtualAtivo = this.data.getValorAtualAtivo(cfd.getIdAtivo(), tipo);
+						float sl = cfd.getStopLess();
+						float tp = cfd.getTakeProfit();
+						float balance = cfd.getBalanco(valorAtualAtivo);
+						if ( (sl != -1 && balance < -sl) || (tp != -1 && balance > tp) ) {
+							this.encerrarCFD(cfd.getId(), username);
 						}
 					}
 				}

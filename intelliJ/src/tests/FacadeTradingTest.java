@@ -60,12 +60,5 @@ public class FacadeTradingTest {
             e.printStackTrace();
         }*/
 
-        try {
-            System.out.println(facadeTrading.getBalanco("99999"));
-        } catch (CFDNotExistsException e) {
-            e.printStackTrace();
-        } catch (CFDTypeNotValidException e) {
-            e.printStackTrace();
-        }
     }
 }

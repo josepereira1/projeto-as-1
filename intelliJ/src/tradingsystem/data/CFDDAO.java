@@ -157,12 +157,12 @@ public class CFDDAO {
      * @param username id of user.
      * @return
      */
-	public Future<Collection<String>> getCFDsIds(String username) {
+	public Future<Collection<String>> getCFDsIdsOpen(String username) {
 
 		FutureTask<Collection<String>> futureTask = new FutureTask<>(() -> {
 
 			Statement statement = conn.createStatement();
-			String sql = "SELECT id FROM CFD WHERE username = " + "'" + username + "'";
+			String sql = "SELECT id FROM CFD WHERE username = " + "'" + username + "' and dataEncerramento is NULL";
 			ResultSet rs = statement.executeQuery(sql);
 
 			Collection<String> result = new ArrayList<>();

@@ -13,8 +13,6 @@ import java.util.concurrent.Future;
 
 public class FacadeTrading implements IFacadeTrading {
 
-	private static final int SEC = 1000;
-	private static final int INTERVAL = 1 * SEC;
 	private static IFacadeTrading trading;
 
 	private IFacadeData data;
@@ -125,44 +123,7 @@ public class FacadeTrading implements IFacadeTrading {
 	 */
 	public float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException {
 		if(!data.containsCFD(idCFD).get()) throw new CFDNotExistsException(idCFD);	//	verify if stock id exists
-
 		return CFD.getBalanco(data.getValorAtualAtivo(data.getIdAtivoDoCFD(idCFD).get(), data.getTipoCFD(idCFD).get()), data.getNumeroDeAtivosCFD(idCFD).get(),data.getValorInvestidoCFD(idCFD).get());
-	}
-
-	/**
-	 *
-	 * @param username
-	 * @throws SQLException
-	 * @throws AtorTypeNotValidException
-	 * @throws AtorExistsException
-	 */
-	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException {
-
-		String type = username.substring(0, 2); // fst two characters of username to get its type
-
-		if (type.equals("a_")) {
-			if (this.data.containsUtilizador(username, "Administrador") == false) throw new AtorNotExistsException(username);
-		}
-		else if (type.equals("t_")) {
-			if (this.data.containsUtilizador(username, "Trader") == false) throw new AtorNotExistsException(username);
-		}
-		else throw new AtorTypeNotValidException();
-
-		new Thread(() -> {
-			try {
-				while(true) {
-					Thread.sleep(INTERVAL);
-					Collection<String> cfds = this.data.getCFDsIds(username).get();
-					for (String id : cfds) {
-
-					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-		}).start();
 	}
 
 }

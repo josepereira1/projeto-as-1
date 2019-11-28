@@ -50,9 +50,9 @@ public class ConsultPortfolioView {
 		sb.append(str).append(" ".repeat(maxSpaces8-str.length()));
 		str = "Total";
 		sb.append(str).append(" ".repeat(maxSpaces9-str.length()));
-		str = "SL";
+		str = "SL (-)";
 		sb.append(str).append(" ".repeat(maxSpaces10-str.length()));
-		str = "TP";
+		str = "TP (+)";
 		sb.append(str);
 		sb.append("\n");
 		header = sb.toString();

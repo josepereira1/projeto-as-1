@@ -66,7 +66,7 @@ public interface IFacadeData {
 	 * @param username
 	 * @return
 	 */
-	Future<Collection<String>> getCFDsIds(String username);
+	Future<Collection<String>> getCFDsIdsOpen(String username);
 
 	/**
 	 *  @param id

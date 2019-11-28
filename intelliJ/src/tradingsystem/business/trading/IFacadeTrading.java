@@ -55,6 +55,4 @@ public interface IFacadeTrading {
 	 */
 	float getBalanco(String idCFD) throws CFDNotExistsException, ExecutionException, InterruptedException, IOException, CFDTypeNotValidException;
 
-	void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorExistsException, AtorNotExistsException;
-
 }

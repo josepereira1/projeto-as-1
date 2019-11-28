@@ -68,7 +68,10 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 */
 	public void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException, CFDTypeNotValidException {
 		trading.encerrarCFD(id);
-		recursosHumanos.addFundos(username, trading.getBalanco(id));	//	update plafond of user
+		float invested = data.getValorInvestidoCFD(id).get();
+		float balance = trading.getBalanco(id);
+		float total = invested + balance;
+		recursosHumanos.addFundos(username, total);	//	update plafond of user
 	}
 
 	public Collection<IAtivo> getAtivos() throws AtorTypeNotValidException, IOException, StockTypeNotValidException {
@@ -125,14 +128,59 @@ public class FacadeBusiness implements IFacadeBusiness {
 		return trading.getBalanco(idCFD);
 	}*/
 
-	@Override
-	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException, AtorExistsException {
-		trading.initAutoCloseCFDs(username);
-	}
 
 	@Override
 	public float getPlafond(String username) throws AtorNotExistsException, SQLException {
 		return recursosHumanos.getPlafond(username);
+	}
+
+	private static final int SEC = 1000;
+	private static final int INTERVAL = 1 * SEC;
+
+	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException {
+
+		String type = username.substring(0, 2); // fst two characters of username to get its type
+
+		if (type.equals("a_")) {
+			if (this.data.containsUtilizador(username, "Administrador") == false) throw new AtorNotExistsException(username);
+		}
+		else if (type.equals("t_")) {
+			if (this.data.containsUtilizador(username, "Trader") == false) throw new AtorNotExistsException(username);
+		}
+		else throw new AtorTypeNotValidException();
+
+		new Thread(() -> {
+			try {
+				while(true) {
+					Thread.sleep(INTERVAL);
+					Collection<String> cfds = this.data.getCFDsIdsOpen(username).get();
+					for (String id : cfds) {
+						float sl = this.data.getStopLess(id).get();
+						float tp = this.data.getTakeProfit(id).get();
+						float balance = this.trading.getBalanco(id);
+						if ( (sl != -1 && balance < sl) || (tp != -1 && balance > tp) ) {
+							this.encerrarCFD(id, username);
+						}
+					}
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			} catch (CFDTypeNotValidException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (CFDNotExistsException e) {
+				e.printStackTrace();
+			} catch (AtorNotExistsException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (AtorTypeNotValidException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 }

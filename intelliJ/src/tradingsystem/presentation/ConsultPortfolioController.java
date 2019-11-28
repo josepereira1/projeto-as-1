@@ -7,7 +7,6 @@ import tradingsystem.business.StockIdNotExistsException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 

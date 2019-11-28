@@ -20,8 +20,10 @@ public class ConsultPortfolioView {
 	private static final int maxSpaces4 = 10; // Units ... Init. Prc.
 	private static final int maxSpaces5 = 15; //  Init. Prc. ... Curr. Prc.
 	private static final int maxSpaces6 = maxSpaces5; //  Curr. Prc. ... Invested
-	private static final int maxSpaces7 = maxSpaces5; // Invested ... Balance
-	private static final int maxSpaces8 = maxSpaces5; // Balance ... Total
+	private static final int maxSpaces7 = 14; // Invested ... Balance
+	private static final int maxSpaces8 = maxSpaces7; // Balance ... Total
+	private static final int maxSpaces9 = maxSpaces7; // Total ... SL
+	private static final int maxSpaces10 = maxSpaces7; // SL ... TP
 	private static String header;
 
 	public String option;
@@ -47,6 +49,10 @@ public class ConsultPortfolioView {
 		str = "Balance";
 		sb.append(str).append(" ".repeat(maxSpaces8-str.length()));
 		str = "Total";
+		sb.append(str).append(" ".repeat(maxSpaces9-str.length()));
+		str = "SL";
+		sb.append(str).append(" ".repeat(maxSpaces10-str.length()));
+		str = "TP";
 		sb.append(str);
 		sb.append("\n");
 		header = sb.toString();
@@ -157,9 +163,31 @@ public class ConsultPortfolioView {
 			sb.append(" ".repeat(maxSpaces8 - balance.length()));
 
 			// Total
-			valor = cfd.getValorInvestido() + valor; // este valor mais á esquerda é o balance
+			valor = cfd.getValorInvestido() + valor; // este <<valor>> mais á esquerda é o balance (assim aproveita-se a variável temporária)
 			total += valor;
-			sb.append(String.format("%.2f", valor));
+			String totalC =  String.format("%.2f", valor);
+			sb.append(totalC);
+			sb.append(" ".repeat(maxSpaces9 - totalC.length()));
+
+			// Stop Loss
+			valor = cfd.getStopLess();
+			if (valor == -1f) {
+				sb.append("null");
+				sb.append(" ".repeat(maxSpaces10 - 4));
+			} else {
+				String sl = String.format("%.2f", valor);
+				sb.append(sl);
+				sb.append(" ".repeat(maxSpaces10 - sl.length()));
+			}
+
+			// Take Profit
+			valor = cfd.getTakeProfit();
+			if (valor == -1f) {
+				sb.append("null");
+			} else {
+				String tp = String.format("%.2f", valor);
+				sb.append(tp);
+			}
 			sb.append("\n");
 		}
 

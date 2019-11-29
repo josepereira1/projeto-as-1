@@ -359,7 +359,7 @@ public class CFDDAO implements SubjectCFD {
 			String username = futureTask.get(); // execute update
 
 			Collection<ICFD> cfds = getCFDsOpen(username).get(); // gets open CFD contrats
-			notifyObservers(cfds).get(); // notify ConsultPortfolioController
+			notifyObservers(new Object[]{id, cfds}).get(); // notify ConsultPortfolioController
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();

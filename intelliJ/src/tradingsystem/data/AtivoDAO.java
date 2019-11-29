@@ -87,8 +87,8 @@ public class AtivoDAO implements SubjectAtivo {
 
 				ativo.setId(id);
 				ativo.setDesignacao(designacao);
-				ativo.setValorVenda(valorCompra);
-				ativo.setValorCompra(valorVenda);
+				ativo.setValorVenda(valorVenda);
+				ativo.setValorCompra(valorCompra);
 				res.add(ativo);
 			}
 		}

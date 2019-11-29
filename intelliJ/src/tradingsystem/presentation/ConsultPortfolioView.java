@@ -208,6 +208,10 @@ public class ConsultPortfolioView {
 
 
 	public void notification(String id, float price) {
-		System.err.println("WARNING! THE ACTIVE " + id + " is now avaible for " + price + " $!");
+		System.err.println("WARNING: active " + id + " is now available for " + price + " $!");
+	}
+
+	public void informClosedCFD(String id) {
+		System.err.println("WARNING: CFD " + id + " was closed automatically!");
 	}
 }

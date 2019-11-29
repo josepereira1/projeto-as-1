@@ -64,12 +64,11 @@ public class FacadeBusiness implements IFacadeBusiness {
 	 * @param id
 	 */
 	public void encerrarCFD(String id, String username) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, AtorNotExistsException, SQLException, AtorTypeNotValidException, CFDTypeNotValidException {
-		trading.encerrarCFD(id);
-
 		float invested = data.getValorInvestidoCFD(id).get();
 		float balance = trading.getBalanco(id);
 		float total = invested + balance;
 		recursosHumanos.addFundos(username, total);	//	update plafond of user
+		trading.encerrarCFD(id);
 	}
 
 	public Collection<IAtivo> getAtivos() throws AtorTypeNotValidException, IOException, StockTypeNotValidException {

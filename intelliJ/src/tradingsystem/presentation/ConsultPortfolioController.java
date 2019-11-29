@@ -93,15 +93,25 @@ public class ConsultPortfolioController implements Runnable, Observer {
 	public void update(Object arg) {
 		try {
 
-			if (arg instanceof Collection) {
-				consultPortfolioView.displayPortfolio(model, (Collection<ICFD>) arg);
+			if(arg instanceof Object[]) {
+				Object[] arr = (Object[]) arg;
+
+				// Ativo alterou o preço
+				if (arr[0] instanceof String && arr[1] instanceof Float){
+					String id = (String) arr[0];
+					float price = (float) arr[1];
+					consultPortfolioView.notification(id, price);
+				}
+
+				// CFD encerrado automaticamento devido ao SL ou TP
+				else if (arr[0] instanceof String && arr[1] instanceof Collection) {
+					String id = (String) arr[0];
+					Collection<ICFD> cfds = (Collection<ICFD>) arr[1];
+					consultPortfolioView.informClosedCFD((String) arr[0]);
+					consultPortfolioView.displayPortfolio(model, cfds);
+				}
 			}
 
-			if(arg instanceof Object[]){
-				String id = (String) ((Object[])arg)[0];
-				float price = (float) ((Object[])arg)[1];
-				consultPortfolioView.notification(id, price);
-			}
 		} catch (StockIdNotExistsException e) {
 			//e.printStackTrace();
 			consultPortfolioView.error();

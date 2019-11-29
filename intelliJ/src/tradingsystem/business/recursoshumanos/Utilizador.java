@@ -2,29 +2,8 @@ package tradingsystem.business.recursoshumanos;
 
 public class Utilizador implements IAtor {
 
-	public String username;
-	public String password;
-
-	public String toString() {
-		StringBuilder sb =  new StringBuilder("Utilizador={");
-		sb.append("username=").append(username);
-		sb.append(";password=").append(password).append("};");
-		return sb.toString();
-	}
-
-	public Utilizador clone() {
-		// TODO - implement Utilizador.clone
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param o
-	 */
-	public boolean equals(Object o) {
-		// TODO - implement Utilizador.equals
-		throw new UnsupportedOperationException();
-	}
+	private String username;
+	private String password;
 
 	/**
 	 * Returns true if given credentials matches, otherwise returns false.

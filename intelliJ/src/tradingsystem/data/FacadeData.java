@@ -53,14 +53,6 @@ public class FacadeData implements IFacadeData {
 
 	/**
 	 * 
-	 * @param id
-	 */
-	public void removeCFD(String id) {
-		this.cfds.remove(id);
-	}
-
-	/**
-	 * 
 	 * @param utilizador
 	 */
 	public void putUtilizador(IAtor utilizador) throws SQLException, AtorTypeNotValidException {
@@ -95,45 +87,12 @@ public class FacadeData implements IFacadeData {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 */
-	public Future<ICFD> getCFD(String id) {
-		return this.cfds.get(id);
-	}
-
-	/**
 	 *
 	 * @param username
 	 * @return
 	 */
 	public Future<Collection<ICFD>> getCFDsOpen(String username) {
 		return this.cfds.getCFDsOpen(username);
-	}
-
-	/**
-	 *
-	 * @param username
-	 * @return
-	 */
-	/*public Future<Collection<String>> getCFDsIdsOpen(String username) {
-		return this.cfds.getCFDsIdsOpen(username);
-	}*/
-
-	/**
-	 * 
-	 * @param idCFD
-	 */
-	public Future<Float> getTakeProfit(String idCFD) {
-		return this.cfds.getTakeProfit(idCFD);
-	}
-
-	/**
-	 * 
-	 * @param idCFD
-	 */
-	public Future<Float> getStopLess(String idCFD) {
-		return this.cfds.getStopLess(idCFD);
 	}
 
 	public static IFacadeData getInstance() throws SQLException, ClassNotFoundException {

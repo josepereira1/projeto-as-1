@@ -34,18 +34,6 @@ public interface IFacadeData {
 
 	/**
 	 * 
-	 * @param id
-	 */
-	Future<ICFD> getCFD(String id);
-
-	/**
-	 * 
-	 * @param id
-	 */
-	void removeCFD(String id);
-
-	/**
-	 * 
 	 * @param cfd
 	 */
 	Future<ICFD> putCFD(ICFD cfd);
@@ -64,13 +52,6 @@ public interface IFacadeData {
 	Future<Collection<ICFD>> getCFDsOpen(String username);
 
 	/**
-	 *
-	 * @param username
-	 * @return
-	 */
-	//Future<Collection<String>> getCFDsIdsOpen(String username);
-
-	/**
 	 *  @param id
 	 * @param TP
 	 * @param SL
@@ -84,18 +65,6 @@ public interface IFacadeData {
 	 * @param valor
 	 */
 	void addFundos(String username, float valor) throws SQLException;
-
-	/**
-	 * 
-	 * @param idCFD
-	 */
-	Future<Float> getTakeProfit(String idCFD);
-
-	/**
-	 * 
-	 * @param idCFD
-	 */
-	Future<Float> getStopLess(String idCFD);
 
 	/**
 	 * 
@@ -131,5 +100,5 @@ public interface IFacadeData {
 
 	Future<SubjectCFD> getCFDSubject();
 
-	public SubjectAtivo getSubjectAtivo();
+	SubjectAtivo getSubjectAtivo();
 }

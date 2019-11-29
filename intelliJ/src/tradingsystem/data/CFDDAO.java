@@ -94,23 +94,6 @@ public class CFDDAO implements SubjectCFD {
     }
 
 	/**
-	 * Returns an ICD from databse.
-	 * @param id key of ICFD.
-	 */
-	public Future<ICFD> get(String id) {
-		FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
-			Statement statement = conn.createStatement();
-			String sql = "SELECT * FROM CFD WHERE id = " + "'" + id + "'";
-			ResultSet rs = statement.executeQuery(sql);
-			if (rs.next()) return getCFD(rs);
-			else return null;
-		});
-
-		genericActiveObject.submit(futureTask);
-		return futureTask;
-	}
-
-	/**
 	 *	Returns the last id being used by an ICFD.
 	 */
 	public Future<String> getNextId() {
@@ -130,32 +113,6 @@ public class CFDDAO implements SubjectCFD {
 
 			int res = Integer.parseInt(lastId) + 1;
 			return Integer.toString(res);
-		});
-
-		genericActiveObject.submit(futureTask);
-		return futureTask;
-	}
-
-	/**
-	 * Removes an ICFD from database.
-	 * @param id id of ICFD.
-	 */
-	public Future<ICFD> remove(String id) {
-
-		FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
-
-			Statement statement = conn.createStatement();
-			String sql = "SELECT * FROM CFD WHERE id = " + "'" + id + "'";
-			ResultSet rs = statement.executeQuery(sql);
-			ICFD res = null;
-			if (rs.next()) res = getCFD(rs);
-
-			sql = "SET SQL_SAFE_UPDATES = 0";
-			statement.executeUpdate(sql);
-			sql = "DELETE FROM CFD WHERE id=" + id;
-			statement.executeUpdate(sql);
-
-			return res;
 		});
 
 		genericActiveObject.submit(futureTask);
@@ -208,70 +165,6 @@ public class CFDDAO implements SubjectCFD {
 
 		this.genericActiveObject.submit(futuretask);
 		return futuretask;
-	}
-
-	// TODO não está a ser usado (nem sequer na interface)
-	/**
-	 * Returns a Collection containing all ICFDs in database.
-	public Future<Collection<ICFD>> values() {
-		FutureTask<Collection<ICFD>> futureTask = new FutureTask<Collection<ICFD>>(() -> {
-
-			Statement statement = conn.createStatement();
-			String sql = "SELECT * FROM CFD";
-			ResultSet rs = statement.executeQuery(sql);
-
-			Collection<ICFD> result = new ArrayList<>();
-
-			while (rs.next()) {
-				ICFD cfd = getCFD(rs);
-				result.add(cfd);
-			}
-
-			return result;
-		});
-
-		genericActiveObject.submit(futureTask);
-		return futureTask;
-	}*/
-
-	/**
-	 * Returns stop less from specified ICFD.
-	 * @param id id of ICFD.
-	 */
-	public Future<Float> getStopLess(String id) {
-		FutureTask<Float> futureTask = new FutureTask<>(() -> {
-			Statement statement = conn.createStatement();
-			String sql = "SELECT stopLess FROM cfd WHERE id=" + id;
-			ResultSet rs = statement.executeQuery(sql);
-			float res = 0;
-			if (rs.next()) {
-				res = rs.getFloat("stopLess");
-			}
-			return res;
-		});
-
-		this.genericActiveObject.submit(futureTask);
-		return futureTask;
-	}
-
-	/**
-	 * Returns take profit from specified ICFD.
-	 * @param id id of ICFD.
-	 */
-	public Future<Float> getTakeProfit(String id) {
-		FutureTask<Float> futureTask = new FutureTask<>(() -> {
-			Statement statement = conn.createStatement();
-			String sql = "SELECT takeProfit FROM cfd WHERE id=" + id;
-			ResultSet rs = statement.executeQuery(sql);
-			float res = 0;
-			if (rs.next()) {
-				res = rs.getFloat("takeProfit");
-			}
-			return res;
-		});
-
-		this.genericActiveObject.submit(futureTask);
-		return futureTask;
 	}
 
 	/**

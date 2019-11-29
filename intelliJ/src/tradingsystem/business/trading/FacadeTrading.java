@@ -14,7 +14,6 @@ import java.util.concurrent.Future;
 public class FacadeTrading implements IFacadeTrading {
 
 	private static IFacadeTrading trading;
-
 	private IFacadeData data;
 
 	private FacadeTrading() throws SQLException, ClassNotFoundException {

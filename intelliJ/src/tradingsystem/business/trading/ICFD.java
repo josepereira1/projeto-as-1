@@ -7,7 +7,7 @@ public interface ICFD {
      *  Return the id of CFD.
      * @return Return the id of CFD
      */
-    public String getId();
+    String getId();
 
 
     /**

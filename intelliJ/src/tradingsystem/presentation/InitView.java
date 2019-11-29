@@ -11,6 +11,7 @@ public class InitView {
 	}
 
 	public void selectAction() {
+		action = -1;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("[0] - Login");
 		System.out.println("[1] - Register");

@@ -9,12 +9,19 @@ import java.util.concurrent.ExecutionException;
 
 public class CloseCFDSController implements Runnable {
 
+    private static CloseCFDSController closeCFDSController;
+
     private CloseCFDSView closeCFDSView;
     private TradingSystem model;
 
-    public CloseCFDSController() throws SQLException, ClassNotFoundException {
+    private CloseCFDSController() throws SQLException, ClassNotFoundException {
         closeCFDSView = new CloseCFDSView();
         model = TradingSystem.getInstance();
+    }
+
+    public static CloseCFDSController getInstance() throws SQLException, ClassNotFoundException {
+        if (closeCFDSController == null) closeCFDSController = new CloseCFDSController();
+        return closeCFDSController;
     }
 
     @Override
@@ -23,7 +30,7 @@ public class CloseCFDSController implements Runnable {
             closeCFDSView.closeCFD();
             model.business.encerrarCFD(closeCFDSView.CFDId, model.ator.getUsername());
             closeCFDSView.sucess();
-            new HomeController().run();
+            HomeController.getInstance().run();
 
         } catch (InvalidInputException e) {
             //e.printStackTrace();

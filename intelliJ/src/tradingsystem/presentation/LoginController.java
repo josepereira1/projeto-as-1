@@ -8,12 +8,19 @@ import java.sql.SQLException;
 
 public class LoginController implements Runnable {
 
+	private static LoginController loginController;
+
 	private LoginView loginView;
 	private TradingSystem model;
 
-	public LoginController() throws SQLException, ClassNotFoundException {
+	private LoginController() throws SQLException, ClassNotFoundException {
 		this.loginView = new LoginView();
 		this.model = TradingSystem.getInstance();
+	}
+
+	public static LoginController getInstance() throws SQLException, ClassNotFoundException {
+		if (loginController == null) loginController = new LoginController();
+		return loginController;
 	}
 
 	public void run() {
@@ -24,7 +31,7 @@ public class LoginController implements Runnable {
 				loginView.informInvalidPassword();
 				this.run();
 			} else { // goes to main menu
-				new HomeController().run();
+				HomeController.getInstance().run();
 			}
 		} catch (StringIndexOutOfBoundsException e) {
 			//e.printStackTrace();

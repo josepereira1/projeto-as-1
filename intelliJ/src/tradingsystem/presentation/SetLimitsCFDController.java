@@ -9,12 +9,19 @@ import java.util.concurrent.ExecutionException;
 
 public class SetLimitsCFDController implements Runnable {
 
+	private static SetLimitsCFDController setLimitsCFDController;
+
 	private SetLimitsCFDView setLimitsCFDView;
 	private TradingSystem model;
 
-	public SetLimitsCFDController() throws SQLException, ClassNotFoundException {
+	private SetLimitsCFDController() throws SQLException, ClassNotFoundException {
 		setLimitsCFDView = new SetLimitsCFDView();
 		model = TradingSystem.getInstance();
+	}
+
+	public static SetLimitsCFDController getInstance() throws SQLException, ClassNotFoundException {
+		if (setLimitsCFDController == null) setLimitsCFDController = new SetLimitsCFDController();
+		return setLimitsCFDController;
 	}
 
 	public void run() {
@@ -22,7 +29,7 @@ public class SetLimitsCFDController implements Runnable {
 			setLimitsCFDView.setLimit();
 			model.business.setCFDlimits(setLimitsCFDView.idCFD, setLimitsCFDView.takeProfit, setLimitsCFDView.stopLess);
 			setLimitsCFDView.sucess();
-			new HomeController().run();
+			HomeController.getInstance().run();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 			System.exit(1);

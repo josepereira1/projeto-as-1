@@ -8,12 +8,19 @@ import java.sql.SQLException;
 
 public class ConsultAtivosController implements Runnable {
 
+    private static ConsultAtivosController consultAtivosController;
+
     public ConsultAtivosView consultAtivosView;
     public TradingSystem model;
 
-    public ConsultAtivosController() throws SQLException, ClassNotFoundException {
+    private ConsultAtivosController() throws SQLException, ClassNotFoundException {
         this.consultAtivosView = new ConsultAtivosView();
         this.model = TradingSystem.getInstance();
+    }
+
+    public static ConsultAtivosController getInstance() throws SQLException, ClassNotFoundException {
+        if (consultAtivosController == null) consultAtivosController = new ConsultAtivosController();
+        return consultAtivosController;
     }
 
     @Override
@@ -21,11 +28,12 @@ public class ConsultAtivosController implements Runnable {
 
         try {
 
+            consultAtivosView.informAvaiblableOptions();
             consultAtivosView.promptOption();
 
             switch (consultAtivosView.option) {
                 case "\\b":
-                    new HomeController().run();
+                    HomeController.getInstance().run();
                     break;
                 case "\\u":
                     consultAtivosView.displayAtivos(model.business.getAtivos());

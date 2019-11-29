@@ -56,12 +56,15 @@ public class ConsultPortfolioView {
 		sb.append("\n");
 		header = sb.toString();
 		// -------------------------------------------------------------------
+	}
 
+	public void informAvailableOptions() {
 		System.out.println("Type \\b to go back.");
 		System.out.println("Type \\u to update portfolio.");
 	}
 
 	public void promptOption() {
+		option = "";
 		Scanner sc = new Scanner(System.in);
 		System.out.print(">> ");
 		if (sc.hasNextLine()) {

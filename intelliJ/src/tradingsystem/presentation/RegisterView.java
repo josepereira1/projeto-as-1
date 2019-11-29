@@ -39,6 +39,10 @@ public class RegisterView {
 	}
 
 	public void register() {
+		username = "";
+		password = "";
+		confirmPassword = "";
+		plafond = -1;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("username:");
 		System.out.print(">> ");

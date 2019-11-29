@@ -16,6 +16,9 @@ public class SetLimitsCFDView {
 	}
 
 	public void setLimit() throws InvalidInputException {
+		idCFD = "";
+		takeProfit = -1;
+		stopLess = -1;
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("[Set limits] active ID:");
 		idCFD = scanner.nextLine();

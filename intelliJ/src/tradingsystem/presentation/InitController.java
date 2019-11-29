@@ -4,10 +4,17 @@ import java.sql.SQLException;
 
 public class InitController implements Runnable {
 
+	private static InitController initController;
+
 	private InitView initView;
 
-	public InitController() {
+	private InitController() {
 		this.initView = new InitView();
+	}
+
+	public static InitController getInstance() {
+		if (initController == null) initController = new InitController();
+		return initController;
 	}
 
 	public void run() {
@@ -15,10 +22,10 @@ public class InitController implements Runnable {
 			initView.selectAction(); // display action selection
 			switch (initView.action) {
 				case 0:
-					new LoginController().run();
+					LoginController.getInstance().run();
 					break;
 				case 1:
-					new RegisterController().run();
+					RegisterController.getInstance().run();
 					break;
 				default:
 					initView.informInvalidAction(); // prints warning message

@@ -160,6 +160,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 						float tp = cfd.getTakeProfit();
 						float balance = cfd.getBalanco(valorAtualAtivo);
 						if ( (sl != -1 && balance < -sl) || (tp != -1 && balance > tp) ) {
+							//System.err.println(cfd.getId());
 							this.encerrarCFD(cfd.getId(), username);
 						}
 					}

@@ -30,6 +30,8 @@ public class LoginView {
 	}
 
 	public void login() {
+		username = "";
+		password = "";
 		Scanner sc = new Scanner(System.in);
 		System.out.println("username:");
 		System.out.print(">> ");

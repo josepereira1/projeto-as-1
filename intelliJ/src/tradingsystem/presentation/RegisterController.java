@@ -8,12 +8,19 @@ import java.sql.SQLException;
 
 public class RegisterController {
 
+	private static RegisterController registerController;
+
 	private TradingSystem model;
 	private RegisterView registerView;
 
-	public RegisterController() throws SQLException, ClassNotFoundException {
+	private RegisterController() throws SQLException, ClassNotFoundException {
 		this.model = TradingSystem.getInstance();
 		this.registerView = new RegisterView();
+	}
+
+	public static RegisterController getInstance() throws SQLException, ClassNotFoundException {
+		if (registerController == null) registerController = new RegisterController();
+		return registerController;
 	}
 
 	public void run() {
@@ -30,7 +37,7 @@ public class RegisterController {
 			registerView.username = "t_" + registerView.username;
 			model.ator = model.business.registarUtilizador(registerView.username, registerView.password, registerView.plafond);
 			registerView.informUsername();
-			new HomeController().run();
+			HomeController.getInstance().run();
 		} catch (StringIndexOutOfBoundsException e) {
 			//e.printStackTrace();
 			registerView.informUsernameTooShort();

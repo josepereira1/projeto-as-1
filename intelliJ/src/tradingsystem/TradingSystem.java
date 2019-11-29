@@ -31,7 +31,7 @@ public class TradingSystem {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new InitController().run();
+		InitController.getInstance().run();
 	}
 
 }

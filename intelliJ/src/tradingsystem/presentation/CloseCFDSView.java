@@ -8,6 +8,7 @@ public class CloseCFDSView {
     public String CFDId;
 
     public void closeCFD() throws InvalidInputException {
+        CFDId = "";
         Scanner scanner = new Scanner(System.in);
         System.out.println("[Close CFD] CFD ID:");
         if(scanner.hasNextLine() == false) throw new InvalidInputException();

@@ -10,13 +10,20 @@ import java.util.concurrent.ExecutionException;
 
 public class SellCFDController implements Runnable {
 
+	private static SellCFDController sellCFDController;
+
 	private SellCFDView sellCFDView;
 	private tradingsystem.TradingSystem model;
 	private static final int TYPE_OF_CFD = 0;	//	SELL
 
-	public SellCFDController() throws SQLException, ClassNotFoundException {
+	private SellCFDController() throws SQLException, ClassNotFoundException {
 		sellCFDView = new SellCFDView();
 		model = TradingSystem.getInstance();
+	}
+
+	public static SellCFDController getInstance() throws SQLException, ClassNotFoundException {
+		if (sellCFDController == null) sellCFDController = new SellCFDController();
+		return sellCFDController;
 	}
 
 	public void run() {
@@ -28,7 +35,7 @@ public class SellCFDController implements Runnable {
 
 			sellCFDView.sucess();
 
-			new HomeController().run();
+			HomeController.getInstance().run();
 
 		} catch (ClassNotFoundException e) {
 			sellCFDView.error();

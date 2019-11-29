@@ -7,22 +7,27 @@ public class HomeView {
 	public String option;
 
 	public HomeView() {
-		this.displayInitialSugestion(); // always displays initial sugestion when HomeController is accessed
+		//this.displayInitialSugestion(); // always displays initial sugestion when HomeController is accessed
 	}
 
 	public void executeOption() {
-		Scanner input = new Scanner(System.in);
-		option = input.nextLine();
+		option = "";
+		Scanner sc = new Scanner(System.in);
+		System.out.print(">> ");
+		if (sc.hasNextLine()) {
+			option = sc.nextLine();
+		}
 	}
 
 	public void informAvailableOptions() {
 		System.out.println("\\? or \\help to open this frame");
 		System.out.println("\\q or \\quit to quit this app");
+		System.out.println("\\a or \\ativos to quit this app");
 		System.out.println("\\p or \\portfolio to display your portfolio");
 		System.out.println("\\b or \\buy to buy stocks");
 		System.out.println("\\s or \\sell to sell stocks");
-		System.out.println("\\l or \\limits to set stock limits");
 		System.out.println("\\c or \\close to close CFD");
+		System.out.println("\\l or \\limits to set stock limits");
 	}
 
 	public void informConnIssue() {
@@ -45,7 +50,4 @@ public class HomeView {
 		System.out.println("type \\? or \\help to access help frame.");
 	}
 
-	public void token(){
-		System.out.print(">> ");
-	}
 }

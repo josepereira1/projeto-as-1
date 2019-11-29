@@ -10,12 +10,19 @@ import java.util.concurrent.ExecutionException;
 
 public class HomeController implements Runnable {
 
+	private static HomeController homeController;
+
 	private HomeView homeView;
 	private TradingSystem model;
 
-	public HomeController() throws SQLException, ClassNotFoundException {
+	private HomeController() throws SQLException, ClassNotFoundException {
 		homeView = new HomeView();
 		model = TradingSystem.getInstance();
+	}
+
+	public static HomeController getInstance() throws SQLException, ClassNotFoundException {
+		if (homeController == null) homeController = new HomeController();
+		return homeController;
 	}
 
 	public void run() {
@@ -26,8 +33,7 @@ public class HomeController implements Runnable {
 				model.firstTime = false;
 			}
 
-			homeView.token();
-
+			homeView.displayInitialSugestion();
 			homeView.executeOption();
 
 			switch (homeView.option) {
@@ -43,27 +49,27 @@ public class HomeController implements Runnable {
                     break;
 				case "\\p":
 				case "\\portfolio":
-					new ConsultPortfolioController().run();
+					ConsultPortfolioController.getInstance().run();
 					break;
 				case "\\b":
 				case "\\buy":
-					new BuyCFDController().run();
+					BuyCFDController.getIntance().run();
 					break;
 				case "\\s":
 				case "\\sell":
-					new SellCFDController().run();
+					SellCFDController.getInstance().run();
 					break;
 				case "\\l":
 				case "\\limits":
-					new SetLimitsCFDController().run();
+					SetLimitsCFDController.getInstance().run();
 					break;
 				case "\\c":
 				case "\\close":
-					new CloseCFDSController().run();
+					CloseCFDSController.getInstance().run();
 					break;
                 case "\\a":
                 case "\\ativos":
-                    new ConsultAtivosController().run();
+                    ConsultAtivosController.getInstance().run();
                     break;
 				default:
 					homeView.informInvalidAction();

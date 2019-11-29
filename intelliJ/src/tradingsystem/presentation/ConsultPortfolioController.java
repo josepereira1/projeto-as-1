@@ -1,8 +1,8 @@
 package tradingsystem.presentation;
 
-import tradingsystem.business.Observer;
-import tradingsystem.business.SubjectAtivo;
-import tradingsystem.business.SubjectCFD;
+import tradingsystem.data.Observer;
+import tradingsystem.data.SubjectAtivo;
+import tradingsystem.data.SubjectCFD;
 import tradingsystem.TradingSystem;
 import tradingsystem.business.AtorNotExistsException;
 import tradingsystem.business.CFDTypeNotValidException;

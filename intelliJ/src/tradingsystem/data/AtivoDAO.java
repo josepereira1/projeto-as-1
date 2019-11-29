@@ -4,8 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import tradingsystem.business.Observer;
-import tradingsystem.business.SubjectAtivo;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;

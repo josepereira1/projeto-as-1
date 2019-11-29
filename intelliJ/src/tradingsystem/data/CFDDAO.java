@@ -1,7 +1,5 @@
 package tradingsystem.data;
 
-import tradingsystem.business.Observer;
-import tradingsystem.business.SubjectCFD;
 import tradingsystem.business.CFDNotExistsException;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;

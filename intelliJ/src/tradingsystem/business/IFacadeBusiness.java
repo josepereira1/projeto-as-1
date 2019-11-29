@@ -3,6 +3,8 @@ package tradingsystem.business;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;
+import tradingsystem.data.SubjectAtivo;
+import tradingsystem.data.SubjectCFD;
 
 import java.io.IOException;
 import java.sql.SQLException;

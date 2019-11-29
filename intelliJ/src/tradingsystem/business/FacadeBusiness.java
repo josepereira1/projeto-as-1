@@ -6,6 +6,8 @@ import tradingsystem.business.recursoshumanos.IFacadeRecursosHumanos;
 import tradingsystem.business.trading.*;
 import tradingsystem.data.FacadeData;
 import tradingsystem.data.IFacadeData;
+import tradingsystem.data.SubjectAtivo;
+import tradingsystem.data.SubjectCFD;
 
 import java.io.IOException;
 import java.sql.SQLException;

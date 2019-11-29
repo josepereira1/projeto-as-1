@@ -94,15 +94,6 @@ public class FacadeBusiness implements IFacadeBusiness {
 	}
 
 	/**
-	 * 
-	 * @param username
-	 * @param valor
-	 */
-	public void addFundos(String username, float valor) throws AtorNotExistsException, SQLException, AtorTypeNotValidException {
-		recursosHumanos.addFundos(username, valor);
-	}
-
-	/**
 	 * Returns the current value of stock.
 	 * @param id id of stock
 	 * @param typeOfCFD type of CFD (0 -> Sell, 1 -> Buy)
@@ -119,12 +110,6 @@ public class FacadeBusiness implements IFacadeBusiness {
 		if (business == null) business = new FacadeBusiness();
 		return business;
 	}
-
-	/*
-	public float getBalanco(String idCFD) throws InterruptedException, ExecutionException, IOException, CFDNotExistsException, CFDTypeNotValidException {
-		return trading.getBalanco(idCFD);
-	}*/
-
 
 	@Override
 	public float getPlafond(String username) throws AtorNotExistsException, SQLException {

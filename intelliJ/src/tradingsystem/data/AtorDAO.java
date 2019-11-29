@@ -27,7 +27,9 @@ public class AtorDAO {
 
 	/**
 	 * 	Inserts an IAtivo to database.
-	 * @param value user
+	 * @param value user.
+	 * @throws SQLException if connection can not be established.
+	 * @throws AtorTypeNotValidException if IAtor type is not valid.
 	 */
 	public void put(IAtor value) throws SQLException, AtorTypeNotValidException {
 
@@ -41,18 +43,26 @@ public class AtorDAO {
 		statement.executeUpdate(sql);
 	}
 
-	private static String queryTrader(IAtor value){
+	/**
+	 * Returns a generated query to insert a Trader in database.
+	 * @param ator IAtor to be put.
+	 */
+	private static String queryTrader(IAtor ator){
 		String sql = "INSERT INTO Trader (username, password, plafond) VALUES (" ;
-		sql += "'"+value.getUsername()+"',";
-		sql += "'"+value.getPassword()+"',";
-		sql += ((Trader) value).getPlafond() + ")";
+		sql += "'"+ ator.getUsername()+"',";
+		sql += "'"+ ator.getPassword()+"',";
+		sql += ((Trader) ator).getPlafond() + ")";
 		return sql;
 	}
 
-	private static String queryAdministrador(IAtor value){
+	/**
+	 * Returns a generated query to insert an Administrator in database.
+	 * @param ator IAtor to be put.
+	 */
+	private static String queryAdministrador(IAtor ator){
 		String sql = "INSERT INTO Administrador (username, password) VALUES (";
-		sql += "'" + value.getUsername() + "',";
-		sql += "'" + value.getPassword() + "')";
+		sql += "'" + ator.getUsername() + "',";
+		sql += "'" + ator.getPassword() + "')";
 		return sql;
 	}
 
@@ -61,7 +71,8 @@ public class AtorDAO {
 	 * @param username username
 	 * @param userType user type (Trader or Administrador)
 	 * @return Return User with specific username
-	 * @throws SQLException SQLException
+	 * @throws SQLException if connection can not be established.
+	 * @throws AtorTypeNotValidException if IAtor type is not valid.
 	 */
 	public IAtor get(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		Statement statement = conn.createStatement();
@@ -79,7 +90,8 @@ public class AtorDAO {
 	 * @param statement statement to execute queries
 	 * @param username username
 	 * @return Return Trader user
-	 * @throws SQLException SQLException
+	 * @throws SQLException if connection can not be established.
+	 * @throws AtorTypeNotValidException if IAtor type is not valid.
 	 */
 	private IAtor getQueryTrader(Statement statement, String username) throws SQLException, AtorTypeNotValidException {
 		String sql = "SELECT * FROM TRADER WHERE username='" + username + "'";
@@ -103,7 +115,8 @@ public class AtorDAO {
 	 * @param statement statement to execute queries
 	 * @param username username
 	 * @return Return Admnistrador user
-	 * @throws SQLException SQLException
+	 * @throws SQLException if connection can not be established.
+	 * @throws AtorTypeNotValidException if IAtor type is not valid.
 	 */
 	private IAtor getQueryAdmnistrador(Statement statement, String username) throws SQLException, AtorTypeNotValidException {
 		String sql = "SELECT * FROM ADMINISTRADOR WHERE username='" + username + "'";
@@ -122,9 +135,10 @@ public class AtorDAO {
 	}
 
 	/**
-	 * Add funds to plafond of user.
+	 * Add funds to user's plafond.
 	 * @param username username
 	 * @param valor value of funds
+	 * @throws SQLException if connection can not be established.
 	 */
 	public void addFundos(String username, float valor) throws SQLException {
 		Statement statement = conn.createStatement();
@@ -137,8 +151,10 @@ public class AtorDAO {
 	}
 
 	/**
-	 * Returns true if Utilizador exists in database, otherwise returns false.
-	 * @param username username
+	 * Returns true if IAtor exists in database, otherwise returns false.
+	 * @param username username of IAtor
+	 * @throws SQLException if connection can not be established.
+	 * @throws AtorTypeNotValidException if IAtor type is not valid.
 	 */
 	public boolean contains(String username, String userType) throws SQLException, AtorTypeNotValidException {
 		Statement statement = conn.createStatement();

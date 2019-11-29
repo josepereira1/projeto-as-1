@@ -1,7 +1,5 @@
 package tradingsystem.business;
 
-import tradingsystem.SubjectAtivo;
-import tradingsystem.SubjectCFD;
 import tradingsystem.business.recursoshumanos.IAtor;
 import tradingsystem.business.trading.IAtivo;
 import tradingsystem.business.trading.ICFD;

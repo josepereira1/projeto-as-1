@@ -1,7 +1,7 @@
 package tradingsystem.data;
 
-import tradingsystem.Observer;
-import tradingsystem.SubjectCFD;
+import tradingsystem.business.Observer;
+import tradingsystem.business.SubjectCFD;
 import tradingsystem.business.CFDNotExistsException;
 import tradingsystem.business.trading.ICFD;
 import tradingsystem.business.trading.TradingAbstractFactory;
@@ -28,7 +28,10 @@ public class CFDDAO implements SubjectCFD {
 
 	private Collection<Observer> observers;
 
-	/** Constructs a Data Access Object to establish connection to database. */
+	/** Constructs a Data Access Object to establish connection to database.
+	 * @throws ClassNotFoundException if jbdc driver can not be loaded.
+	 * @throws SQLException if connection can not be established.
+	 * */
 	public CFDDAO() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		this.conn =  DriverManager.getConnection(url);
@@ -38,7 +41,9 @@ public class CFDDAO implements SubjectCFD {
 
 	/** Given a ResultSet creates an ICFD.
 	 * Note: before calling this method make sure to evoke rs.next().
-	 * @param rs ResultSet previous instantiated. */
+	 * @param rs ResultSet previous instantiated.
+	 * @throws SQLException if connection can not be established.
+	 */
 	private static ICFD getCFD(ResultSet rs) throws SQLException {
 		ICFD cfd = TradingAbstractFactory.getInstance().createCFD("CFD");
 		cfd.setId(rs.getString("id"));
@@ -93,7 +98,7 @@ public class CFDDAO implements SubjectCFD {
 	 * @param id key of ICFD.
 	 */
 	public Future<ICFD> get(String id) {
-		FutureTask<ICFD> futureTask = new FutureTask<ICFD>(() -> {
+		FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
 			Statement statement = conn.createStatement();
 			String sql = "SELECT * FROM CFD WHERE id = " + "'" + id + "'";
 			ResultSet rs = statement.executeQuery(sql);
@@ -106,7 +111,7 @@ public class CFDDAO implements SubjectCFD {
 	}
 
 	/**
-	 *	Returns the last id of ICFD.
+	 *	Returns the last id being used by an ICFD.
 	 */
 	public Future<String> getNextId() {
 
@@ -137,7 +142,7 @@ public class CFDDAO implements SubjectCFD {
 	 */
 	public Future<ICFD> remove(String id) {
 
-		FutureTask<ICFD> futureTask = new FutureTask<ICFD>(() -> {
+		FutureTask<ICFD> futureTask = new FutureTask<>(() -> {
 
 			Statement statement = conn.createStatement();
 			String sql = "SELECT * FROM CFD WHERE id = " + "'" + id + "'";
@@ -158,7 +163,7 @@ public class CFDDAO implements SubjectCFD {
 	}
 
 	/**
-	 * Returns a Collection containing all ICFDs associated to the specified user.
+	 * Returns a Collection containing all open ICFDs associated to the specified user.
 	 * @param username id of user.
 	 */
 	public Future<Collection<ICFD>> getCFDsOpen(String username) {
@@ -205,9 +210,9 @@ public class CFDDAO implements SubjectCFD {
 		return futuretask;
 	}
 
+	// TODO não está a ser usado (nem sequer na interface)
 	/**
 	 * Returns a Collection containing all ICFDs in database.
-	 */
 	public Future<Collection<ICFD>> values() {
 		FutureTask<Collection<ICFD>> futureTask = new FutureTask<Collection<ICFD>>(() -> {
 
@@ -227,7 +232,7 @@ public class CFDDAO implements SubjectCFD {
 
 		genericActiveObject.submit(futureTask);
 		return futureTask;
-	}
+	}*/
 
 	/**
 	 * Returns stop less from specified ICFD.
@@ -330,9 +335,10 @@ public class CFDDAO implements SubjectCFD {
 	}
 
 	/**
-	 * End CFD.
-	 * @param id id of CFD
-	 * @param endDate end date
+	 * Sets ICFD end date.
+	 * Also notify ConsultPortfolioController so it display open ICFD contracts.
+	 * @param id id of CFD.
+	 * @param endDate end date.
 	 */
 	public void updateEndDateCFD(String id, LocalDateTime endDate) {
 
@@ -349,11 +355,11 @@ public class CFDDAO implements SubjectCFD {
 				if (resultSet.next()) return resultSet.getString("username");
 				else return null;
 			});
-
 			genericActiveObject.submit(futureTask);
-			String username = futureTask.get();
-			Collection<ICFD> cfds = getCFDsOpen(username).get();
-			notifyObservers(cfds).get();
+			String username = futureTask.get(); // execute update
+
+			Collection<ICFD> cfds = getCFDsOpen(username).get(); // gets open CFD contrats
+			notifyObservers(cfds).get(); // notify ConsultPortfolioController
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -362,6 +368,10 @@ public class CFDDAO implements SubjectCFD {
 		}
 	}
 
+	/**
+	 * Returns stock if from specified ICFD.
+	 * @param idCFD id of ICFD.
+	 */
 	public Future<String> getIdAtivoDoCFD(String idCFD){
 		FutureTask<String> futureTask = new FutureTask<>(() -> {
 
@@ -381,6 +391,10 @@ public class CFDDAO implements SubjectCFD {
 		return futureTask;
 	}
 
+	/**
+	 * Returns type of ICFD.
+	 * @param id if of ICFD.
+	 */
 	public Future<Integer> getTipoCFD(String id){
 		FutureTask<Integer> futureTask = new FutureTask<>(() ->{
 			Statement statement = conn.createStatement();
@@ -393,6 +407,10 @@ public class CFDDAO implements SubjectCFD {
 		return futureTask;
 	}
 
+	/**
+	 * Register an Observer.
+	 * @param observer observer being registered.
+	 */
 	@Override
 	public Future<Void> registerObserver(Observer observer) {
 		FutureTask<Void> futureTask = new FutureTask<>(()->{
@@ -404,6 +422,10 @@ public class CFDDAO implements SubjectCFD {
 		return futureTask;
 	}
 
+	/**
+	 * Notify all registered observers.
+	 * @param arg argument to be notified.
+	 */
 	@Override
 	public Future<Void> notifyObservers(Object arg) {
 		FutureTask<Void> futureTask = new FutureTask<>(() -> {
@@ -414,10 +436,11 @@ public class CFDDAO implements SubjectCFD {
 		return futureTask;
 	}
 
+	/**
+	 * Returns this object as a Subject.
+	 */
 	public Future<SubjectCFD> getCFDSubject(){
-		FutureTask<SubjectCFD> futureTask = new FutureTask<>(() ->{
-			return this;
-		});
+		FutureTask<SubjectCFD> futureTask = new FutureTask<>(() -> this);
 		genericActiveObject.submit(futureTask);
 		return futureTask;
 	}

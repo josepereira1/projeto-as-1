@@ -1,4 +1,4 @@
-package tradingsystem;
+package tradingsystem.business;
 
 import java.util.concurrent.Future;
 

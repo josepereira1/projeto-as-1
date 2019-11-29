@@ -4,8 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import tradingsystem.Observer;
-import tradingsystem.SubjectAtivo;
+import tradingsystem.business.Observer;
+import tradingsystem.business.SubjectAtivo;
 import tradingsystem.business.CFDTypeNotValidException;
 import tradingsystem.business.StockTypeNotValidException;
 import tradingsystem.business.trading.IAtivo;
@@ -28,6 +28,7 @@ public class AtivoDAO implements SubjectAtivo {
 	private Collection<Observer> observers;
 	private GenericActiveObject genericActiveObject;
 
+	/** Constructs a Data Access Object to establish connection to RESTful server. */
 	public AtivoDAO(){
 		historicValuesOfStocks = new HashMap<>();
 		observers = new ArrayList<>();
@@ -48,7 +49,8 @@ public class AtivoDAO implements SubjectAtivo {
 
 	/**
 	 * Returns a JSONObject containing information obtained by method GET.
-	 * @param url url in String.
+	 * @param url url in String format.
+	 * @throws IOException if Stream can not be accessed.
 	 */
 	private static JSONObject RESTGet(String url) throws IOException {
 		return new JSONObject(new JSONTokener(new URL(url).openStream()));
@@ -56,6 +58,8 @@ public class AtivoDAO implements SubjectAtivo {
 
 	/**
 	 * Returns a Collection containing all IAtivos from REST server.
+	 * @throws IOException if JSONArray can not be accessed.
+	 * @throws StockTypeNotValidException if IAtivo type is invalid.
 	 */
 	public Collection<IAtivo> values() throws IOException, StockTypeNotValidException {
 		Collection<IAtivo> res = new ArrayList<>();
@@ -92,11 +96,12 @@ public class AtivoDAO implements SubjectAtivo {
 		return res;
 	}
 
-
 	/**
 	 * Returns the current price of specified stock.
 	 * @param id id of IAtivo.
-	 * @param typeOfCFD type of CFD of CFD (Buy or Sell)
+	 * @param typeOfCFD type of ICFD: 0 - Sell or 1 - Buy.
+	 * @throws IOException if JSONArray can not be accessed.
+	 * @throws CFDTypeNotValidException if ICFD type is invalid.
 	 */
 	 public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
@@ -107,36 +112,37 @@ public class AtivoDAO implements SubjectAtivo {
 
 		//System.err.println(historicValuesOfStocks);
 
-		 FutureTask<Void> futureTask = new FutureTask<>(() -> {	//	Isto é para verificar se o preço baixou um valor X
-			 float beforeValue;
-		 	if(historicValuesOfStocks.containsKey(id)){
-				 beforeValue = historicValuesOfStocks.get(id);
-				 if(Math.abs(beforeValue - res) >= INTERVAL){
-					 historicValuesOfStocks.put(id, res);
-					 notifyObservers(new Object[]{id,res});
-				 }
-			 }else historicValuesOfStocks.put(id, res);
-		 	return null;
-		 });
+		FutureTask<Void> futureTask = new FutureTask<>(() -> {	//	Isto é para verificar se o preço baixou um valor X
+			if(historicValuesOfStocks.containsKey(id)){
+				float beforeValue = historicValuesOfStocks.get(id);
+				if(Math.abs(beforeValue - res) >= INTERVAL){
+					historicValuesOfStocks.put(id, res);
+					notifyObservers(new Object[]{id,res});
+				}
+			} else historicValuesOfStocks.put(id, res);
+				return null;
+		});
 
-		 genericActiveObject.submit(futureTask);
+		genericActiveObject.submit(futureTask);
 
-		 try {
-			 futureTask.get();
-		 } catch (InterruptedException e) {
-			 e.printStackTrace();
-		 } catch (ExecutionException e) {
-			 e.printStackTrace();
-		 }
-
-		 if(typeOfCFD == 0){	//	SELL
-			return res*0.975f;
+		try {
+			futureTask.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
 		}
+
+		if(typeOfCFD == 0) return res*0.975f; // SELL
 		else if(typeOfCFD == 1) return res;	//	BUY
 		else throw new CFDTypeNotValidException(String.valueOf(typeOfCFD));
 	}
 
-
+	/**
+	 * Returns true if IAtivo exists in RESTful server, otherwise returns false.
+	 * @param id id of IAtivo.
+	 * @throws IOException if JSONArray can not be accessed.
+	 */
 	public boolean contains(String id) throws IOException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
 		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
@@ -146,16 +152,27 @@ public class AtivoDAO implements SubjectAtivo {
 		return arr != null;
 	}
 
+	/**
+	 * Register an Observer.
+	 * @param observer observer being registered.
+	 */
 	@Override
 	public void registerObserver(Observer observer) {
 		observers.add(observer);
 	}
 
+	/**
+	 * Notify all registered observers.
+	 * @param arg argument to be notified.
+	 */
 	@Override
 	public void notifyObservers(Object arg) {
 		for(Observer observer : observers) observer.update(arg);
 	}
 
+	/**
+	 * Returns this object as a Subject.
+	 */
 	public SubjectAtivo getSubjectAtivo(){
 	 	return this;
 	}

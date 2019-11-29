@@ -13,7 +13,7 @@ public class SellCFDController implements Runnable {
 	private static SellCFDController sellCFDController;
 
 	private SellCFDView sellCFDView;
-	private tradingsystem.TradingSystem model;
+	private TradingSystem model;
 	private static final int TYPE_OF_CFD = 0;	//	SELL
 
 	private SellCFDController() throws SQLException, ClassNotFoundException {

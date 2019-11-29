@@ -4,9 +4,8 @@ import java.sql.SQLException;
 
 public class InitController implements Runnable {
 
-	private static InitController initController;
-
 	private InitView initView;
+	private static InitController initController;
 
 	private InitController() {
 		this.initView = new InitView();

@@ -28,10 +28,6 @@ public class BuyCFDView {
 		units = scanner.nextInt();
 	}
 
-	public void displayCurrentProfit(float profit){
-		System.out.println("[Buy/long active] CFD profit: " + profit +"($)");
-	}
-
 	public void stockIdNotExists(){
 		System.out.println("Stock id " + organizationId +" not exists! Type correct id.");
 	}

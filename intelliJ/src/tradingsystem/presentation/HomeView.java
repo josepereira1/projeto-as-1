@@ -6,10 +6,6 @@ public class HomeView {
 
 	public String option;
 
-	public HomeView() {
-		//this.displayInitialSugestion(); // always displays initial sugestion when HomeController is accessed
-	}
-
 	public void executeOption() {
 		option = "";
 		Scanner sc = new Scanner(System.in);

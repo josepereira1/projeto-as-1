@@ -119,7 +119,7 @@ public class FacadeBusiness implements IFacadeBusiness {
 	}
 
 	private static final int SEC = 1000;
-	private static final int INTERVAL = 500;
+	private static final int INTERVAL = 30 * SEC;
 
 	public void initAutoCloseCFDs(String username) throws SQLException, AtorTypeNotValidException, AtorNotExistsException {
 

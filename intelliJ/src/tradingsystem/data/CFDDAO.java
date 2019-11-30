@@ -209,7 +209,10 @@ public class CFDDAO implements SubjectCFD {
 	 * Returns true if ICFD exists in database, otherwise returns false.
 	 * @param id id of ICFD.
 	 */
+
+
 	public Future<Boolean> contains(String id) {
+
 		FutureTask<Boolean> futureTask = new FutureTask<>(() -> {
 			Statement statement = conn.createStatement();
 			String sql = "SELECT EXISTS(SELECT id FROM cfd WHERE id=" + id + ") as contains";
@@ -224,6 +227,7 @@ public class CFDDAO implements SubjectCFD {
 		this.genericActiveObject.submit(futureTask);
 		return futureTask;
 	}
+
 
 	/**
 	 * Sets ICFD end date.

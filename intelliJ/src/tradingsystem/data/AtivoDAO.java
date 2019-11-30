@@ -32,7 +32,7 @@ public class AtivoDAO implements SubjectAtivo {
 		observers = new ArrayList<>();
 		genericActiveObject = new GenericActiveObject();
 
-		/*new Thread(new Runnable() {
+		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -42,7 +42,7 @@ public class AtivoDAO implements SubjectAtivo {
 					e.printStackTrace();
 				}
 			}
-		}).start();*/
+		}).start();
 	}
 
 	/**
@@ -63,10 +63,10 @@ public class AtivoDAO implements SubjectAtivo {
 		Collection<IAtivo> res = new ArrayList<>();
 
 		List<String> urls = new ArrayList<>();
-		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=AAPL,GOOG,FB,NFLX,TSLA&api_token=" + APIToken);
-		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=NVDA,INTC,AMZN,V,MSFT&api_token=" + APIToken);
-		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=TWTR,SNAP,VOD.L,BA,DIS&api_token=" + APIToken);
-		urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo");
+		urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=AAPL,GOOG,FB,NFLX,TSLA&api_token=" + APIToken);
+		urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=NVDA,INTC,AMZN,V,MSFT&api_token=" + APIToken);
+		urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=TWTR,SNAP,VOD.L,BA,DIS&api_token=" + APIToken);
+		//urls.add("https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo");
 
 		for(String url: urls) {
 			JSONArray arr = RESTGet(url).getJSONArray("data");
@@ -103,8 +103,8 @@ public class AtivoDAO implements SubjectAtivo {
 	 */
 	 public float getValorAtual(String id, int typeOfCFD) throws IOException, CFDTypeNotValidException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
-		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
+		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
 
 		float res = ((JSONObject) RESTGet(url).getJSONArray("data").get(0)).getFloat("price");
 
@@ -143,8 +143,8 @@ public class AtivoDAO implements SubjectAtivo {
 	 */
 	public boolean contains(String id) throws IOException {
 		//TODO quando utilizar o token "real" meter apenas o symbol=id (remover as restantes empresas)
-		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
-		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
+		String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=" + id + "&api_token=" + APIToken;
+		//String url = "https://api.worldtradingdata.com/api/v1/stock?symbol=SNAP,TWTR,VOD.L&api_token=demo";
 		JSONArray arr = RESTGet(url).getJSONArray("data");
 
 		return arr != null;

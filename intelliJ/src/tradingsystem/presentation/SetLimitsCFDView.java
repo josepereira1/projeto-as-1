@@ -20,7 +20,7 @@ public class SetLimitsCFDView {
 		takeProfit = -1;
 		stopLess = -1;
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("[Set limits] active ID:");
+		System.out.println("[Set limits] CFD ID:");
 		idCFD = scanner.nextLine();
 		System.out.println("[Set limits] take profit value ($) (fill with <<-1>> if not usable):");
 		if(scanner.hasNextFloat() == false) throw new InvalidInputException();

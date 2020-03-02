@@ -1,5 +1,5 @@
 # projeto-as
-Projeto de Arquiteturas de Software
+Primeiro projeto de Arquiteturas de Software
 
 # Grupo:
  - José Pereira (josepereira1)

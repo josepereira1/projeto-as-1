@@ -1,4 +1,4 @@
-# projeto-as
+# trading-platform
 Primeiro projeto de Arquiteturas de Software
 
 # Grupo:
